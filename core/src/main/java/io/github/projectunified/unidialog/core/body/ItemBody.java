@@ -1,11 +1,13 @@
 package io.github.projectunified.unidialog.core.body;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Consumer;
 
-public interface ItemBody<I, T extends ItemBody<I, T>> {
+public interface ItemBody<I, B extends TextBody<B>, T extends ItemBody<I, B, T>> {
     T item(I item);
 
-    <B extends TextBody<B>> T description(Consumer<B> descriptionBuilder);
+    T description(@Nullable Consumer<B> descriptionBuilder);
 
     T showDecorations(boolean showDecorations);
 
