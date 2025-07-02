@@ -1,6 +1,6 @@
 package io.github.projectunified.unidialog.core.action;
 
-public interface DialogAction {
+public interface DialogActionTypes {
     <T extends CopyToClipboardAction<T>> T copyToClipboard();
 
     <T extends DynamicCustomAction<T>> T dynamicCustom();

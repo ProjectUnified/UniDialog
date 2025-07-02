@@ -1,6 +1,6 @@
 package io.github.projectunified.unidialog.core.input;
 
-public interface DialogInput {
+public interface DialogInputTypes {
     <T extends BooleanInput<T>> T booleanInput();
 
     <T extends TextInput<T>> T textInput();
