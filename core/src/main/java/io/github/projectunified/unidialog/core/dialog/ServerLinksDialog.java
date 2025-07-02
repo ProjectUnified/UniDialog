@@ -1,9 +1,9 @@
 package io.github.projectunified.unidialog.core.dialog;
 
-import io.github.projectunified.unidialog.core.action.DialogActionTypes;
+import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
 
 public interface ServerLinksDialog<I, T extends ServerLinksDialog<I, T>> extends Dialog<I, T> {
-    <B extends DialogActionTypes> T exitAction(B exitAction);
+    <B extends DialogActionBuilder> T exitAction(B exitAction);
 
     T columns(int columns);
 

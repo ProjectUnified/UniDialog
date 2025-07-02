@@ -1,7 +1,7 @@
 package io.github.projectunified.unidialog.core.dialog;
 
-import io.github.projectunified.unidialog.core.body.DialogBodyTypes;
-import io.github.projectunified.unidialog.core.input.DialogInputTypes;
+import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
+import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
 
 import java.util.Collection;
 import java.util.Map;
@@ -19,13 +19,13 @@ public interface Dialog<I, T extends Dialog<I, T>> {
 
     T afterAction(AfterAction afterAction);
 
-    <B extends DialogBodyTypes<I>> T body(Consumer<B> bodyBuilder);
+    <B extends DialogBodyBuilder<I>> T body(Consumer<B> bodyBuilder);
 
-    <B extends DialogBodyTypes<I>> T body(Collection<Consumer<B>> bodyBuilders);
+    <B extends DialogBodyBuilder<I>> T body(Collection<Consumer<B>> bodyBuilders);
 
-    <B extends DialogInputTypes> T input(String key, Consumer<B> inputBuilder);
+    <B extends DialogInputBuilder> T input(String key, Consumer<B> inputBuilder);
 
-    <B extends DialogInputTypes> T input(Map<String, Consumer<B>> inputBuilders);
+    <B extends DialogInputBuilder> T input(Map<String, Consumer<B>> inputBuilders);
 
     boolean open(UUID uuid);
 
