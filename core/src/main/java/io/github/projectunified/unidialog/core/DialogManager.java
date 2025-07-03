@@ -1,24 +1,19 @@
 package io.github.projectunified.unidialog.core;
 
+import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
+import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
 import io.github.projectunified.unidialog.core.dialog.ConfirmationDialog;
 import io.github.projectunified.unidialog.core.dialog.MultiActionDialog;
 import io.github.projectunified.unidialog.core.dialog.NoticeDialog;
 import io.github.projectunified.unidialog.core.dialog.ServerLinksDialog;
+import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.BiConsumer;
+public interface DialogManager<I, BB extends DialogBodyBuilder<BB>, IB extends DialogInputBuilder, AB extends DialogActionBuilder> {
+    <T extends ConfirmationDialog<I, BB, IB, AB, T>> T createConfirmationDialog();
 
-public interface DialogManager<I> {
-    <T extends ConfirmationDialog<I, T>> T createConfirmationDialog();
+    <T extends MultiActionDialog<I, BB, IB, AB, T>> T createMultiActionDialog();
 
-    <T extends MultiActionDialog<I, T>> T createMultiActionDialog();
+    <T extends ServerLinksDialog<I, BB, IB, AB, T>> T createServerLinksDialog();
 
-    <T extends ServerLinksDialog<I, T>> T createServerLinksDialog();
-
-    <T extends NoticeDialog<I, T>> T createNoticeDialog();
-
-    void registerAction(String id, BiConsumer<UUID, Map<String, String>> action);
-
-    void clearDialog(UUID uuid);
+    <T extends NoticeDialog<I, BB, IB, AB, T>> T createNoticeDialog();
 }
