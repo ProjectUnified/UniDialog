@@ -13,6 +13,36 @@
         <module>packetevents</module>
     </modules>
 
+    <name>UniDialog</name>
+    <description>Fluent library to make Minecraft graphical dialogs</description>
+    <url>https://github.com/ProjectUnified/UniDialog</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/ProjectUnified/UniDialog/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>HSGamer</name>
+            <email>huynhqtienvtag@gmail.com</email>
+            <url>https://github.com/HSGamer</url>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/ProjectUnified/UniDialog/issues</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:git:https://github.com/ProjectUnified/UniDialog.git</connection>
+        <developerConnection>scm:git:git@github.com:ProjectUnified/UniDialog.git</developerConnection>
+        <url>https://github.com/ProjectUnified/UniDialog</url>
+    </scm>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -69,4 +99,46 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>central</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.2.7</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- Prevent `gpg` from using pinentry programs -->
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.8.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                            <deploymentName>UniItem</deploymentName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
