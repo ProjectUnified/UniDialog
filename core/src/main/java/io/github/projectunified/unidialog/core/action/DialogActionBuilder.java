@@ -1,11 +1,13 @@
 package io.github.projectunified.unidialog.core.action;
 
-public interface DialogActionBuilder {
-    <T extends CopyToClipboardAction<T>> T copyToClipboard();
+import org.jetbrains.annotations.Nullable;
 
-    <T extends DynamicCustomAction<T>> T dynamicCustom();
+public interface DialogActionBuilder<T extends DialogActionBuilder<T>> {
+    T label(String label);
 
-    <T extends DynamicRunCommandAction<T>> T dynamicRunCommand();
+    T tooltip(@Nullable String tooltip);
+
+    T width(int width);
 
     <B extends CopyToClipboardAction<B>> B copyToClipboard();
 
