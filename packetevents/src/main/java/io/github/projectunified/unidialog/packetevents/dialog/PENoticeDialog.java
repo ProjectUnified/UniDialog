@@ -1,0 +1,35 @@
+package io.github.projectunified.unidialog.packetevents.dialog;
+
+import com.github.retrooper.packetevents.protocol.dialog.CommonDialogData;
+import com.github.retrooper.packetevents.protocol.dialog.Dialog;
+import com.github.retrooper.packetevents.protocol.dialog.button.ActionButton;
+import com.github.retrooper.packetevents.protocol.item.ItemStack;
+import io.github.projectunified.unidialog.core.dialog.NoticeDialog;
+import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
+import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
+import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
+
+import java.util.function.Consumer;
+
+public class PENoticeDialog extends PEDialog<PENoticeDialog> implements NoticeDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PENoticeDialog> {
+    private final String defaultNamespace;
+    private ActionButton action;
+
+    public PENoticeDialog(String defaultNamespace) {
+        this.defaultNamespace = defaultNamespace;
+    }
+
+    @Override
+    public PENoticeDialog action(Consumer<PEDialogActionBuilder> action) {
+        this.action = getAction(defaultNamespace, action);
+        return this;
+    }
+
+    @Override
+    protected Dialog constructDialog(CommonDialogData commonDialogData) {
+        return new com.github.retrooper.packetevents.protocol.dialog.NoticeDialog(
+                commonDialogData,
+                action == null ? com.github.retrooper.packetevents.protocol.dialog.NoticeDialog.DEFAULT_ACTION : action
+        );
+    }
+}

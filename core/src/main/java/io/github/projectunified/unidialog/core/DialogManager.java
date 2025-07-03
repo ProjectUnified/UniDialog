@@ -8,7 +8,7 @@ import io.github.projectunified.unidialog.core.dialog.NoticeDialog;
 import io.github.projectunified.unidialog.core.dialog.ServerLinksDialog;
 import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
 
-public interface DialogManager<I, BB extends DialogBodyBuilder<BB>, IB extends DialogInputBuilder, AB extends DialogActionBuilder> {
+public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, AB extends DialogActionBuilder<AB>> {
     <T extends ConfirmationDialog<I, BB, IB, AB, T>> T createConfirmationDialog();
 
     <T extends MultiActionDialog<I, BB, IB, AB, T>> T createMultiActionDialog();
