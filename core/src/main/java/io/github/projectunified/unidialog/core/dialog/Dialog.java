@@ -2,6 +2,7 @@ package io.github.projectunified.unidialog.core.dialog;
 
 import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
 import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
+import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -26,6 +27,8 @@ public interface Dialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInp
     T input(String key, Consumer<IB> inputBuilder);
 
     T input(Map<String, Consumer<IB>> inputBuilders);
+
+    DialogOpener opener();
 
     enum AfterAction {
         CLOSE,

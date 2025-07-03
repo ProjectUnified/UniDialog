@@ -8,18 +8,24 @@ import com.github.retrooper.packetevents.protocol.dialog.input.Input;
 import com.github.retrooper.packetevents.protocol.dialog.input.InputControl;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import io.github.projectunified.unidialog.core.dialog.Dialog;
+import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
+import io.github.projectunified.unidialog.packetevents.opener.PEDialogOpener;
 import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
 public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, T> {
+    private final String defaultNamespace;
+    private final Function<UUID, @Nullable Object> playerFunction;
+
     private Component title;
     private @Nullable Component externalTitle;
     private boolean canCloseWithEscape = true;
@@ -27,6 +33,11 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
     private AfterAction afterAction = AfterAction.CLOSE;
     private List<DialogBody> bodies;
     private List<Input> inputs;
+
+    protected PEDialog(String defaultNamespace, Function<UUID, @Nullable Object> playerFunction) {
+        this.defaultNamespace = defaultNamespace;
+        this.playerFunction = playerFunction;
+    }
 
     private static DialogAction toPEDialogAction(AfterAction afterAction) {
         return switch (afterAction) {
@@ -131,7 +142,7 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
         return (T) this;
     }
 
-    protected ActionButton getAction(String defaultNamespace, Consumer<PEDialogActionBuilder> action) {
+    protected ActionButton getAction(Consumer<PEDialogActionBuilder> action) {
         PEDialogActionBuilder actionBuilder = new PEDialogActionBuilder(defaultNamespace);
         action.accept(actionBuilder);
         return actionBuilder.getAction();
@@ -150,5 +161,10 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
                 inputs != null ? inputs : Collections.emptyList()
         );
         return constructDialog(commonDialogData);
+    }
+
+    @Override
+    public DialogOpener opener() {
+        return new PEDialogOpener(getDialog(), playerFunction);
     }
 }

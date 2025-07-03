@@ -10,8 +10,11 @@ import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuil
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> implements ConfirmationDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PEConfirmationDialog> {
     private static final ActionButton DEFAULT_YES_BUTTON = new ActionButton(
@@ -31,23 +34,22 @@ public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> impleme
             null
     );
 
-    private final String defaultNamespace;
     private ActionButton yesButton;
     private ActionButton noButton;
 
-    public PEConfirmationDialog(String defaultNamespace) {
-        this.defaultNamespace = defaultNamespace;
+    public PEConfirmationDialog(String defaultNamespace, Function<UUID, @Nullable Object> playerFunction) {
+        super(defaultNamespace, playerFunction);
     }
 
     @Override
     public PEConfirmationDialog yesAction(Consumer<PEDialogActionBuilder> action) {
-        this.yesButton = getAction(defaultNamespace, action);
+        this.yesButton = getAction(action);
         return this;
     }
 
     @Override
     public PEConfirmationDialog noAction(Consumer<PEDialogActionBuilder> action) {
-        this.noButton = getAction(defaultNamespace, action);
+        this.noButton = getAction(action);
         return this;
     }
 

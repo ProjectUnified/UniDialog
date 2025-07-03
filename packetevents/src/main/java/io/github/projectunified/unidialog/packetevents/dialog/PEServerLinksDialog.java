@@ -10,25 +10,22 @@ import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class PEServerLinksDialog extends PEDialog<PEServerLinksDialog> implements ServerLinksDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PEServerLinksDialog> {
-    private final String defaultNamespace;
     private ActionButton exitAction;
     private int columns;
     private int buttonWidth;
 
-    public PEServerLinksDialog(String defaultNamespace) {
-        this.defaultNamespace = defaultNamespace;
+    public PEServerLinksDialog(String defaultNamespace, Function<UUID, @Nullable Object> playerFunction) {
+        super(defaultNamespace, playerFunction);
     }
 
     @Override
     public PEServerLinksDialog exitAction(@Nullable Consumer<PEDialogActionBuilder> action) {
-        if (action == null) {
-            exitAction = null;
-        } else {
-            exitAction = getAction(defaultNamespace, action);
-        }
+        exitAction = action == null ? null : getAction(action);
         return this;
     }
 

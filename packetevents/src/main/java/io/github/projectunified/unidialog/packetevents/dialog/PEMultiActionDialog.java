@@ -10,20 +10,17 @@ import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implements MultiActionDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PEMultiActionDialog> {
-    private final String defaultNamespace;
     private int columns;
     private List<ActionButton> actions;
     private @Nullable ActionButton exitAction;
 
-    public PEMultiActionDialog(String defaultNamespace) {
-        this.defaultNamespace = defaultNamespace;
+    public PEMultiActionDialog(String defaultNamespace, Function<UUID, @Nullable Object> playerFunction) {
+        super(defaultNamespace, playerFunction);
     }
 
     @Override
@@ -37,7 +34,7 @@ public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implement
         if (actions == null) {
             actions = new ArrayList<>();
         }
-        ActionButton actionButton = getAction(defaultNamespace, action);
+        ActionButton actionButton = getAction(action);
         actions.add(actionButton);
         return this;
     }
@@ -48,7 +45,7 @@ public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implement
             this.actions = new ArrayList<>();
         }
         for (Consumer<PEDialogActionBuilder> action : actions) {
-            ActionButton actionButton = getAction(defaultNamespace, action);
+            ActionButton actionButton = getAction(action);
             this.actions.add(actionButton);
         }
         return this;
@@ -56,11 +53,7 @@ public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implement
 
     @Override
     public PEMultiActionDialog exitAction(@Nullable Consumer<PEDialogActionBuilder> action) {
-        if (action == null) {
-            this.exitAction = null;
-        } else {
-            this.exitAction = getAction(defaultNamespace, action);
-        }
+        this.exitAction = action == null ? null : getAction(action);
         return this;
     }
 
