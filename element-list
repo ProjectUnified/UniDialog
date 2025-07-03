@@ -1,0 +1,12 @@
+io.github.projectunified.unidialog.core
+io.github.projectunified.unidialog.core.action
+io.github.projectunified.unidialog.core.body
+io.github.projectunified.unidialog.core.dialog
+io.github.projectunified.unidialog.core.input
+io.github.projectunified.unidialog.core.opener
+io.github.projectunified.unidialog.packetevents
+io.github.projectunified.unidialog.packetevents.action
+io.github.projectunified.unidialog.packetevents.body
+io.github.projectunified.unidialog.packetevents.dialog
+io.github.projectunified.unidialog.packetevents.input
+io.github.projectunified.unidialog.packetevents.opener
