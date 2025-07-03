@@ -134,7 +134,7 @@
                         <configuration>
                             <publishingServerId>central</publishingServerId>
                             <autoPublish>true</autoPublish>
-                            <deploymentName>UniItem</deploymentName>
+                            <deploymentName>UniDialog</deploymentName>
                         </configuration>
                     </plugin>
                 </plugins>
