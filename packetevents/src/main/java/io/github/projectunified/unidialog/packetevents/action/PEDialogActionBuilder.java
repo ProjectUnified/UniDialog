@@ -1,19 +1,24 @@
 package io.github.projectunified.unidialog.packetevents.action;
 
+import com.github.retrooper.packetevents.protocol.chat.clickevent.CopyToClipboardClickEvent;
+import com.github.retrooper.packetevents.protocol.chat.clickevent.OpenUrlClickEvent;
+import com.github.retrooper.packetevents.protocol.chat.clickevent.RunCommandClickEvent;
+import com.github.retrooper.packetevents.protocol.chat.clickevent.SuggestCommandClickEvent;
+import com.github.retrooper.packetevents.protocol.dialog.action.*;
 import com.github.retrooper.packetevents.protocol.dialog.button.ActionButton;
 import com.github.retrooper.packetevents.protocol.dialog.button.CommonButtonData;
+import com.github.retrooper.packetevents.resources.ResourceLocation;
 import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
 import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("unchecked")
 public class PEDialogActionBuilder implements DialogActionBuilder<PEDialogActionBuilder> {
     private final String defaultNamespace;
     private Component label;
     private @Nullable Component tooltip;
     private int width;
-    private @Nullable PEDialogAction action;
+    private @Nullable Action action;
 
     public PEDialogActionBuilder(String defaultNamespace) {
         this.defaultNamespace = defaultNamespace;
@@ -49,46 +54,44 @@ public class PEDialogActionBuilder implements DialogActionBuilder<PEDialogAction
         return this;
     }
 
-    @Override
-    public PECopyToClipboardAction copyToClipboard() {
-        PECopyToClipboardAction action = new PECopyToClipboardAction();
+    private PEDialogActionBuilder action(Action action) {
         this.action = action;
-        return action;
+        return this;
     }
 
     @Override
-    public PEDynamicCustomAction dynamicCustom() {
-        PEDynamicCustomAction action = new PEDynamicCustomAction(defaultNamespace);
-        this.action = action;
-        return action;
+    public PEDialogActionBuilder copyToClipboard(String value) {
+        return action(new StaticAction(new CopyToClipboardClickEvent(value)));
     }
 
     @Override
-    public PEDynamicRunCommandAction dynamicRunCommand() {
-        PEDynamicRunCommandAction action = new PEDynamicRunCommandAction();
-        this.action = action;
-        return action;
+    public PEDialogActionBuilder dynamicCustom(String id) {
+        return dynamicCustom(defaultNamespace, id);
     }
 
     @Override
-    public PEOpenUrlAction openUrl() {
-        PEOpenUrlAction action = new PEOpenUrlAction();
-        this.action = action;
-        return action;
+    public PEDialogActionBuilder dynamicCustom(String namespace, String id) {
+        return action(new DynamicCustomAction(new ResourceLocation(namespace, id), null));
     }
 
     @Override
-    public PERunCommandAction runCommand() {
-        PERunCommandAction action = new PERunCommandAction();
-        this.action = action;
-        return action;
+    public PEDialogActionBuilder dynamicRunCommand(String template) {
+        return action(new DynamicRunCommandAction(new DialogTemplate(template)));
     }
 
     @Override
-    public PESuggestCommandAction suggestCommand() {
-        PESuggestCommandAction action = new PESuggestCommandAction();
-        this.action = action;
-        return action;
+    public PEDialogActionBuilder openUrl(String url) {
+        return action(new StaticAction(new OpenUrlClickEvent(url)));
+    }
+
+    @Override
+    public PEDialogActionBuilder runCommand(String command) {
+        return action(new StaticAction(new RunCommandClickEvent(command)));
+    }
+
+    @Override
+    public PEDialogActionBuilder suggestCommand(String command) {
+        return action(new StaticAction(new SuggestCommandClickEvent(command)));
     }
 
     public ActionButton getAction() {
@@ -98,7 +101,7 @@ public class PEDialogActionBuilder implements DialogActionBuilder<PEDialogAction
                         tooltip,
                         width > 0 ? width : 150
                 ),
-                action == null ? null : action.getAction()
+                action
         );
     }
 }

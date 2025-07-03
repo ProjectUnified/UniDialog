@@ -9,15 +9,17 @@ public interface DialogActionBuilder<T extends DialogActionBuilder<T>> {
 
     T width(int width);
 
-    <B extends CopyToClipboardAction<B>> B copyToClipboard();
+    T copyToClipboard(String value);
 
-    <B extends DynamicCustomAction<B>> B dynamicCustom();
+    T dynamicCustom(String id);
 
-    <B extends DynamicRunCommandAction<B>> B dynamicRunCommand();
+    T dynamicCustom(String namespace, String id);
 
-    <B extends OpenUrlAction<B>> B openUrl();
+    T dynamicRunCommand(String template);
 
-    <B extends RunCommandAction<B>> B runCommand();
+    T openUrl(String url);
 
-    <B extends SuggestCommandAction<B>> B suggestCommand();
+    T runCommand(String command);
+
+    T suggestCommand(String command);
 }
