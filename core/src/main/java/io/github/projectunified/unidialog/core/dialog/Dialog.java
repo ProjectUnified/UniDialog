@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public interface Dialog<I, BB extends DialogBodyBuilder<BB>, IB extends DialogInputBuilder, T extends Dialog<I, BB, IB, T>> {
+public interface Dialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, T extends Dialog<I, BB, IB, T>> {
     T title(String title);
 
     T externalTitle(String externalTitle);

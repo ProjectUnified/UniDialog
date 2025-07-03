@@ -6,6 +6,6 @@ import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
 
 import java.util.function.Consumer;
 
-public interface NoticeDialog<I, BB extends DialogBodyBuilder<BB>, IB extends DialogInputBuilder, AB extends DialogActionBuilder, T extends NoticeDialog<I, BB, IB, AB, T>> extends Dialog<I, BB, IB, T> {
+public interface NoticeDialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, AB extends DialogActionBuilder<AB>, T extends NoticeDialog<I, BB, IB, AB, T>> extends Dialog<I, BB, IB, T> {
     T action(Consumer<AB> action);
 }
