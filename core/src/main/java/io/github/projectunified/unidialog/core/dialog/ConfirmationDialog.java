@@ -10,4 +10,8 @@ public interface ConfirmationDialog<I, BB extends DialogBodyBuilder<I>, IB exten
     T yesAction(Consumer<AB> action);
 
     T noAction(Consumer<AB> action);
+
+    boolean hasYesAction();
+
+    boolean hasNoAction();
 }

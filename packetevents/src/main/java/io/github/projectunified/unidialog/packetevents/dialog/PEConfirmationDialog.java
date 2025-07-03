@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> implements ConfirmationDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PEConfirmationDialog> {
-    private static final ActionButton DEFAULT_YES_BUTTON = new ActionButton(
+    private static final ActionButton DEFAULT_YES_ACTION = new ActionButton(
             new CommonButtonData(
                     Component.text("Yes"),
                     null,
@@ -25,7 +25,7 @@ public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> impleme
             ),
             null
     );
-    private static final ActionButton DEFAULT_NO_BUTTON = new ActionButton(
+    private static final ActionButton DEFAULT_NO_ACTION = new ActionButton(
             new CommonButtonData(
                     Component.text("No"),
                     null,
@@ -34,8 +34,8 @@ public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> impleme
             null
     );
 
-    private ActionButton yesButton;
-    private ActionButton noButton;
+    private ActionButton yesAction;
+    private ActionButton noAction;
 
     public PEConfirmationDialog(String defaultNamespace, Function<UUID, @Nullable Object> playerFunction) {
         super(defaultNamespace, playerFunction);
@@ -43,22 +43,32 @@ public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> impleme
 
     @Override
     public PEConfirmationDialog yesAction(Consumer<PEDialogActionBuilder> action) {
-        this.yesButton = getAction(action);
+        this.yesAction = getAction(action);
         return this;
     }
 
     @Override
     public PEConfirmationDialog noAction(Consumer<PEDialogActionBuilder> action) {
-        this.noButton = getAction(action);
+        this.noAction = getAction(action);
         return this;
+    }
+
+    @Override
+    public boolean hasYesAction() {
+        return yesAction != null;
+    }
+
+    @Override
+    public boolean hasNoAction() {
+        return noAction != null;
     }
 
     @Override
     protected Dialog constructDialog(CommonDialogData commonDialogData) {
         return new com.github.retrooper.packetevents.protocol.dialog.ConfirmationDialog(
                 commonDialogData,
-                yesButton != null ? yesButton : DEFAULT_YES_BUTTON,
-                noButton != null ? noButton : DEFAULT_NO_BUTTON
+                yesAction != null ? yesAction : DEFAULT_YES_ACTION,
+                noAction != null ? noAction : DEFAULT_NO_ACTION
         );
     }
 }
