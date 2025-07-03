@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public interface Dialog<I, T extends Dialog<I, T>> {
+public interface Dialog<I, BB extends DialogBodyBuilder<BB>, IB extends DialogInputBuilder, T extends Dialog<I, BB, IB, T>> {
     T title(String title);
 
     T externalTitle(String externalTitle);
@@ -19,13 +19,13 @@ public interface Dialog<I, T extends Dialog<I, T>> {
 
     T afterAction(AfterAction afterAction);
 
-    <B extends DialogBodyBuilder<I>> T body(Consumer<B> bodyBuilder);
+    T body(Consumer<BB> bodyBuilder);
 
-    <B extends DialogBodyBuilder<I>> T body(Collection<Consumer<B>> bodyBuilders);
+    T body(Collection<Consumer<BB>> bodyBuilders);
 
-    <B extends DialogInputBuilder> T input(String key, Consumer<B> inputBuilder);
+    T input(String key, Consumer<IB> inputBuilder);
 
-    <B extends DialogInputBuilder> T input(Map<String, Consumer<B>> inputBuilders);
+    T input(Map<String, Consumer<IB>> inputBuilders);
 
     boolean open(UUID uuid);
 

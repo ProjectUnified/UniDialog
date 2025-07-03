@@ -1,16 +1,18 @@
 package io.github.projectunified.unidialog.core.dialog;
 
 import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
+import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
+import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
 
 import java.util.Collection;
 import java.util.function.Consumer;
 
-public interface MultiActionDialog<I, T extends MultiActionDialog<I, T>> extends Dialog<I, T> {
+public interface MultiActionDialog<I, BB extends DialogBodyBuilder<BB>, IB extends DialogInputBuilder, AB extends DialogActionBuilder, T extends MultiActionDialog<I, BB, IB, AB, T>> extends Dialog<I, BB, IB, T> {
     T width(int width);
 
-    <B extends DialogActionBuilder> T action(Consumer<B> action);
+    T action(Consumer<AB> action);
 
-    <B extends DialogActionBuilder> T action(Collection<Consumer<B>> actions);
+    T action(Collection<Consumer<AB>> actions);
 
-    <B extends DialogActionBuilder> T exitAction(Consumer<B> action);
+    T exitAction(Consumer<AB> action);
 }
