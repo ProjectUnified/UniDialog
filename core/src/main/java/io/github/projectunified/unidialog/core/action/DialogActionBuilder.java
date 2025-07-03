@@ -7,7 +7,15 @@ public interface DialogActionBuilder {
 
     <T extends DynamicRunCommandAction<T>> T dynamicRunCommand();
 
-    <T extends OpenUrlAction<T>> T openUrl();
+    <B extends CopyToClipboardAction<B>> B copyToClipboard();
 
-    <T extends RunCommandAction<T>> T runCommand();
+    <B extends DynamicCustomAction<B>> B dynamicCustom();
+
+    <B extends DynamicRunCommandAction<B>> B dynamicRunCommand();
+
+    <B extends OpenUrlAction<B>> B openUrl();
+
+    <B extends RunCommandAction<B>> B runCommand();
+
+    <B extends SuggestCommandAction<B>> B suggestCommand();
 }
