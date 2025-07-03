@@ -25,7 +25,7 @@ public class PEDialogBodyBuilder implements DialogBodyBuilder<ItemStack>, PEDial
     @Override
     public DialogBody getDialogBody() {
         if (current == null) {
-            throw new IllegalStateException("No dialog body has been created");
+            throw new IllegalStateException("No dialog body has been created yet");
         }
         return current.getDialogBody();
     }

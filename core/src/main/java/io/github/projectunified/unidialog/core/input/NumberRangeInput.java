@@ -1,5 +1,7 @@
 package io.github.projectunified.unidialog.core.input;
 
+import org.jetbrains.annotations.Nullable;
+
 public interface NumberRangeInput<T extends NumberRangeInput<T>> {
     T width(int width);
 
@@ -11,7 +13,7 @@ public interface NumberRangeInput<T extends NumberRangeInput<T>> {
 
     T end(float end);
 
-    T initial(float initial);
+    T initial(@Nullable Float initial);
 
-    T step(float step);
+    T step(@Nullable Float step);
 }
