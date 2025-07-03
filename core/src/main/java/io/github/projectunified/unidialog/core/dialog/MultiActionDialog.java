@@ -35,18 +35,24 @@ public interface MultiActionDialog<I, BB extends DialogBodyBuilder<I>, IB extend
     T action(Consumer<AB> action);
 
     /**
-     * Add multiple actions to the dialog
-     *
-     * @param actions a collection of actions to be performed
-     * @return the dialog itself for method chaining
-     */
-    T action(Collection<Consumer<AB>> actions);
-
-    /**
      * Set the exit action for the dialog
      *
      * @param action the action to be performed when exiting the dialog
      * @return the dialog itself for method chaining
      */
     T exitAction(@Nullable Consumer<AB> action);
+
+    /**
+     * Add multiple actions to the dialog
+     *
+     * @param actions a collection of actions to be performed
+     * @return the dialog itself for method chaining
+     */
+    default T action(Collection<Consumer<AB>> actions) {
+        for (Consumer<AB> action : actions) {
+            action(action);
+        }
+        //noinspection unchecked
+        return (T) this;
+    }
 }

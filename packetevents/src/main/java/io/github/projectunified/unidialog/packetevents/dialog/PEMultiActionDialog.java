@@ -10,7 +10,10 @@ import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -36,18 +39,6 @@ public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implement
         }
         ActionButton actionButton = getAction(action);
         actions.add(actionButton);
-        return this;
-    }
-
-    @Override
-    public PEMultiActionDialog action(Collection<Consumer<PEDialogActionBuilder>> actions) {
-        if (this.actions == null) {
-            this.actions = new ArrayList<>();
-        }
-        for (Consumer<PEDialogActionBuilder> action : actions) {
-            ActionButton actionButton = getAction(action);
-            this.actions.add(actionButton);
-        }
         return this;
     }
 

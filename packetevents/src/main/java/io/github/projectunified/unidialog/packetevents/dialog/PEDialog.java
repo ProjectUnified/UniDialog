@@ -17,7 +17,10 @@ import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyCompon
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -102,19 +105,6 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
     }
 
     @Override
-    public T body(Collection<Consumer<PEDialogBodyBuilder>> bodyBuilders) {
-        if (bodies == null) {
-            bodies = new ArrayList<>();
-        }
-        for (Consumer<PEDialogBodyBuilder> bodyBuilder : bodyBuilders) {
-            PEDialogBodyBuilder builder = new PEDialogBodyBuilder();
-            bodyBuilder.accept(builder);
-            bodies.add(builder.getDialogBody());
-        }
-        return (T) this;
-    }
-
-    @Override
     public T input(String key, Consumer<PEDialogInputBuilder> inputBuilder) {
         if (inputs == null) {
             inputs = new ArrayList<>();
@@ -123,22 +113,6 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
         inputBuilder.accept(builder);
         InputControl inputControl = builder.getInput();
         inputs.add(new Input(key, inputControl));
-        return (T) this;
-    }
-
-    @Override
-    public T input(Map<String, Consumer<PEDialogInputBuilder>> inputBuilders) {
-        if (inputs == null) {
-            inputs = new ArrayList<>();
-        }
-        for (Map.Entry<String, Consumer<PEDialogInputBuilder>> entry : inputBuilders.entrySet()) {
-            String key = entry.getKey();
-            Consumer<PEDialogInputBuilder> inputBuilder = entry.getValue();
-            PEDialogInputBuilder builder = new PEDialogInputBuilder();
-            inputBuilder.accept(builder);
-            InputControl inputControl = builder.getInput();
-            inputs.add(new Input(key, inputControl));
-        }
         return (T) this;
     }
 

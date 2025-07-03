@@ -67,14 +67,6 @@ public interface Dialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInp
     T body(Consumer<BB> bodyBuilder);
 
     /**
-     * Set the body of the dialog using a collection of body builders
-     *
-     * @param bodyBuilders the collection of body builders for the dialog
-     * @return the dialog itself for method chaining
-     */
-    T body(Collection<Consumer<BB>> bodyBuilders);
-
-    /**
      * Set the input for the dialog
      *
      * @param key          the key for the input
@@ -84,12 +76,32 @@ public interface Dialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInp
     T input(String key, Consumer<IB> inputBuilder);
 
     /**
+     * Set the body of the dialog using a collection of body builders
+     *
+     * @param bodyBuilders the collection of body builders for the dialog
+     * @return the dialog itself for method chaining
+     */
+    default T body(Collection<Consumer<BB>> bodyBuilders) {
+        for (Consumer<BB> bodyBuilder : bodyBuilders) {
+            body(bodyBuilder);
+        }
+        //noinspection unchecked
+        return (T) this;
+    }
+
+    /**
      * Set the input for the dialog using a map of input builders
      *
      * @param inputBuilders the map of input builders for the dialog
      * @return the dialog itself for method chaining
      */
-    T input(Map<String, Consumer<IB>> inputBuilders);
+    default T input(Map<String, Consumer<IB>> inputBuilders) {
+        for (Map.Entry<String, Consumer<IB>> entry : inputBuilders.entrySet()) {
+            input(entry.getKey(), entry.getValue());
+        }
+        //noinspection unchecked
+        return (T) this;
+    }
 
     /**
      * Create an opener for the dialog
