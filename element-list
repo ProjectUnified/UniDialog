@@ -1,3 +1,8 @@
+io.github.projectunified.unidialog.adventure.action
+io.github.projectunified.unidialog.adventure.body
+io.github.projectunified.unidialog.adventure.dialog
+io.github.projectunified.unidialog.adventure.input
+io.github.projectunified.unidialog.adventure.support
 io.github.projectunified.unidialog.core
 io.github.projectunified.unidialog.core.action
 io.github.projectunified.unidialog.core.body
