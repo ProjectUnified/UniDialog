@@ -55,6 +55,14 @@ public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends Di
     <T extends NoticeDialog<I, BB, IB, D, AB, T>> T createNoticeDialog();
 
     /**
+     * Create a dialog list dialog
+     *
+     * @param <T> the type of the dialog list dialog, extending DialogListDialog
+     * @return a new instance of DialogListDialog
+     */
+    <T extends DialogListDialog<I, BB, IB, D, AB, T>> T createDialogListDialog();
+
+    /**
      * Register the dialog manager
      */
     void register();

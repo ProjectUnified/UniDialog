@@ -67,6 +67,11 @@ public abstract class PocketEventsDialogManager implements DialogManager<ItemSta
     }
 
     @Override
+    public PEDialogListDialog createDialogListDialog() {
+        return new PEDialogListDialog(defaultNamespace, componentDeserializer, this::getPlayer);
+    }
+
+    @Override
     public void register() {
         if (packetListener != null) {
             PacketEvents.getAPI().getEventManager().unregisterListener(packetListener);
