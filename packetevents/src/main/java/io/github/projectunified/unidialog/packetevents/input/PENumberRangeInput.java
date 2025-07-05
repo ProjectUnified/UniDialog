@@ -2,12 +2,14 @@ package io.github.projectunified.unidialog.packetevents.input;
 
 import com.github.retrooper.packetevents.protocol.dialog.input.InputControl;
 import com.github.retrooper.packetevents.protocol.dialog.input.NumberRangeInputControl;
-import io.github.projectunified.unidialog.core.input.NumberRangeInput;
-import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
+import io.github.projectunified.unidialog.adventure.input.AdventureNumberRangeInput;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
-public class PENumberRangeInput implements NumberRangeInput<PENumberRangeInput>, PEDialogInput {
+import java.util.function.Function;
+
+public class PENumberRangeInput implements AdventureNumberRangeInput<PENumberRangeInput>, PEDialogInput {
+    private final Function<String, Component> componentDeserializer;
     private int width;
     private Component label;
     private String labelFormat;
@@ -16,20 +18,25 @@ public class PENumberRangeInput implements NumberRangeInput<PENumberRangeInput>,
     private @Nullable Float initial;
     private @Nullable Float step;
 
+    public PENumberRangeInput(Function<String, Component> componentDeserializer) {
+        this.componentDeserializer = componentDeserializer;
+    }
+
+    @Override
+    public Function<String, Component> getComponentDeserializer() {
+        return componentDeserializer;
+    }
+
     @Override
     public PENumberRangeInput width(int width) {
         this.width = width;
         return this;
     }
 
+    @Override
     public PENumberRangeInput label(Component label) {
         this.label = label;
         return this;
-    }
-
-    @Override
-    public PENumberRangeInput label(String label) {
-        return label(LegacyComponentSerializer.legacySection().deserialize(label));
     }
 
     @Override

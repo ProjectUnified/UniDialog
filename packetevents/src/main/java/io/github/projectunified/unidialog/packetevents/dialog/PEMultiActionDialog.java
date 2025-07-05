@@ -8,6 +8,7 @@ import io.github.projectunified.unidialog.core.dialog.MultiActionDialog;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implement
     private List<ActionButton> actions;
     private @Nullable ActionButton exitAction;
 
-    public PEMultiActionDialog(String defaultNamespace, Function<UUID, @Nullable Object> playerFunction) {
-        super(defaultNamespace, playerFunction);
+    public PEMultiActionDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
+        super(defaultNamespace, componentDeserializer, playerFunction);
     }
 
     @Override

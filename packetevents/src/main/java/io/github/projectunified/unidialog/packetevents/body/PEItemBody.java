@@ -4,17 +4,24 @@ import com.github.retrooper.packetevents.protocol.dialog.body.DialogBody;
 import com.github.retrooper.packetevents.protocol.dialog.body.ItemDialogBody;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import io.github.projectunified.unidialog.core.body.ItemBody;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class PEItemBody implements ItemBody<ItemStack, PETextBody, PEItemBody>, PEDialogBody {
+    private final Function<String, Component> componentDeserializer;
     private ItemStack itemStack;
     private @Nullable PETextBody description;
     private boolean showDecorations = true;
     private boolean showTooltip = true;
     private int width;
     private int height;
+
+    public PEItemBody(Function<String, Component> componentDeserializer) {
+        this.componentDeserializer = componentDeserializer;
+    }
 
     @Override
     public PEItemBody item(ItemStack item) {
@@ -27,7 +34,7 @@ public class PEItemBody implements ItemBody<ItemStack, PETextBody, PEItemBody>, 
         if (descriptionBuilder == null) {
             this.description = null;
         } else {
-            PETextBody textBody = new PETextBody();
+            PETextBody textBody = new PETextBody(componentDeserializer);
             descriptionBuilder.accept(textBody);
             this.description = textBody;
         }

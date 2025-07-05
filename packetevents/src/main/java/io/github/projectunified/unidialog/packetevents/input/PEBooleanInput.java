@@ -2,24 +2,31 @@ package io.github.projectunified.unidialog.packetevents.input;
 
 import com.github.retrooper.packetevents.protocol.dialog.input.BooleanInputControl;
 import com.github.retrooper.packetevents.protocol.dialog.input.InputControl;
-import io.github.projectunified.unidialog.core.input.BooleanInput;
-import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
+import io.github.projectunified.unidialog.adventure.input.AdventureBooleanInput;
 import net.kyori.adventure.text.Component;
 
-public class PEBooleanInput implements BooleanInput<PEBooleanInput>, PEDialogInput {
+import java.util.function.Function;
+
+public class PEBooleanInput implements AdventureBooleanInput<PEBooleanInput>, PEDialogInput {
+    private final Function<String, Component> componentDeserializer;
     private Component label;
     private boolean initial;
     private String onTrue;
     private String onFalse;
 
-    public PEBooleanInput label(Component label) {
-        this.label = label;
-        return this;
+    public PEBooleanInput(Function<String, Component> componentDeserializer) {
+        this.componentDeserializer = componentDeserializer;
     }
 
     @Override
-    public PEBooleanInput label(String label) {
-        return label(LegacyComponentSerializer.legacySection().deserialize(label));
+    public Function<String, Component> getComponentDeserializer() {
+        return componentDeserializer;
+    }
+
+    @Override
+    public PEBooleanInput label(Component label) {
+        this.label = label;
+        return this;
     }
 
     @Override

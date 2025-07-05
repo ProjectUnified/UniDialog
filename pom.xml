@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>core</module>
+        <module>adventure</module>
         <module>packetevents</module>
     </modules>
 

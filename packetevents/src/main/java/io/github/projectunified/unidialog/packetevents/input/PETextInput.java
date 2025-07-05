@@ -2,12 +2,14 @@ package io.github.projectunified.unidialog.packetevents.input;
 
 import com.github.retrooper.packetevents.protocol.dialog.input.InputControl;
 import com.github.retrooper.packetevents.protocol.dialog.input.TextInputControl;
-import io.github.projectunified.unidialog.core.input.TextInput;
-import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
+import io.github.projectunified.unidialog.adventure.input.AdventureTextInput;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
-public class PETextInput implements TextInput<PETextInput>, PEDialogInput {
+import java.util.function.Function;
+
+public class PETextInput implements AdventureTextInput<PETextInput>, PEDialogInput {
+    private final Function<String, Component> componentDeserializer;
     private int width;
     private @Nullable Component label;
     private String initial;
@@ -15,24 +17,25 @@ public class PETextInput implements TextInput<PETextInput>, PEDialogInput {
     private Integer maxLines;
     private Integer height;
 
+    public PETextInput(Function<String, Component> componentDeserializer) {
+        this.componentDeserializer = componentDeserializer;
+    }
+
+    @Override
+    public Function<String, Component> getComponentDeserializer() {
+        return componentDeserializer;
+    }
+
     @Override
     public PETextInput width(int width) {
         this.width = width;
         return this;
     }
 
+    @Override
     public PETextInput label(@Nullable Component label) {
         this.label = label;
         return this;
-    }
-
-    @Override
-    public PETextInput label(@Nullable String label) {
-        if (label == null) {
-            this.label = null;
-            return this;
-        }
-        return label(LegacyComponentSerializer.legacySection().deserialize(label));
     }
 
     @Override

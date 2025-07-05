@@ -8,6 +8,7 @@ import io.github.projectunified.unidialog.core.dialog.NoticeDialog;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -17,8 +18,8 @@ import java.util.function.Function;
 public class PENoticeDialog extends PEDialog<PENoticeDialog> implements NoticeDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PENoticeDialog> {
     private ActionButton action;
 
-    public PENoticeDialog(String defaultNamespace, Function<UUID, @Nullable Object> playerFunction) {
-        super(defaultNamespace, playerFunction);
+    public PENoticeDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
+        super(defaultNamespace, componentDeserializer, playerFunction);
     }
 
     @Override

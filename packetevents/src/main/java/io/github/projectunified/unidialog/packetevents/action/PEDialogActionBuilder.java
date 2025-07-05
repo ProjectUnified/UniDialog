@@ -8,44 +8,40 @@ import com.github.retrooper.packetevents.protocol.dialog.action.*;
 import com.github.retrooper.packetevents.protocol.dialog.button.ActionButton;
 import com.github.retrooper.packetevents.protocol.dialog.button.CommonButtonData;
 import com.github.retrooper.packetevents.resources.ResourceLocation;
-import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
-import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
+import io.github.projectunified.unidialog.adventure.action.AdventureDialogActionBuilder;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
-public class PEDialogActionBuilder implements DialogActionBuilder<PEDialogActionBuilder> {
+import java.util.function.Function;
+
+public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDialogActionBuilder> {
     private final String defaultNamespace;
+    private final Function<String, Component> componentDeserializer;
     private Component label;
     private @Nullable Component tooltip;
     private int width;
     private @Nullable Action action;
 
-    public PEDialogActionBuilder(String defaultNamespace) {
+    public PEDialogActionBuilder(String defaultNamespace, Function<String, Component> componentDeserializer) {
         this.defaultNamespace = defaultNamespace;
+        this.componentDeserializer = componentDeserializer;
     }
 
+    @Override
+    public Function<String, Component> getComponentDeserializer() {
+        return componentDeserializer;
+    }
+
+    @Override
     public PEDialogActionBuilder label(Component label) {
         this.label = label;
         return this;
     }
 
     @Override
-    public PEDialogActionBuilder label(String label) {
-        return label(LegacyComponentSerializer.legacySection().deserialize(label));
-    }
-
     public PEDialogActionBuilder tooltip(@Nullable Component tooltip) {
         this.tooltip = tooltip;
         return this;
-    }
-
-    @Override
-    public PEDialogActionBuilder tooltip(@Nullable String tooltip) {
-        if (tooltip == null) {
-            this.tooltip = null;
-            return this;
-        }
-        return tooltip(LegacyComponentSerializer.legacySection().deserialize(tooltip));
     }
 
     @Override

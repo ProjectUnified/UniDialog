@@ -37,8 +37,8 @@ public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> impleme
     private ActionButton yesAction;
     private ActionButton noAction;
 
-    public PEConfirmationDialog(String defaultNamespace, Function<UUID, @Nullable Object> playerFunction) {
-        super(defaultNamespace, playerFunction);
+    public PEConfirmationDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
+        super(defaultNamespace, componentDeserializer, playerFunction);
     }
 
     @Override

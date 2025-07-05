@@ -7,13 +7,12 @@ import com.github.retrooper.packetevents.protocol.dialog.button.ActionButton;
 import com.github.retrooper.packetevents.protocol.dialog.input.Input;
 import com.github.retrooper.packetevents.protocol.dialog.input.InputControl;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
-import io.github.projectunified.unidialog.core.dialog.Dialog;
+import io.github.projectunified.unidialog.adventure.dialog.AdventureDialog;
 import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
 import io.github.projectunified.unidialog.packetevents.opener.PEDialogOpener;
-import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,8 +24,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
-public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, T> {
+public abstract class PEDialog<T extends PEDialog<T>> implements AdventureDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, T> {
     private final String defaultNamespace;
+    private final Function<String, Component> componentDeserializer;
     private final Function<UUID, @Nullable Object> playerFunction;
 
     private Component title;
@@ -37,8 +37,9 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
     private List<DialogBody> bodies;
     private List<Input> inputs;
 
-    protected PEDialog(String defaultNamespace, Function<UUID, @Nullable Object> playerFunction) {
+    protected PEDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
         this.defaultNamespace = defaultNamespace;
+        this.componentDeserializer = componentDeserializer;
         this.playerFunction = playerFunction;
     }
 
@@ -50,28 +51,21 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
         };
     }
 
+    @Override
+    public Function<String, Component> getComponentDeserializer() {
+        return componentDeserializer;
+    }
+
+    @Override
     public T title(Component title) {
         this.title = title;
         return (T) this;
     }
 
     @Override
-    public T title(String title) {
-        return title(LegacyComponentSerializer.legacySection().deserialize(title));
-    }
-
     public T externalTitle(@Nullable Component externalTitle) {
         this.externalTitle = externalTitle;
         return (T) this;
-    }
-
-    @Override
-    public T externalTitle(@Nullable String externalTitle) {
-        if (externalTitle == null) {
-            this.externalTitle = null;
-            return (T) this;
-        }
-        return externalTitle(LegacyComponentSerializer.legacySection().deserialize(externalTitle));
     }
 
     @Override
@@ -97,7 +91,7 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
         if (bodies == null) {
             bodies = new ArrayList<>();
         }
-        PEDialogBodyBuilder builder = new PEDialogBodyBuilder();
+        PEDialogBodyBuilder builder = new PEDialogBodyBuilder(componentDeserializer);
         bodyBuilder.accept(builder);
         DialogBody dialogBody = builder.getDialogBody();
         bodies.add(dialogBody);
@@ -109,7 +103,7 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
         if (inputs == null) {
             inputs = new ArrayList<>();
         }
-        PEDialogInputBuilder builder = new PEDialogInputBuilder();
+        PEDialogInputBuilder builder = new PEDialogInputBuilder(componentDeserializer);
         inputBuilder.accept(builder);
         InputControl inputControl = builder.getInput();
         inputs.add(new Input(key, inputControl));
@@ -117,7 +111,7 @@ public abstract class PEDialog<T extends PEDialog<T>> implements Dialog<ItemStac
     }
 
     protected ActionButton getAction(Consumer<PEDialogActionBuilder> action) {
-        PEDialogActionBuilder actionBuilder = new PEDialogActionBuilder(defaultNamespace);
+        PEDialogActionBuilder actionBuilder = new PEDialogActionBuilder(defaultNamespace, componentDeserializer);
         action.accept(actionBuilder);
         return actionBuilder.getAction();
     }

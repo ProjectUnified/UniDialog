@@ -18,6 +18,8 @@ import io.github.projectunified.unidialog.packetevents.dialog.PEMultiActionDialo
 import io.github.projectunified.unidialog.packetevents.dialog.PENoticeDialog;
 import io.github.projectunified.unidialog.packetevents.dialog.PEServerLinksDialog;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
+import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,15 +27,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
 public abstract class PocketEventsDialogManager implements DialogManager<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder> {
     private final String defaultNamespace;
+    private final Function<String, Component> componentDeserializer;
     private final Map<ResourceLocation, BiConsumer<UUID, Map<String, String>>> actions = new HashMap<>();
     private PacketListenerCommon packetListener;
 
-    public PocketEventsDialogManager(String defaultNamespace) {
+    public PocketEventsDialogManager(String defaultNamespace, Function<String, Component> componentDeserializer) {
         this.defaultNamespace = defaultNamespace;
+        this.componentDeserializer = componentDeserializer;
+    }
+
+    public PocketEventsDialogManager(String defaultNamespace) {
+        this(defaultNamespace, LegacyComponentSerializer.legacySection()::deserialize);
     }
 
     protected abstract @Nullable Object getPlayer(UUID uuid);
@@ -42,22 +51,22 @@ public abstract class PocketEventsDialogManager implements DialogManager<ItemSta
 
     @Override
     public PEConfirmationDialog createConfirmationDialog() {
-        return new PEConfirmationDialog(defaultNamespace, this::getPlayer);
+        return new PEConfirmationDialog(defaultNamespace, componentDeserializer, this::getPlayer);
     }
 
     @Override
     public PEMultiActionDialog createMultiActionDialog() {
-        return new PEMultiActionDialog(defaultNamespace, this::getPlayer);
+        return new PEMultiActionDialog(defaultNamespace, componentDeserializer, this::getPlayer);
     }
 
     @Override
     public PEServerLinksDialog createServerLinksDialog() {
-        return new PEServerLinksDialog(defaultNamespace, this::getPlayer);
+        return new PEServerLinksDialog(defaultNamespace, componentDeserializer, this::getPlayer);
     }
 
     @Override
     public PENoticeDialog createNoticeDialog() {
-        return new PENoticeDialog(defaultNamespace, this::getPlayer);
+        return new PENoticeDialog(defaultNamespace, componentDeserializer, this::getPlayer);
     }
 
     @Override
