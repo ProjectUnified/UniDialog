@@ -2,10 +2,7 @@ package io.github.projectunified.unidialog.core;
 
 import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
 import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
-import io.github.projectunified.unidialog.core.dialog.ConfirmationDialog;
-import io.github.projectunified.unidialog.core.dialog.MultiActionDialog;
-import io.github.projectunified.unidialog.core.dialog.NoticeDialog;
-import io.github.projectunified.unidialog.core.dialog.ServerLinksDialog;
+import io.github.projectunified.unidialog.core.dialog.*;
 import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
 
 import java.util.Map;
@@ -21,16 +18,17 @@ import java.util.function.BiConsumer;
  * @param <I>  the type of the item for the item body
  * @param <BB> the type of the dialog body builder
  * @param <IB> the type of the dialog input builder
+ * @param <D>  the type of the base dialog
  * @param <AB> the type of the dialog action builder
  */
-public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, AB extends DialogActionBuilder<AB>> {
+public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, D extends Dialog<I, BB, IB, ?>, AB extends DialogActionBuilder<D, AB>> {
     /**
      * Create a confirmation dialog
      *
      * @param <T> the type of the confirmation dialog, extending ConfirmationDialog
      * @return a new instance of ConfirmationDialog
      */
-    <T extends ConfirmationDialog<I, BB, IB, AB, T>> T createConfirmationDialog();
+    <T extends ConfirmationDialog<I, BB, IB, D, AB, T>> T createConfirmationDialog();
 
     /**
      * Create a multi-action dialog
@@ -38,7 +36,7 @@ public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends Di
      * @param <T> the type of the multi-action dialog, extending MultiActionDialog
      * @return a new instance of MultiActionDialog
      */
-    <T extends MultiActionDialog<I, BB, IB, AB, T>> T createMultiActionDialog();
+    <T extends MultiActionDialog<I, BB, IB, D, AB, T>> T createMultiActionDialog();
 
     /**
      * Create a server links dialog
@@ -46,7 +44,7 @@ public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends Di
      * @param <T> the type of the server links dialog, extending ServerLinksDialog
      * @return a new instance of ServerLinksDialog
      */
-    <T extends ServerLinksDialog<I, BB, IB, AB, T>> T createServerLinksDialog();
+    <T extends ServerLinksDialog<I, BB, IB, D, AB, T>> T createServerLinksDialog();
 
     /**
      * Create a notice dialog
@@ -54,7 +52,7 @@ public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends Di
      * @param <T> the type of the notice dialog, extending NoticeDialog
      * @return a new instance of NoticeDialog
      */
-    <T extends NoticeDialog<I, BB, IB, AB, T>> T createNoticeDialog();
+    <T extends NoticeDialog<I, BB, IB, D, AB, T>> T createNoticeDialog();
 
     /**
      * Register the dialog manager

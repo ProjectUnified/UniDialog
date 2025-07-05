@@ -14,10 +14,11 @@ import java.util.function.Consumer;
  * @param <I>  the type of the item for the item body
  * @param <BB> the type of the dialog body builder
  * @param <IB> the type of the dialog input builder
+ * @param <D>  the type of the base dialog
  * @param <AB> the type of the dialog action builder
  * @param <T>  the type of the multi-action dialog itself, for method chaining
  */
-public interface MultiActionDialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, AB extends DialogActionBuilder<AB>, T extends MultiActionDialog<I, BB, IB, AB, T>> extends Dialog<I, BB, IB, T> {
+public interface MultiActionDialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, D extends Dialog<I, BB, IB, ?>, AB extends DialogActionBuilder<D, AB>, T extends MultiActionDialog<I, BB, IB, D, AB, T>> extends Dialog<I, BB, IB, T> {
     /**
      * Set the number of columns for the dialog
      *

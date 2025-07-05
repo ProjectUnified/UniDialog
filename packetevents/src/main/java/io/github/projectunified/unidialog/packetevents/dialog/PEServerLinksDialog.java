@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class PEServerLinksDialog extends PEDialog<PEServerLinksDialog> implements ServerLinksDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PEServerLinksDialog> {
+public class PEServerLinksDialog extends PEDialog<PEServerLinksDialog> implements ServerLinksDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder, PEServerLinksDialog> {
     private ActionButton exitAction;
     private int columns;
     private int buttonWidth;

@@ -13,10 +13,7 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerCl
 import io.github.projectunified.unidialog.core.DialogManager;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
-import io.github.projectunified.unidialog.packetevents.dialog.PEConfirmationDialog;
-import io.github.projectunified.unidialog.packetevents.dialog.PEMultiActionDialog;
-import io.github.projectunified.unidialog.packetevents.dialog.PENoticeDialog;
-import io.github.projectunified.unidialog.packetevents.dialog.PEServerLinksDialog;
+import io.github.projectunified.unidialog.packetevents.dialog.*;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
 import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.Component;
@@ -30,7 +27,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
-public abstract class PocketEventsDialogManager implements DialogManager<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder> {
+public abstract class PocketEventsDialogManager implements DialogManager<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder> {
     private final String defaultNamespace;
     private final Function<String, Component> componentDeserializer;
     private final Map<ResourceLocation, BiConsumer<UUID, Map<String, String>>> actions = new HashMap<>();

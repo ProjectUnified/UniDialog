@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> implements ConfirmationDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PEConfirmationDialog> {
+public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> implements ConfirmationDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder, PEConfirmationDialog> {
     private static final ActionButton DEFAULT_YES_ACTION = new ActionButton(
             new CommonButtonData(
                     Component.text("Yes"),

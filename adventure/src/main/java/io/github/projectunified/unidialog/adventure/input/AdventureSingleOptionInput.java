@@ -42,8 +42,8 @@ public interface AdventureSingleOptionInput<T extends AdventureSingleOptionInput
     /**
      * Add an option to the input
      *
-     * @param id        the identifier for the option
-     * @param display   the display text for the option
+     * @param id      the identifier for the option
+     * @param display the display text for the option
      * @return the current instance for method chaining
      */
     default T option(String id, Component display) {

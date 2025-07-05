@@ -1,5 +1,6 @@
 package io.github.projectunified.unidialog.core.action;
 
+import io.github.projectunified.unidialog.core.dialog.Dialog;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -9,9 +10,10 @@ import org.jetbrains.annotations.Nullable;
  * running commands, and opening URLs.
  * It is designed to be implemented by classes that build specific types of dialog actions.
  *
+ * @param <D> the type of the base dialog
  * @param <T> the type of the implementing class, allowing for method chaining
  */
-public interface DialogActionBuilder<T extends DialogActionBuilder<T>> {
+public interface DialogActionBuilder<D extends Dialog<?, ?, ?, ?>, T extends DialogActionBuilder<D, T>> {
     /**
      * Set the label for the dialog action
      *
@@ -92,4 +94,21 @@ public interface DialogActionBuilder<T extends DialogActionBuilder<T>> {
      * @return the current instance of the builder for method chaining
      */
     T suggestCommand(String command);
+
+    /**
+     * Set the action to be a show dialog action
+     *
+     * @param dialog the dialog to show
+     * @return the current instance of the builder for method chaining
+     */
+    T showDialog(D dialog);
+
+    /**
+     * Set the action to be a show dialog action
+     *
+     * @param namespace the namespace of the dialog
+     * @param dialogId  the identifier of the dialog to show
+     * @return the current instance of the builder for method chaining
+     */
+    T showDialog(String namespace, String dialogId);
 }

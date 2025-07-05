@@ -1,20 +1,20 @@
 package io.github.projectunified.unidialog.packetevents.action;
 
-import com.github.retrooper.packetevents.protocol.chat.clickevent.CopyToClipboardClickEvent;
-import com.github.retrooper.packetevents.protocol.chat.clickevent.OpenUrlClickEvent;
-import com.github.retrooper.packetevents.protocol.chat.clickevent.RunCommandClickEvent;
-import com.github.retrooper.packetevents.protocol.chat.clickevent.SuggestCommandClickEvent;
+import com.github.retrooper.packetevents.protocol.chat.clickevent.*;
+import com.github.retrooper.packetevents.protocol.dialog.Dialog;
+import com.github.retrooper.packetevents.protocol.dialog.Dialogs;
 import com.github.retrooper.packetevents.protocol.dialog.action.*;
 import com.github.retrooper.packetevents.protocol.dialog.button.ActionButton;
 import com.github.retrooper.packetevents.protocol.dialog.button.CommonButtonData;
 import com.github.retrooper.packetevents.resources.ResourceLocation;
 import io.github.projectunified.unidialog.adventure.action.AdventureDialogActionBuilder;
+import io.github.projectunified.unidialog.packetevents.dialog.PEDialog;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDialogActionBuilder> {
+public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDialog<?>, PEDialogActionBuilder> {
     private final String defaultNamespace;
     private final Function<String, Component> componentDeserializer;
     private Component label;
@@ -88,6 +88,20 @@ public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDia
     @Override
     public PEDialogActionBuilder suggestCommand(String command) {
         return action(new StaticAction(new SuggestCommandClickEvent(command)));
+    }
+
+    @Override
+    public PEDialogActionBuilder showDialog(PEDialog<?> dialog) {
+        return action(new StaticAction(new ShowDialogClickEvent(dialog.getDialog())));
+    }
+
+    @Override
+    public PEDialogActionBuilder showDialog(String namespace, String dialogId) {
+        Dialog dialog = Dialogs.getRegistry().getByName(new ResourceLocation(namespace, dialogId));
+        if (dialog == null) {
+            throw new IllegalArgumentException("Dialog not found: " + namespace + ":" + dialogId);
+        }
+        return action(new StaticAction(new ShowDialogClickEvent(dialog)));
     }
 
     public ActionButton getAction() {

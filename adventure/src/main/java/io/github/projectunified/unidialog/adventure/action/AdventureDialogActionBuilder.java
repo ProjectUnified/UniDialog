@@ -2,15 +2,17 @@ package io.github.projectunified.unidialog.adventure.action;
 
 import io.github.projectunified.unidialog.adventure.support.AdventureSupport;
 import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
+import io.github.projectunified.unidialog.core.dialog.Dialog;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * An extension of {@link DialogActionBuilder} that provides additional methods for {@link Component} labels and tooltips.
  *
+ * @param <D> the type of the base dialog
  * @param <T> the type of the builder, for method chaining
  */
-public interface AdventureDialogActionBuilder<T extends AdventureDialogActionBuilder<T>> extends DialogActionBuilder<T>, AdventureSupport {
+public interface AdventureDialogActionBuilder<D extends Dialog<?, ?, ?, ?>, T extends AdventureDialogActionBuilder<D, T>> extends DialogActionBuilder<D, T>, AdventureSupport {
     /**
      * Set the label for the dialog action
      *

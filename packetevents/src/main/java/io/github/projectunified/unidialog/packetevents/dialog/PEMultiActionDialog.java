@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implements MultiActionDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PEMultiActionDialog> {
+public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implements MultiActionDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder, PEMultiActionDialog> {
     private int columns;
     private List<ActionButton> actions;
     private @Nullable ActionButton exitAction;

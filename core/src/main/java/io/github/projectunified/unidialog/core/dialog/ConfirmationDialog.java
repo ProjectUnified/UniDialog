@@ -12,10 +12,11 @@ import java.util.function.Consumer;
  * @param <I>  the type of the item for the item body
  * @param <BB> the type of the dialog body builder
  * @param <IB> the type of the dialog input builder
+ * @param <D>  the type of the base dialog
  * @param <AB> the type of the dialog action builder
  * @param <T>  the type of the confirmation dialog itself, for method chaining
  */
-public interface ConfirmationDialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, AB extends DialogActionBuilder<AB>, T extends ConfirmationDialog<I, BB, IB, AB, T>> extends Dialog<I, BB, IB, T> {
+public interface ConfirmationDialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, D extends Dialog<I, BB, IB, ?>, AB extends DialogActionBuilder<D, AB>, T extends ConfirmationDialog<I, BB, IB, D, AB, T>> extends Dialog<I, BB, IB, T> {
     /**
      * Set the action for the "yes" button in the confirmation dialog
      *

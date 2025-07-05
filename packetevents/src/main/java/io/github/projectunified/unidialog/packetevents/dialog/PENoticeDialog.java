@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class PENoticeDialog extends PEDialog<PENoticeDialog> implements NoticeDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialogActionBuilder, PENoticeDialog> {
+public class PENoticeDialog extends PEDialog<PENoticeDialog> implements NoticeDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder, PENoticeDialog> {
     private ActionButton action;
 
     public PENoticeDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
