@@ -26,7 +26,7 @@ public class PEDialogOpener implements DialogOpener {
         Object player = playerFunction.apply(uuid);
         if (player == null) return false;
 
-      User user = PacketEvents.getAPI().getPlayerManager().getUser(uuid);
+      User user = PacketEvents.getAPI().getPlayerManager().getUser(player);
 
       if(user.getConnectionState() == ConnectionState.CONFIGURATION) {
         WrapperConfigServerShowDialog wrapper = new WrapperConfigServerShowDialog(dialog);
