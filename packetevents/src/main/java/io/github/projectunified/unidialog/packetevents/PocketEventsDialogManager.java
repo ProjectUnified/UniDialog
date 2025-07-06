@@ -4,14 +4,21 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerAbstract;
 import com.github.retrooper.packetevents.event.PacketListenerCommon;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
+import com.github.retrooper.packetevents.protocol.ConnectionState;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.nbt.*;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.resources.ResourceLocation;
 import com.github.retrooper.packetevents.wrapper.common.client.WrapperCommonClientCustomClickAction;
+import com.github.retrooper.packetevents.wrapper.common.server.WrapperCommonServerClearDialog;
+import com.github.retrooper.packetevents.wrapper.common.server.WrapperCommonServerShowDialog;
 import com.github.retrooper.packetevents.wrapper.configuration.client.WrapperConfigClientCustomClickAction;
+import com.github.retrooper.packetevents.wrapper.configuration.server.WrapperConfigServerClearDialog;
+import com.github.retrooper.packetevents.wrapper.configuration.server.WrapperConfigServerShowDialog;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCustomClickAction;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerClearDialog;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerShowDialog;
 import io.github.projectunified.unidialog.core.DialogManager;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
@@ -160,7 +167,11 @@ public abstract class PocketEventsDialogManager implements DialogManager<ItemSta
         Object player = getPlayer(uuid);
         if (player == null) return false;
 
-        WrapperPlayServerClearDialog wrapper = new WrapperPlayServerClearDialog();
+      User user = PacketEvents.getAPI().getPlayerManager().getUser(player);
+      WrapperCommonServerClearDialog<?> wrapper = user.getConnectionState() == ConnectionState.CONFIGURATION
+          ? new WrapperConfigServerClearDialog()
+          : new WrapperPlayServerClearDialog();
+
         PacketEvents.getAPI().getPlayerManager().sendPacket(player, wrapper);
         return true;
     }
