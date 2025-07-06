@@ -8,6 +8,8 @@ import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.nbt.*;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.resources.ResourceLocation;
+import com.github.retrooper.packetevents.wrapper.common.client.WrapperCommonClientCustomClickAction;
+import com.github.retrooper.packetevents.wrapper.configuration.client.WrapperConfigClientCustomClickAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCustomClickAction;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerClearDialog;
 import io.github.projectunified.unidialog.core.DialogManager;
@@ -79,9 +81,16 @@ public abstract class PocketEventsDialogManager implements DialogManager<ItemSta
         this.packetListener = new PacketListenerAbstract() {
             @Override
             public void onPacketReceive(@NotNull PacketReceiveEvent event) {
-                if (event.getPacketType() != PacketType.Play.Client.CUSTOM_CLICK_ACTION) return;
+                WrapperCommonClientCustomClickAction<?> packet;
+                if (event.getPacketType() == PacketType.Play.Client.CUSTOM_CLICK_ACTION) {
+                    packet = new WrapperPlayClientCustomClickAction(event);
+                } else if (event.getPacketType() == PacketType.Configuration.Client.CUSTOM_CLICK_ACTION) {
+                    packet = new WrapperConfigClientCustomClickAction(event);
+                } else {
+                    // If the packet type is not CUSTOM_CLICK_ACTION, we ignore it
+                    return;
+                }
 
-                WrapperPlayClientCustomClickAction packet = new WrapperPlayClientCustomClickAction(event);
                 ResourceLocation namespacedId = packet.getId();
                 NBT data = packet.getPayload();
 
