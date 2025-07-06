@@ -12,6 +12,7 @@
         <module>core</module>
         <module>adventure</module>
         <module>packetevents</module>
+        <module>spigot</module>
     </modules>
 
     <name>UniDialog</name>
