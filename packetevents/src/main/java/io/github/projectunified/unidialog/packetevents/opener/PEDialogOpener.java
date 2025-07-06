@@ -1,7 +1,10 @@
 package io.github.projectunified.unidialog.packetevents.opener;
 
 import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.protocol.ConnectionState;
 import com.github.retrooper.packetevents.protocol.dialog.Dialog;
+import com.github.retrooper.packetevents.protocol.player.User;
+import com.github.retrooper.packetevents.wrapper.configuration.server.WrapperConfigServerShowDialog;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerShowDialog;
 import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +25,14 @@ public class PEDialogOpener implements DialogOpener {
     public boolean open(UUID uuid) {
         Object player = playerFunction.apply(uuid);
         if (player == null) return false;
+
+      User user = PacketEvents.getAPI().getPlayerManager().getUser(player);
+
+      if(user.getConnectionState() == ConnectionState.CONFIGURATION) {
+        WrapperConfigServerShowDialog wrapper = new WrapperConfigServerShowDialog(dialog);
+        PacketEvents.getAPI().getPlayerManager().sendPacket(player, wrapper);
+        return true;
+      }
 
         WrapperPlayServerShowDialog wrapper = new WrapperPlayServerShowDialog(dialog);
         PacketEvents.getAPI().getPlayerManager().sendPacket(player, wrapper);
