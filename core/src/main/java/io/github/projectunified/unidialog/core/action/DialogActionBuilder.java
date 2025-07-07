@@ -1,6 +1,7 @@
 package io.github.projectunified.unidialog.core.action;
 
 import io.github.projectunified.unidialog.core.dialog.Dialog;
+import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -111,4 +112,12 @@ public interface DialogActionBuilder<D extends Dialog<?, ?, ?, ?>, T extends Dia
      * @return the current instance of the builder for method chaining
      */
     T showDialog(String namespace, String dialogId);
+
+    /**
+     * Set the action to be a show dialog action
+     *
+     * @param dialogOpener the dialog opener to use for showing the dialog
+     * @return the current instance of the builder for method chaining
+     */
+    T showDialog(DialogOpener dialogOpener);
 }

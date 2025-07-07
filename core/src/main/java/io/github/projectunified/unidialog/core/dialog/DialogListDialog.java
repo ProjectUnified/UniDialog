@@ -3,6 +3,7 @@ package io.github.projectunified.unidialog.core.dialog;
 import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
 import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
 import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
+import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -35,6 +36,14 @@ public interface DialogListDialog<I, BB extends DialogBodyBuilder<I>, IB extends
      * @return the dialog itself for method chaining
      */
     T dialog(String namespace, String dialogId);
+
+    /**
+     * Add a dialog to the list of dialogs in this dialog
+     *
+     * @param dialogOpener the dialog opener that will open the dialog
+     * @return the dialog itself for method chaining
+     */
+    T dialog(DialogOpener dialogOpener);
 
     /**
      * Set the action to be performed when exiting the dialog

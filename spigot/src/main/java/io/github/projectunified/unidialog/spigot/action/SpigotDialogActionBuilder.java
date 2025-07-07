@@ -1,6 +1,7 @@
 package io.github.projectunified.unidialog.spigot.action;
 
 import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
+import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.spigot.dialog.SpigotDialog;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -106,6 +107,14 @@ public class SpigotDialogActionBuilder implements DialogActionBuilder<SpigotDial
     @Override
     public SpigotDialogActionBuilder showDialog(String namespace, String dialogId) {
         return action(new StaticAction(new ShowDialogClickEvent(namespace + ":" + dialogId)));
+    }
+
+    @Override
+    public SpigotDialogActionBuilder showDialog(DialogOpener dialogOpener) {
+        if (!(dialogOpener instanceof SpigotDialog<?>)) {
+            throw new IllegalArgumentException("Dialog opener must be an instance of SpigotDialog.");
+        }
+        return action(new StaticAction(new ShowDialogClickEvent(((SpigotDialog<?>) dialogOpener).getDialog())));
     }
 
     public ActionButton getAction() {

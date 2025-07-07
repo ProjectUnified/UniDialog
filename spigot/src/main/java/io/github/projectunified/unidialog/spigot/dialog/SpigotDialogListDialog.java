@@ -1,6 +1,7 @@
 package io.github.projectunified.unidialog.spigot.dialog;
 
 import io.github.projectunified.unidialog.core.dialog.DialogListDialog;
+import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.spigot.action.SpigotDialogActionBuilder;
 import io.github.projectunified.unidialog.spigot.body.SpigotDialogBodyBuilder;
 import io.github.projectunified.unidialog.spigot.input.SpigotDialogInputBuilder;
@@ -41,6 +42,15 @@ public class SpigotDialogListDialog extends SpigotDialog<SpigotDialogListDialog>
     @Override
     public SpigotDialogListDialog dialog(String namespace, String dialogId) {
         throw new UnsupportedOperationException("DialogListDialog does not support dialog by namespace and ID in Spigot.");
+    }
+
+    @Override
+    public SpigotDialogListDialog dialog(DialogOpener dialogOpener) {
+        if (!(dialogOpener instanceof SpigotDialog<?>)) {
+            throw new IllegalArgumentException("Dialog opener must be an instance of SpigotDialog.");
+        }
+        addDialog(((SpigotDialog<?>) dialogOpener).getDialog());
+        return this;
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.protocol.mapper.MappedEntitySet;
 import com.github.retrooper.packetevents.resources.ResourceLocation;
 import io.github.projectunified.unidialog.core.dialog.DialogListDialog;
+import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
@@ -50,6 +51,15 @@ public class PEDialogListDialog extends PEDialog<PEDialogListDialog> implements 
             throw new IllegalArgumentException("Dialog with namespace '" + namespace + "' and id '" + dialogId + "' does not exist.");
         }
         addDialog(dialog);
+        return this;
+    }
+
+    @Override
+    public PEDialogListDialog dialog(DialogOpener dialogOpener) {
+        if (!(dialogOpener instanceof PEDialog<?> peDialog)) {
+            throw new IllegalArgumentException("Dialog opener must be an instance of PEDialog.");
+        }
+        addDialog(peDialog.getDialog());
         return this;
     }
 

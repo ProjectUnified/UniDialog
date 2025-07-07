@@ -8,6 +8,7 @@ import com.github.retrooper.packetevents.protocol.dialog.button.ActionButton;
 import com.github.retrooper.packetevents.protocol.dialog.button.CommonButtonData;
 import com.github.retrooper.packetevents.resources.ResourceLocation;
 import io.github.projectunified.unidialog.adventure.action.AdventureDialogActionBuilder;
+import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.packetevents.dialog.PEDialog;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
@@ -102,6 +103,14 @@ public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDia
             throw new IllegalArgumentException("Dialog not found: " + namespace + ":" + dialogId);
         }
         return action(new StaticAction(new ShowDialogClickEvent(dialog)));
+    }
+
+    @Override
+    public PEDialogActionBuilder showDialog(DialogOpener dialogOpener) {
+        if (!(dialogOpener instanceof PEDialog<?> peDialog)) {
+            throw new IllegalArgumentException("DialogOpener must be an instance of PEDialog");
+        }
+        return action(new StaticAction(new ShowDialogClickEvent(peDialog.getDialog())));
     }
 
     public ActionButton getAction() {
