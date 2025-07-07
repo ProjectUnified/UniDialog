@@ -8,6 +8,7 @@ import io.github.projectunified.unidialog.paper.opener.PaperDialogOpener;
 import io.papermc.paper.dialog.Dialog;
 import io.papermc.paper.registry.data.dialog.ActionButton;
 import io.papermc.paper.registry.data.dialog.DialogBase;
+import io.papermc.paper.registry.data.dialog.DialogRegistryEntry;
 import io.papermc.paper.registry.data.dialog.body.DialogBody;
 import io.papermc.paper.registry.data.dialog.input.DialogInput;
 import io.papermc.paper.registry.data.dialog.type.DialogType;
@@ -108,19 +109,24 @@ public abstract class PaperDialog<T extends PaperDialog<T>> implements Adventure
 
     protected abstract DialogType getDialogType();
 
-    public final Dialog getDialog() {
-        return Dialog.create(factory -> factory.empty()
-                .base(DialogBase.create(
-                        title != null ? title : Component.text("Dialog"),
-                        externalTitle,
-                        canCloseWithEscape,
-                        pause,
-                        afterAction,
-                        body != null ? body : Collections.emptyList(),
-                        input != null ? input : Collections.emptyList()
-                ))
-                .type(getDialogType())
+    private DialogBase getDialogBase() {
+        return DialogBase.create(
+                title != null ? title : Component.text("Dialog"),
+                externalTitle,
+                canCloseWithEscape,
+                pause,
+                afterAction,
+                body != null ? body : Collections.emptyList(),
+                input != null ? input : Collections.emptyList()
         );
+    }
+
+    public final Consumer<DialogRegistryEntry.Builder> getDialogBuilder() {
+        return builder -> builder.base(getDialogBase()).type(getDialogType());
+    }
+
+    public final Dialog getDialog() {
+        return Dialog.create(factory -> getDialogBuilder().accept(factory.empty()));
     }
 
     @Override
