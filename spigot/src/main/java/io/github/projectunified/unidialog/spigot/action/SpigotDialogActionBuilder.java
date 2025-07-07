@@ -112,10 +112,10 @@ public class SpigotDialogActionBuilder implements DialogActionBuilder<SpigotDial
 
     @Override
     public SpigotDialogActionBuilder showDialog(DialogOpener dialogOpener) {
-        if (!(dialogOpener instanceof SpigotDialogOpener)) {
+        if (!(dialogOpener instanceof SpigotDialogOpener(net.md_5.bungee.api.dialog.Dialog dialog))) {
             throw new IllegalArgumentException("Dialog opener must be an instance of SpigotDialogOpener");
         }
-        return action(new StaticAction(new ShowDialogClickEvent(((SpigotDialogOpener) dialogOpener).dialog())));
+        return action(new StaticAction(new ShowDialogClickEvent(dialog)));
     }
 
     public ActionButton getAction() {

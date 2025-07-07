@@ -81,19 +81,11 @@ public abstract class SpigotDialog<T extends SpigotDialog<T>> implements Dialog<
 
     @Override
     public T afterAction(AfterAction afterAction) {
-        switch (afterAction) {
-            case CLOSE:
-                this.afterAction = DialogBase.AfterAction.CLOSE;
-                break;
-            case WAIT_FOR_RESPONSE:
-                this.afterAction = DialogBase.AfterAction.WAIT_FOR_RESPONSE;
-                break;
-            case NONE:
-                this.afterAction = DialogBase.AfterAction.NONE;
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
+        this.afterAction = switch (afterAction) {
+            case CLOSE -> DialogBase.AfterAction.CLOSE;
+            case WAIT_FOR_RESPONSE -> DialogBase.AfterAction.WAIT_FOR_RESPONSE;
+            case NONE -> DialogBase.AfterAction.NONE;
+        };
         return (T) this;
     }
 

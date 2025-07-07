@@ -47,10 +47,10 @@ public class SpigotDialogListDialog extends SpigotDialog<SpigotDialogListDialog>
 
     @Override
     public SpigotDialogListDialog dialog(DialogOpener dialogOpener) {
-        if (!(dialogOpener instanceof SpigotDialogOpener)) {
+        if (!(dialogOpener instanceof SpigotDialogOpener(Dialog dialog))) {
             throw new IllegalArgumentException("Dialog opener must be an instance of SpigotDialogOpener.");
         }
-        addDialog(((SpigotDialogOpener) dialogOpener).dialog());
+        addDialog(dialog);
         return this;
     }
 

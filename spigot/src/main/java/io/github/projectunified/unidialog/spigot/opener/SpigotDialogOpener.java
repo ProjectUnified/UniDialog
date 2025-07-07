@@ -7,17 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class SpigotDialogOpener implements DialogOpener {
-    private final Dialog dialog;
-
-    public SpigotDialogOpener(Dialog dialog) {
-        this.dialog = dialog;
-    }
-
-    public Dialog dialog() {
-        return dialog;
-    }
-
+public record SpigotDialogOpener(Dialog dialog) implements DialogOpener {
     @Override
     public boolean open(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
