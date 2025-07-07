@@ -29,7 +29,7 @@ public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> impleme
             new CommonButtonData(
                     Component.text("No"),
                     null,
-                    151
+                    150
             ),
             null
     );
