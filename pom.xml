@@ -13,6 +13,7 @@
         <module>adventure</module>
         <module>packetevents</module>
         <module>spigot</module>
+        <module>paper</module>
     </modules>
 
     <name>UniDialog</name>
