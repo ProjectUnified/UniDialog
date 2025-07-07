@@ -143,7 +143,7 @@ public abstract class SpigotDialog<T extends SpigotDialog<T>> implements Dialog<
     }
 
     @Override
-    public DialogOpener opener() {
+    public SpigotDialogOpener opener() {
         return new SpigotDialogOpener(getDialog());
     }
 }

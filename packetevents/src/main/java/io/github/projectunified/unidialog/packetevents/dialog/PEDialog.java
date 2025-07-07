@@ -132,7 +132,7 @@ public abstract class PEDialog<T extends PEDialog<T>> implements AdventureDialog
     }
 
     @Override
-    public DialogOpener opener() {
+    public PEDialogOpener opener() {
         return new PEDialogOpener(getDialog(), playerFunction);
     }
 }
