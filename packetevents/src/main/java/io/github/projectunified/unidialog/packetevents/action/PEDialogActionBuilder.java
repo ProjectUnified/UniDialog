@@ -119,7 +119,7 @@ public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDia
                 new CommonButtonData(
                         label == null ? Component.text("Action") : label,
                         tooltip,
-                        width > 0 ? width : 150
+                        width > 0 ? width : DEFAULT_WIDTH
                 ),
                 action
         );

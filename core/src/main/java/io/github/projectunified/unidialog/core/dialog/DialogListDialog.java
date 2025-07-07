@@ -20,6 +20,9 @@ import java.util.function.Consumer;
  * @param <T>  the type of the dialog itself, for method chaining
  */
 public interface DialogListDialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, D extends Dialog<I, BB, IB, ?>, AB extends DialogActionBuilder<D, AB>, T extends DialogListDialog<I, BB, IB, D, AB, T>> extends Dialog<I, BB, IB, T> {
+    int DEFAULT_COLUMNS = 2;
+    int DEFAULT_BUTTON_WIDTH = 150;
+
     /**
      * Add a dialog to the list of dialogs in this dialog
      *

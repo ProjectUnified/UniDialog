@@ -75,9 +75,9 @@ public class SpigotNumberRangeInput extends SpigotDialogInput implements NumberR
     public DialogInput getDialogInput() {
         return new net.md_5.bungee.api.dialog.input.NumberRangeInput(
                 key,
-                width > 0 ? width : 200,
+                width > 0 ? width : DEFAULT_WIDTH,
                 label != null ? label : new TextComponent(""),
-                labelFormat != null ? labelFormat : "options.generic_value",
+                labelFormat != null ? labelFormat : DEFAULT_LABEL_FORMAT,
                 start,
                 end,
                 initial,

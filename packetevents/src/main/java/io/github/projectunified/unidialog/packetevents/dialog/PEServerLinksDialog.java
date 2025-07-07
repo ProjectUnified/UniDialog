@@ -47,8 +47,8 @@ public class PEServerLinksDialog extends PEDialog<PEServerLinksDialog> implement
         return new com.github.retrooper.packetevents.protocol.dialog.ServerLinksDialog(
                 commonDialogData,
                 exitAction,
-                columns > 0 ? columns : 2,
-                buttonWidth > 0 ? buttonWidth : 150
+                columns > 0 ? columns : DEFAULT_COLUMNS,
+                buttonWidth > 0 ? buttonWidth : DEFAULT_BUTTON_WIDTH
         );
     }
 }

@@ -72,9 +72,9 @@ public class PENumberRangeInput implements AdventureNumberRangeInput<PENumberRan
     @Override
     public InputControl getInput() {
         return new NumberRangeInputControl(
-                width > 0 ? width : 200,
-                label == null ? Component.text("Number Range Input") : label,
-                labelFormat == null ? "options.generic_value" : labelFormat,
+                width > 0 ? width : DEFAULT_WIDTH,
+                label != null ? label : Component.text("Number Range Input"),
+                labelFormat != null ? labelFormat : DEFAULT_LABEL_FORMAT,
                 new NumberRangeInputControl.RangeInfo(start, end, initial, step)
         );
     }

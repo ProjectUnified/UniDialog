@@ -35,7 +35,7 @@ public class PETextBody implements AdventureTextBody<PETextBody>, PEDialogBody {
     }
 
     public PlainMessage getPlainMessage() {
-        return new PlainMessage(text, width > 0 ? width : 200);
+        return new PlainMessage(text, width > 0 ? width : DEFAULT_WIDTH);
     }
 
     @Override

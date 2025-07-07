@@ -78,8 +78,8 @@ public class SpigotDialogListDialog extends SpigotDialog<SpigotDialogListDialog>
                 dialogBase,
                 dialogs != null ? dialogs : Collections.emptyList(),
                 exitAction,
-                columns > 0 ? columns : 2,
-                buttonWidth > 0 ? buttonWidth : 150
+                columns > 0 ? columns : DEFAULT_COLUMNS,
+                buttonWidth > 0 ? buttonWidth : DEFAULT_BUTTON_WIDTH
         );
     }
 }

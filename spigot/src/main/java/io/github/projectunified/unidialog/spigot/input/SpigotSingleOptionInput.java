@@ -77,7 +77,7 @@ public class SpigotSingleOptionInput extends SpigotDialogInput implements Single
     public DialogInput getDialogInput() {
         return new net.md_5.bungee.api.dialog.input.SingleOptionInput(
                 key,
-                width > 0 ? width : 200,
+                width > 0 ? width : DEFAULT_WIDTH,
                 label != null ? label : TextComponent.fromLegacy(""),
                 label != null,
                 options != null ? options : Collections.emptyList()

@@ -18,6 +18,9 @@ import java.util.function.Consumer;
  * @param <T>  the type of the server links dialog itself, for method chaining
  */
 public interface ServerLinksDialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, D extends Dialog<I, BB, IB, ?>, AB extends DialogActionBuilder<D, AB>, T extends ServerLinksDialog<I, BB, IB, D, AB, T>> extends Dialog<I, BB, IB, T> {
+    int DEFAULT_COLUMNS = 2;
+    int DEFAULT_BUTTON_WIDTH = 150;
+
     /**
      * Set the exit action for the dialog
      *

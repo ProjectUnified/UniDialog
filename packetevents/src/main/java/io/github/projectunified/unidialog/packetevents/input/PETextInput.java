@@ -65,11 +65,11 @@ public class PETextInput implements AdventureTextInput<PETextInput>, PEDialogInp
     @Override
     public InputControl getInput() {
         return new TextInputControl(
-                width > 0 ? width : 200,
+                width > 0 ? width : DEFAULT_WIDTH,
                 label != null ? label : Component.empty(),
                 label != null,
                 initial != null ? initial : "",
-                maxLength > 0 ? maxLength : 32,
+                maxLength > 0 ? maxLength : DEFAULT_MAX_LENGTH,
                 new TextInputControl.MultilineOptions(maxLines, height)
         );
     }

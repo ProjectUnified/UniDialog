@@ -19,6 +19,8 @@ import java.util.function.Consumer;
  * @param <T>  the type of the multi-action dialog itself, for method chaining
  */
 public interface MultiActionDialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, D extends Dialog<I, BB, IB, ?>, AB extends DialogActionBuilder<D, AB>, T extends MultiActionDialog<I, BB, IB, D, AB, T>> extends Dialog<I, BB, IB, T> {
+    int DEFAULT_COLUMNS = 2;
+
     /**
      * Set the number of columns for the dialog
      *

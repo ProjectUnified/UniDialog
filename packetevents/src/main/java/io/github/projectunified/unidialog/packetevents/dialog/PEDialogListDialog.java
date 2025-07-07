@@ -88,8 +88,8 @@ public class PEDialogListDialog extends PEDialog<PEDialogListDialog> implements 
                 commonDialogData,
                 dialogs == null || dialogs.isEmpty() ? MappedEntitySet.createEmpty() : new MappedEntitySet<>(dialogs),
                 exitAction,
-                columns > 0 ? columns : 2,
-                buttonWidth > 0 ? buttonWidth : 150
+                columns > 0 ? columns : DEFAULT_COLUMNS,
+                buttonWidth > 0 ? buttonWidth : DEFAULT_BUTTON_WIDTH
         );
     }
 }

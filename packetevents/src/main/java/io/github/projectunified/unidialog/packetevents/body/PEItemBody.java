@@ -75,8 +75,8 @@ public class PEItemBody implements ItemBody<ItemStack, PETextBody, PEItemBody>, 
                 description != null ? description.getPlainMessage() : null,
                 showDecorations,
                 showTooltip,
-                width,
-                height
+                width > 0 ? width : DEFAULT_WIDTH,
+                height > 0 ? height : DEFAULT_HEIGHT
         );
     }
 }

@@ -44,8 +44,8 @@ public class SpigotServerLinksDialog extends SpigotDialog<SpigotServerLinksDialo
         return new net.md_5.bungee.api.dialog.ServerLinksDialog(
                 dialogBase,
                 exitAction,
-                columns > 0 ? columns : 2,
-                buttonWidth > 0 ? buttonWidth : 150
+                columns > 0 ? columns : DEFAULT_COLUMNS,
+                buttonWidth > 0 ? buttonWidth : DEFAULT_BUTTON_WIDTH
         );
     }
 }

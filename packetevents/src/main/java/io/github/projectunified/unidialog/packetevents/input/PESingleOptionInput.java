@@ -50,9 +50,9 @@ public class PESingleOptionInput implements AdventureSingleOptionInput<PESingleO
     @Override
     public InputControl getInput() {
         return new SingleOptionInputControl(
-                width > 0 ? width : 200,
+                width > 0 ? width : DEFAULT_WIDTH,
                 entries != null ? entries : Collections.emptyList(),
-                label == null ? Component.empty() : label,
+                label != null ? label : Component.empty(),
                 label != null
         );
     }

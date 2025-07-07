@@ -51,7 +51,7 @@ public class SpigotMultiActionDialog extends SpigotDialog<SpigotMultiActionDialo
         return new net.md_5.bungee.api.dialog.MultiActionDialog(
                 dialogBase,
                 actions != null ? actions : Collections.emptyList(),
-                columns > 0 ? columns : 2,
+                columns > 0 ? columns : DEFAULT_COLUMNS,
                 exitAction
         );
     }

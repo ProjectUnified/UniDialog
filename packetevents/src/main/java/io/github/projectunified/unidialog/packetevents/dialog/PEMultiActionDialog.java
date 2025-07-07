@@ -55,7 +55,7 @@ public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implement
                 commonDialogData,
                 actions != null ? actions : Collections.emptyList(),
                 exitAction,
-                columns > 0 ? columns : 2
+                columns > 0 ? columns : DEFAULT_COLUMNS
         );
     }
 }

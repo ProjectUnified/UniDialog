@@ -68,11 +68,11 @@ public class SpigotTextInput extends SpigotDialogInput implements TextInput<Spig
     public DialogInput getDialogInput() {
         return new net.md_5.bungee.api.dialog.input.TextInput(
                 key,
-                width > 0 ? width : 200,
+                width > 0 ? width : DEFAULT_WIDTH,
                 label != null ? label : TextComponent.fromLegacy(""),
                 label != null,
                 initial != null ? initial : "",
-                maxLength > 0 ? maxLength : 32,
+                maxLength > 0 ? maxLength : DEFAULT_MAX_LENGTH,
                 new net.md_5.bungee.api.dialog.input.TextInput.Multiline(maxLines, height)
         );
     }

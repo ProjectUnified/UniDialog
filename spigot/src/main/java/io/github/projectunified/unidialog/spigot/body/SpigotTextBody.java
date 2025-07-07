@@ -35,8 +35,8 @@ public class SpigotTextBody implements TextBody<SpigotTextBody>, SpigotDialogBod
     @Override
     public DialogBody getDialogBody() {
         return new PlainMessageBody(
-                text == null ? new TextComponent("") : text,
-                width > 0 ? width : 200
+                text != null ? text : new TextComponent(""),
+                width > 0 ? width : DEFAULT_WIDTH
         );
     }
 }

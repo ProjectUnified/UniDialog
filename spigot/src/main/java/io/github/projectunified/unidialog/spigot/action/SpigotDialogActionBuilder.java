@@ -122,7 +122,7 @@ public class SpigotDialogActionBuilder implements DialogActionBuilder<SpigotDial
         return new ActionButton(
                 label != null ? label : new TextComponent(""),
                 tooltip,
-                width > 0 ? width : 150,
+                width > 0 ? width : DEFAULT_WIDTH,
                 action != null ? action : new Action() {
                     @Override
                     public int hashCode() {
