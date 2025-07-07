@@ -28,9 +28,13 @@ public class SpigotDialogManager implements DialogManager<ItemStack, SpigotDialo
     private final String defaultNamespace;
     private final Map<NamespacedKey, BiConsumer<UUID, Map<String, String>>> customActions = new HashMap<>();
 
-    public SpigotDialogManager(Plugin plugin) {
+    public SpigotDialogManager(Plugin plugin, String defaultNamespace) {
         this.plugin = plugin;
-        this.defaultNamespace = plugin.getName().replace("[^a-zA-Z0-9]", "_").toLowerCase(Locale.ROOT);
+        this.defaultNamespace = defaultNamespace;
+    }
+
+    public SpigotDialogManager(Plugin plugin) {
+        this(plugin, plugin.getName().replace("[^a-zA-Z0-9]", "_").toLowerCase(Locale.ROOT));
     }
 
     @Override

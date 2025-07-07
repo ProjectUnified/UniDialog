@@ -11,6 +11,7 @@ import io.papermc.paper.dialog.DialogResponseView;
 import io.papermc.paper.event.player.PlayerCustomClickEvent;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -24,14 +25,26 @@ import java.util.function.Function;
 @SuppressWarnings("unchecked")
 public class PaperDialogManager implements DialogManager<ItemStack, PaperDialogBodyBuilder, PaperDialogInputBuilder, PaperDialog<?>, PaperDialogActionBuilder>, Listener {
     private final Plugin plugin;
-    private final Function<String, Component> componentDeserializer;
     private final String defaultNamespace;
+    private final Function<String, Component> componentDeserializer;
     private final Map<Key, BiConsumer<UUID, Map<String, String>>> customActions = new HashMap<>();
 
-    public PaperDialogManager(Plugin plugin, Function<String, Component> componentDeserializer) {
+    public PaperDialogManager(Plugin plugin, String defaultNamespace, Function<String, Component> componentDeserializer) {
         this.plugin = plugin;
+        this.defaultNamespace = defaultNamespace;
         this.componentDeserializer = componentDeserializer;
-        this.defaultNamespace = plugin.getName().replace("[^a-zA-Z0-9]", "_").toLowerCase(Locale.ROOT);
+    }
+
+    public PaperDialogManager(Plugin plugin, String defaultNamespace) {
+        this(plugin, defaultNamespace, LegacyComponentSerializer.legacySection()::deserialize);
+    }
+
+    public PaperDialogManager(Plugin plugin, Function<String, Component> componentDeserializer) {
+        this(plugin, plugin.getName().replace("[^a-zA-Z0-9]", "_").toLowerCase(Locale.ROOT), componentDeserializer);
+    }
+
+    public PaperDialogManager(Plugin plugin) {
+        this(plugin, LegacyComponentSerializer.legacySection()::deserialize);
     }
 
     @Override
