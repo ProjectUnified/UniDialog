@@ -159,17 +159,35 @@ public abstract class PocketEventsDialogManager implements DialogManager<ItemSta
         actions.clear();
     }
 
+    /**
+     * Clear the dialog for a user, optionally specifying if it is a configuration dialog.
+     *
+     * @param user          the user to clear the dialog for
+     * @param configuration if true, clears as a configuration dialog; if false, clears as a play dialog
+     */
+    public void clearDialog(User user, boolean configuration) {
+        WrapperCommonServerClearDialog<?> wrapper = configuration
+                ? new WrapperConfigServerClearDialog()
+                : new WrapperPlayServerClearDialog();
+        user.sendPacket(wrapper);
+    }
+
+    /**
+     * Clear the dialog for a user, automatically determining if it is a configuration dialog based on the user's connection state.
+     *
+     * @param user the user to clear the dialog for
+     */
+    public void clearDialog(User user) {
+        clearDialog(user, user.getConnectionState() == ConnectionState.CONFIGURATION);
+    }
+
     @Override
     public boolean clearDialog(UUID uuid) {
         Object player = getPlayer(uuid);
         if (player == null) return false;
 
         User user = PacketEvents.getAPI().getPlayerManager().getUser(player);
-        WrapperCommonServerClearDialog<?> wrapper = user.getConnectionState() == ConnectionState.CONFIGURATION
-                ? new WrapperConfigServerClearDialog()
-                : new WrapperPlayServerClearDialog();
-
-        PacketEvents.getAPI().getPlayerManager().sendPacket(player, wrapper);
+        clearDialog(user);
         return true;
     }
 }
