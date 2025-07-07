@@ -12,10 +12,6 @@
     <artifactId>uni-dialog-paper</artifactId>
     <name>UniDialog Paper</name>
 
-    <properties>
-        <java.version>21</java.version>
-    </properties>
-
     <repositories>
         <repository>
             <id>papermc</id>

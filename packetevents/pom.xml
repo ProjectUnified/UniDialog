@@ -12,10 +12,6 @@
     <artifactId>uni-dialog-packetevents</artifactId>
     <name>UniDialog PacketEvents</name>
 
-    <properties>
-        <java.version>21</java.version>
-    </properties>
-
     <repositories>
         <repository>
             <id>codemc-releases</id>
