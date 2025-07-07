@@ -15,6 +15,12 @@ io.github.projectunified.unidialog.packetevents.body
 io.github.projectunified.unidialog.packetevents.dialog
 io.github.projectunified.unidialog.packetevents.input
 io.github.projectunified.unidialog.packetevents.opener
+io.github.projectunified.unidialog.paper
+io.github.projectunified.unidialog.paper.action
+io.github.projectunified.unidialog.paper.body
+io.github.projectunified.unidialog.paper.dialog
+io.github.projectunified.unidialog.paper.input
+io.github.projectunified.unidialog.paper.opener
 io.github.projectunified.unidialog.spigot
 io.github.projectunified.unidialog.spigot.action
 io.github.projectunified.unidialog.spigot.body
