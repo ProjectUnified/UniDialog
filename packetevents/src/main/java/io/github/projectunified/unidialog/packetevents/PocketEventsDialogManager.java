@@ -164,10 +164,10 @@ public abstract class PocketEventsDialogManager implements DialogManager<ItemSta
         Object player = getPlayer(uuid);
         if (player == null) return false;
 
-      User user = PacketEvents.getAPI().getPlayerManager().getUser(player);
-      WrapperCommonServerClearDialog<?> wrapper = user.getConnectionState() == ConnectionState.CONFIGURATION
-          ? new WrapperConfigServerClearDialog()
-          : new WrapperPlayServerClearDialog();
+        User user = PacketEvents.getAPI().getPlayerManager().getUser(player);
+        WrapperCommonServerClearDialog<?> wrapper = user.getConnectionState() == ConnectionState.CONFIGURATION
+                ? new WrapperConfigServerClearDialog()
+                : new WrapperPlayServerClearDialog();
 
         PacketEvents.getAPI().getPlayerManager().sendPacket(player, wrapper);
         return true;
