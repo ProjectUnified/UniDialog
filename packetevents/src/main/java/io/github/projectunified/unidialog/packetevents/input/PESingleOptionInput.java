@@ -11,19 +11,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-public class PESingleOptionInput implements AdventureSingleOptionInput<PESingleOptionInput>, PEDialogInput {
-    private final Function<String, Component> componentDeserializer;
+public class PESingleOptionInput extends PEDialogInput implements AdventureSingleOptionInput<PESingleOptionInput> {
     private int width;
     private @Nullable Component label;
     private List<SingleOptionInputControl.Entry> entries;
 
     public PESingleOptionInput(Function<String, Component> componentDeserializer) {
-        this.componentDeserializer = componentDeserializer;
-    }
-
-    @Override
-    public Function<String, Component> getComponentDeserializer() {
-        return componentDeserializer;
+        super(componentDeserializer);
     }
 
     @Override

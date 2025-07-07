@@ -8,8 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class PETextInput implements AdventureTextInput<PETextInput>, PEDialogInput {
-    private final Function<String, Component> componentDeserializer;
+public class PETextInput extends PEDialogInput implements AdventureTextInput<PETextInput> {
     private int width;
     private @Nullable Component label;
     private String initial;
@@ -18,12 +17,7 @@ public class PETextInput implements AdventureTextInput<PETextInput>, PEDialogInp
     private Integer height;
 
     public PETextInput(Function<String, Component> componentDeserializer) {
-        this.componentDeserializer = componentDeserializer;
-    }
-
-    @Override
-    public Function<String, Component> getComponentDeserializer() {
-        return componentDeserializer;
+        super(componentDeserializer);
     }
 
     @Override

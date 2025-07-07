@@ -8,8 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class PENumberRangeInput implements AdventureNumberRangeInput<PENumberRangeInput>, PEDialogInput {
-    private final Function<String, Component> componentDeserializer;
+public class PENumberRangeInput extends PEDialogInput implements AdventureNumberRangeInput<PENumberRangeInput> {
     private int width;
     private Component label;
     private String labelFormat;
@@ -19,12 +18,7 @@ public class PENumberRangeInput implements AdventureNumberRangeInput<PENumberRan
     private @Nullable Float step;
 
     public PENumberRangeInput(Function<String, Component> componentDeserializer) {
-        this.componentDeserializer = componentDeserializer;
-    }
-
-    @Override
-    public Function<String, Component> getComponentDeserializer() {
-        return componentDeserializer;
+        super(componentDeserializer);
     }
 
     @Override

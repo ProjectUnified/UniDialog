@@ -7,20 +7,14 @@ import net.kyori.adventure.text.Component;
 
 import java.util.function.Function;
 
-public class PEBooleanInput implements AdventureBooleanInput<PEBooleanInput>, PEDialogInput {
-    private final Function<String, Component> componentDeserializer;
+public class PEBooleanInput extends PEDialogInput implements AdventureBooleanInput<PEBooleanInput> {
     private Component label;
     private boolean initial;
     private String onTrue;
     private String onFalse;
 
     public PEBooleanInput(Function<String, Component> componentDeserializer) {
-        this.componentDeserializer = componentDeserializer;
-    }
-
-    @Override
-    public Function<String, Component> getComponentDeserializer() {
-        return componentDeserializer;
+        super(componentDeserializer);
     }
 
     @Override
