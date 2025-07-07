@@ -5,6 +5,7 @@ import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.spigot.action.SpigotDialogActionBuilder;
 import io.github.projectunified.unidialog.spigot.body.SpigotDialogBodyBuilder;
 import io.github.projectunified.unidialog.spigot.input.SpigotDialogInputBuilder;
+import io.github.projectunified.unidialog.spigot.opener.SpigotDialogOpener;
 import net.md_5.bungee.api.dialog.Dialog;
 import net.md_5.bungee.api.dialog.DialogBase;
 import net.md_5.bungee.api.dialog.action.ActionButton;
@@ -46,10 +47,10 @@ public class SpigotDialogListDialog extends SpigotDialog<SpigotDialogListDialog>
 
     @Override
     public SpigotDialogListDialog dialog(DialogOpener dialogOpener) {
-        if (!(dialogOpener instanceof SpigotDialog<?>)) {
-            throw new IllegalArgumentException("Dialog opener must be an instance of SpigotDialog.");
+        if (!(dialogOpener instanceof SpigotDialogOpener)) {
+            throw new IllegalArgumentException("Dialog opener must be an instance of SpigotDialogOpener.");
         }
-        addDialog(((SpigotDialog<?>) dialogOpener).getDialog());
+        addDialog(((SpigotDialogOpener) dialogOpener).dialog());
         return this;
     }
 

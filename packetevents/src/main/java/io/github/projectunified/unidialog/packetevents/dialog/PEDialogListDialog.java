@@ -12,6 +12,7 @@ import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
+import io.github.projectunified.unidialog.packetevents.opener.PEDialogOpener;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,10 +57,10 @@ public class PEDialogListDialog extends PEDialog<PEDialogListDialog> implements 
 
     @Override
     public PEDialogListDialog dialog(DialogOpener dialogOpener) {
-        if (!(dialogOpener instanceof PEDialog<?> peDialog)) {
-            throw new IllegalArgumentException("Dialog opener must be an instance of PEDialog.");
+        if (!(dialogOpener instanceof PEDialogOpener peDialogOpener)) {
+            throw new IllegalArgumentException("Dialog opener must be an instance of PEDialogOpener.");
         }
-        addDialog(peDialog.getDialog());
+        addDialog(peDialogOpener.dialog());
         return this;
     }
 

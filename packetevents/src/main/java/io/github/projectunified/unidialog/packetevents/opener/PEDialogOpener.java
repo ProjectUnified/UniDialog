@@ -22,6 +22,10 @@ public class PEDialogOpener implements DialogOpener {
         this.playerFunction = playerFunction;
     }
 
+    public Dialog dialog() {
+        return dialog;
+    }
+
     @Override
     public boolean open(UUID uuid) {
         Object player = playerFunction.apply(uuid);

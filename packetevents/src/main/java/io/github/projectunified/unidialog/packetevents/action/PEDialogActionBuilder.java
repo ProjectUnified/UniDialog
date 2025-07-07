@@ -10,6 +10,7 @@ import com.github.retrooper.packetevents.resources.ResourceLocation;
 import io.github.projectunified.unidialog.adventure.action.AdventureDialogActionBuilder;
 import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.packetevents.dialog.PEDialog;
+import io.github.projectunified.unidialog.packetevents.opener.PEDialogOpener;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -107,10 +108,10 @@ public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDia
 
     @Override
     public PEDialogActionBuilder showDialog(DialogOpener dialogOpener) {
-        if (!(dialogOpener instanceof PEDialog<?> peDialog)) {
-            throw new IllegalArgumentException("DialogOpener must be an instance of PEDialog");
+        if (!(dialogOpener instanceof PEDialogOpener peDialogOpener)) {
+            throw new IllegalArgumentException("DialogOpener must be an instance of PEDialogOpener.");
         }
-        return action(new StaticAction(new ShowDialogClickEvent(peDialog.getDialog())));
+        return action(new StaticAction(new ShowDialogClickEvent(peDialogOpener.dialog())));
     }
 
     public ActionButton getAction() {

@@ -14,6 +14,10 @@ public class SpigotDialogOpener implements DialogOpener {
         this.dialog = dialog;
     }
 
+    public Dialog dialog() {
+        return dialog;
+    }
+
     @Override
     public boolean open(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
