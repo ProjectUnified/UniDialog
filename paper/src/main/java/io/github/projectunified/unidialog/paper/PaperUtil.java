@@ -12,7 +12,7 @@ public interface PaperUtil {
     @SuppressWarnings("unchecked")
     static Map<String, String> convertDialogResponseToMap(DialogResponseView response) {
         try {
-            Field compoundField = response.getClass().getDeclaredField("compound");
+            Field compoundField = response.getClass().getDeclaredField("payload");
             compoundField.setAccessible(true);
 
             Object compound = compoundField.get(response);
