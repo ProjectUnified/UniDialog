@@ -22,8 +22,35 @@ public class PEDialogOpener implements DialogOpener {
         this.playerFunction = playerFunction;
     }
 
+    /**
+     * Get the dialog associated with this opener
+     *
+     * @return the dialog
+     */
     public Dialog dialog() {
         return dialog;
+    }
+
+    /**
+     * Open the dialog for a user, optionally specifying if it is a configuration dialog.
+     *
+     * @param user          the user to open the dialog for
+     * @param configuration if true, opens as a configuration dialog; if false, opens as a play dialog
+     */
+    public void open(User user, boolean configuration) {
+        WrapperCommonServerShowDialog<?> wrapper = configuration
+                ? new WrapperConfigServerShowDialog(dialog)
+                : new WrapperPlayServerShowDialog(dialog);
+        user.sendPacket(wrapper);
+    }
+
+    /**
+     * Open the dialog for a user, automatically determining if it is a configuration dialog based on the user's connection state.
+     *
+     * @param user the user to open the dialog for
+     */
+    public void open(User user) {
+        open(user, user.getConnectionState() == ConnectionState.CONFIGURATION);
     }
 
     @Override
@@ -32,10 +59,7 @@ public class PEDialogOpener implements DialogOpener {
         if (player == null) return false;
 
         User user = PacketEvents.getAPI().getPlayerManager().getUser(player);
-        WrapperCommonServerShowDialog<?> wrapper = user.getConnectionState() == ConnectionState.CONFIGURATION
-                ? new WrapperConfigServerShowDialog(dialog)
-                : new WrapperPlayServerShowDialog(dialog);
-        PacketEvents.getAPI().getPlayerManager().sendPacket(player, wrapper);
+        open(user);
         return true;
     }
 }
