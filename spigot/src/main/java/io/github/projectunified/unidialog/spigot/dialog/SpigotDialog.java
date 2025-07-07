@@ -1,7 +1,6 @@
 package io.github.projectunified.unidialog.spigot.dialog;
 
 import io.github.projectunified.unidialog.core.dialog.Dialog;
-import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.spigot.action.SpigotDialogActionBuilder;
 import io.github.projectunified.unidialog.spigot.body.SpigotDialogBodyBuilder;
 import io.github.projectunified.unidialog.spigot.input.SpigotDialogInputBuilder;

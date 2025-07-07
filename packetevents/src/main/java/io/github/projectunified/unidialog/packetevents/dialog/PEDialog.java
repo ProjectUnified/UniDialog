@@ -8,7 +8,6 @@ import com.github.retrooper.packetevents.protocol.dialog.input.Input;
 import com.github.retrooper.packetevents.protocol.dialog.input.InputControl;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import io.github.projectunified.unidialog.adventure.dialog.AdventureDialog;
-import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
