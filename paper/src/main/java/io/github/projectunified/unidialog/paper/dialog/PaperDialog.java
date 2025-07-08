@@ -6,12 +6,17 @@ import io.github.projectunified.unidialog.paper.body.PaperDialogBodyBuilder;
 import io.github.projectunified.unidialog.paper.input.PaperDialogInputBuilder;
 import io.github.projectunified.unidialog.paper.opener.PaperDialogOpener;
 import io.papermc.paper.dialog.Dialog;
+import io.papermc.paper.registry.RegistryKey;
+import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.data.dialog.ActionButton;
 import io.papermc.paper.registry.data.dialog.DialogBase;
 import io.papermc.paper.registry.data.dialog.DialogRegistryEntry;
 import io.papermc.paper.registry.data.dialog.body.DialogBody;
 import io.papermc.paper.registry.data.dialog.input.DialogInput;
 import io.papermc.paper.registry.data.dialog.type.DialogType;
+import io.papermc.paper.registry.event.RegistryComposeEvent;
+import io.papermc.paper.registry.event.WritableRegistry;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -137,6 +142,72 @@ public abstract class PaperDialog<T extends PaperDialog<T>> implements Adventure
      */
     public final Dialog getDialog() {
         return Dialog.create(factory -> getDialogBuilder().accept(factory.empty()));
+    }
+
+    /**
+     * Register the dialog with the provided key in the given registry.
+     *
+     * @param key      the key to register the dialog under
+     * @param registry the registry to register the dialog in
+     */
+    public final void register(Key key, WritableRegistry<Dialog, DialogRegistryEntry.Builder> registry) {
+        registry.register(TypedKey.create(RegistryKey.DIALOG, key), getDialogBuilder());
+    }
+
+    /**
+     * Register the dialog with the provided key using the given event.
+     *
+     * @param key   the key to register the dialog under
+     * @param event the registry compose event to register the dialog in
+     */
+    public final void register(Key key, RegistryComposeEvent<Dialog, DialogRegistryEntry.Builder> event) {
+        register(key, event.registry());
+    }
+
+    /**
+     * Register the dialog with the default namespace and the provided dialog ID in the given registry.
+     *
+     * @param namespace the namespace to use
+     * @param dialogId  the dialog ID to register under
+     * @param registry  the registry to register the dialog in
+     */
+    public final void register(String namespace, String dialogId, WritableRegistry<Dialog, DialogRegistryEntry.Builder> registry) {
+        Key key = Key.key(namespace, dialogId);
+        register(key, registry);
+    }
+
+    /**
+     * Register the dialog with the default namespace and the provided dialog ID using the given event.
+     *
+     * @param namespace the namespace to use
+     * @param dialogId  the dialog ID to register under
+     * @param event     the registry compose event to register the dialog in
+     */
+    public final void register(String namespace, String dialogId, RegistryComposeEvent<Dialog, DialogRegistryEntry.Builder> event) {
+        Key key = Key.key(namespace, dialogId);
+        register(key, event);
+    }
+
+    /**
+     * Register the dialog with the default namespace and the provided dialog ID in the given registry.
+     *
+     * @param dialogId the dialog ID to register under
+     * @param registry the registry to register the dialog in
+     */
+    public final void register(String dialogId, WritableRegistry<Dialog, DialogRegistryEntry.Builder> registry) {
+        Key key = Key.key(defaultNamespace, dialogId);
+        register(key, registry);
+    }
+
+    /**
+     * Register the dialog with the default namespace and the provided dialog ID using the given event.
+     *
+     * @param dialogId the dialog ID to register under
+     * @param event    the registry compose event to register the dialog in
+     */
+    public final void register(String dialogId, RegistryComposeEvent<Dialog, DialogRegistryEntry.Builder> event) {
+        Key key = Key.key(defaultNamespace, dialogId);
+        register(key, event);
     }
 
     @Override
