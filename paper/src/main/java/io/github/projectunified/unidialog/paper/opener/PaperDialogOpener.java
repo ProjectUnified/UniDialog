@@ -2,17 +2,22 @@ package io.github.projectunified.unidialog.paper.opener;
 
 import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.papermc.paper.dialog.Dialog;
+import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 public record PaperDialogOpener(Dialog dialog) implements DialogOpener {
+    public void open(Audience audience) {
+        audience.showDialog(dialog);
+    }
+
     @Override
     public boolean open(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) return false;
-        player.showDialog(dialog);
+        open(player);
         return true;
     }
 }
