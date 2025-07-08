@@ -8,17 +8,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public interface PaperUtil {
+final class PaperUtil {
+    private static final Field compoundField;
+    private static final Method keySetMethod;
+
+    static {
+        try {
+            Class<?> responseViewClass = Class.forName("io.papermc.paper.dialog.PaperDialogResponseView");
+            compoundField = responseViewClass.getDeclaredField("payload");
+            compoundField.setAccessible(true);
+            keySetMethod = compoundField.getType().getDeclaredMethod("keySet");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize PaperUtil", e);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     static Map<String, String> convertDialogResponseToMap(DialogResponseView response) {
         try {
-            Field compoundField = response.getClass().getDeclaredField("payload");
-            compoundField.setAccessible(true);
-
             Object compound = compoundField.get(response);
-            Method keySetMethod = compound.getClass().getDeclaredMethod("keySet");
-            keySetMethod.setAccessible(true);
-
             Set<String> keys = (Set<String>) keySetMethod.invoke(compound);
 
             Map<String, String> map = new HashMap<>();
