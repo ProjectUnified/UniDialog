@@ -39,17 +39,41 @@ public abstract class PocketEventsDialogManager implements DialogManager<ItemSta
     private final Map<ResourceLocation, BiConsumer<UUID, Map<String, String>>> actions = new HashMap<>();
     private PacketListenerCommon packetListener;
 
+    /**
+     * Constructor for PocketEventsDialogManager
+     *
+     * @param defaultNamespace      the default namespace, used by {@link #registerCustomAction(String, BiConsumer)} and {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PocketEventsDialogManager(String defaultNamespace, Function<String, Component> componentDeserializer) {
         this.defaultNamespace = defaultNamespace;
         this.componentDeserializer = componentDeserializer;
     }
 
+    /**
+     * Constructor for PocketEventsDialogManagee.
+     * Uses {@link LegacyComponentSerializer#legacySection()} to deserialize components.
+     *
+     * @param defaultNamespace the default namespace, used by {@link #registerCustomAction(String, BiConsumer)} and {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     */
     public PocketEventsDialogManager(String defaultNamespace) {
         this(defaultNamespace, LegacyComponentSerializer.legacySection()::deserialize);
     }
 
+    /**
+     * Get the player object for a given UUID
+     *
+     * @param uuid the UUID of the player
+     * @return the player object, or null if not found
+     */
     protected abstract @Nullable Object getPlayer(UUID uuid);
 
+    /**
+     * Get the UUID of a player object
+     *
+     * @param player the player object
+     * @return the UUID of the player
+     */
     protected abstract UUID getPlayerId(Object player);
 
     @Override

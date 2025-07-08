@@ -9,6 +9,11 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public record PaperDialogOpener(Dialog dialog) implements DialogOpener {
+    /**
+     * Open a dialog for a specific audience
+     *
+     * @param audience the audience to open the dialog for
+     */
     public void open(Audience audience) {
         audience.showDialog(dialog);
     }

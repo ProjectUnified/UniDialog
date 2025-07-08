@@ -121,10 +121,20 @@ public abstract class PaperDialog<T extends PaperDialog<T>> implements Adventure
         );
     }
 
+    /**
+     * Get the dialog builder consumer that can be used to create a dialog
+     *
+     * @return a consumer that accepts a DialogRegistryEntry.Builder
+     */
     public final Consumer<DialogRegistryEntry.Builder> getDialogBuilder() {
         return builder -> builder.base(getDialogBase()).type(getDialogType());
     }
 
+    /**
+     * Create a dialog using the provided factory
+     *
+     * @return a Dialog instance created using the dialog builder
+     */
     public final Dialog getDialog() {
         return Dialog.create(factory -> getDialogBuilder().accept(factory.empty()));
     }

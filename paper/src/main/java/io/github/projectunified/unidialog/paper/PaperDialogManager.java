@@ -29,20 +29,46 @@ public class PaperDialogManager implements DialogManager<ItemStack, PaperDialogB
     private final Function<String, Component> componentDeserializer;
     private final Map<Key, BiConsumer<UUID, Map<String, String>>> customActions = new HashMap<>();
 
+    /**
+     * Constructor for PaperDialogManager
+     *
+     * @param plugin                the plugin instance
+     * @param defaultNamespace      the default namespace, used by {@link #registerCustomAction(String, BiConsumer)} and {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperDialogManager(Plugin plugin, String defaultNamespace, Function<String, Component> componentDeserializer) {
         this.plugin = plugin;
         this.defaultNamespace = defaultNamespace;
         this.componentDeserializer = componentDeserializer;
     }
 
+    /**
+     * Constructor for PaperDialogManager.
+     * Uses {@link LegacyComponentSerializer#legacySection()} to deserialize components.
+     *
+     * @param plugin           the plugin instance
+     * @param defaultNamespace the default namespace, used by {@link #registerCustomAction(String, BiConsumer)} and {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     */
     public PaperDialogManager(Plugin plugin, String defaultNamespace) {
         this(plugin, defaultNamespace, LegacyComponentSerializer.legacySection()::deserialize);
     }
 
+    /**
+     * Constructor for PaperDialogManager that uses the plugin's name as the default namespace.
+     *
+     * @param plugin                the plugin instance
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperDialogManager(Plugin plugin, Function<String, Component> componentDeserializer) {
         this(plugin, plugin.getName().replace("[^a-zA-Z0-9]", "_").toLowerCase(Locale.ROOT), componentDeserializer);
     }
 
+    /**
+     * Constructor for PaperDialogManager that uses the plugin's name as the default namespace.
+     * Uses {@link LegacyComponentSerializer#legacySection()} to deserialize components.
+     *
+     * @param plugin the plugin instance
+     */
     public PaperDialogManager(Plugin plugin) {
         this(plugin, LegacyComponentSerializer.legacySection()::deserialize);
     }
