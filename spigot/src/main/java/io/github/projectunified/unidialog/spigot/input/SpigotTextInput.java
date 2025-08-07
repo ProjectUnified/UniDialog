@@ -73,7 +73,7 @@ public class SpigotTextInput extends SpigotDialogInput implements TextInput<Spig
                 label != null,
                 initial != null ? initial : "",
                 maxLength > 0 ? maxLength : DEFAULT_MAX_LENGTH,
-                new net.md_5.bungee.api.dialog.input.TextInput.Multiline(maxLines, height)
+                maxLines == null && height == null ? null : new net.md_5.bungee.api.dialog.input.TextInput.Multiline(maxLines, height)
         );
     }
 }

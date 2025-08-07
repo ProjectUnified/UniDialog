@@ -65,7 +65,7 @@ public class PaperTextInput extends PaperDialogInput implements AdventureTextInp
                 label != null,
                 initial != null ? initial : "",
                 maxLength > 0 ? maxLength : DEFAULT_MAX_LENGTH,
-                TextDialogInput.MultilineOptions.create(maxLines, height)
+                maxLines == null && height == null ? null : TextDialogInput.MultilineOptions.create(maxLines, height)
         );
     }
 }

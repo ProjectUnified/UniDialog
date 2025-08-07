@@ -13,8 +13,8 @@ public class PETextInput extends PEDialogInput implements AdventureTextInput<PET
     private @Nullable Component label;
     private String initial;
     private int maxLength;
-    private Integer maxLines;
-    private Integer height;
+    private @Nullable Integer maxLines;
+    private @Nullable Integer height;
 
     public PETextInput(Function<String, Component> componentDeserializer) {
         super(componentDeserializer);
@@ -64,7 +64,7 @@ public class PETextInput extends PEDialogInput implements AdventureTextInput<PET
                 label != null,
                 initial != null ? initial : "",
                 maxLength > 0 ? maxLength : DEFAULT_MAX_LENGTH,
-                new TextInputControl.MultilineOptions(maxLines, height)
+                maxLines == null && height == null ? null : new TextInputControl.MultilineOptions(maxLines, height)
         );
     }
 }
