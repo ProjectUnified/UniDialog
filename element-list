@@ -3,6 +3,12 @@ io.github.projectunified.unidialog.adventure.body
 io.github.projectunified.unidialog.adventure.dialog
 io.github.projectunified.unidialog.adventure.input
 io.github.projectunified.unidialog.adventure.support
+io.github.projectunified.unidialog.bungeecord
+io.github.projectunified.unidialog.bungeecord.action
+io.github.projectunified.unidialog.bungeecord.body
+io.github.projectunified.unidialog.bungeecord.dialog
+io.github.projectunified.unidialog.bungeecord.input
+io.github.projectunified.unidialog.bungeecord.opener
 io.github.projectunified.unidialog.core
 io.github.projectunified.unidialog.core.action
 io.github.projectunified.unidialog.core.body
@@ -22,8 +28,4 @@ io.github.projectunified.unidialog.paper.dialog
 io.github.projectunified.unidialog.paper.input
 io.github.projectunified.unidialog.paper.opener
 io.github.projectunified.unidialog.spigot
-io.github.projectunified.unidialog.spigot.action
-io.github.projectunified.unidialog.spigot.body
-io.github.projectunified.unidialog.spigot.dialog
-io.github.projectunified.unidialog.spigot.input
 io.github.projectunified.unidialog.spigot.opener
