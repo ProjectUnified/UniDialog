@@ -12,6 +12,7 @@ import io.papermc.paper.event.player.PlayerCustomClickEvent;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -160,6 +161,15 @@ public class PaperDialogManager implements DialogManager<ItemStack, PaperDialogB
 
     @Override
     public boolean clearDialog(UUID uuid) {
-        return false; // Paper does not support clearing dialogs like this
+        Player player = plugin.getServer().getPlayer(uuid);
+        if (player == null) return false;
+
+        try {
+            player.closeDialog();
+        } catch (Throwable e) {
+            player.closeInventory();
+        }
+
+        return true;
     }
 }
