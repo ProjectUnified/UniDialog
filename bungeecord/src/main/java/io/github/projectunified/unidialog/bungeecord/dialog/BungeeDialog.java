@@ -1,27 +1,28 @@
-package io.github.projectunified.unidialog.spigot.dialog;
+package io.github.projectunified.unidialog.bungeecord.dialog;
 
+import io.github.projectunified.unidialog.bungeecord.action.BungeeDialogActionBuilder;
+import io.github.projectunified.unidialog.bungeecord.body.BungeeDialogBodyBuilder;
+import io.github.projectunified.unidialog.bungeecord.input.BungeeDialogInputBuilder;
+import io.github.projectunified.unidialog.bungeecord.opener.BungeeDialogOpener;
 import io.github.projectunified.unidialog.core.dialog.Dialog;
-import io.github.projectunified.unidialog.spigot.action.SpigotDialogActionBuilder;
-import io.github.projectunified.unidialog.spigot.body.SpigotDialogBodyBuilder;
-import io.github.projectunified.unidialog.spigot.input.SpigotDialogInputBuilder;
-import io.github.projectunified.unidialog.spigot.opener.SpigotDialogOpener;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.dialog.DialogBase;
 import net.md_5.bungee.api.dialog.action.ActionButton;
 import net.md_5.bungee.api.dialog.body.DialogBody;
 import net.md_5.bungee.api.dialog.input.DialogInput;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
-public abstract class SpigotDialog<T extends SpigotDialog<T>> implements Dialog<ItemStack, SpigotDialogBodyBuilder, SpigotDialogInputBuilder, T> {
+public abstract class BungeeDialog<O extends BungeeDialogOpener, T extends BungeeDialog<O, T>> implements Dialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, T> {
     private final String defaultNamespace;
+    private final Function<net.md_5.bungee.api.dialog.Dialog, O> openerFunction;
     private BaseComponent title;
     private @Nullable BaseComponent externalTitle;
     private List<DialogInput> inputs;
@@ -30,8 +31,9 @@ public abstract class SpigotDialog<T extends SpigotDialog<T>> implements Dialog<
     private boolean pause = false;
     private DialogBase.AfterAction afterAction;
 
-    public SpigotDialog(String defaultNamespace) {
+    public BungeeDialog(String defaultNamespace, Function<net.md_5.bungee.api.dialog.Dialog, O> openerFunction) {
         this.defaultNamespace = defaultNamespace;
+        this.openerFunction = openerFunction;
     }
 
     /**
@@ -89,11 +91,11 @@ public abstract class SpigotDialog<T extends SpigotDialog<T>> implements Dialog<
     }
 
     @Override
-    public T body(Consumer<SpigotDialogBodyBuilder> bodyBuilder) {
+    public T body(Consumer<BungeeDialogBodyBuilder> bodyBuilder) {
         if (body == null) {
             body = new ArrayList<>();
         }
-        SpigotDialogBodyBuilder builder = new SpigotDialogBodyBuilder();
+        BungeeDialogBodyBuilder builder = new BungeeDialogBodyBuilder();
         bodyBuilder.accept(builder);
         DialogBody dialogBody = builder.getDialogBody();
         body.add(dialogBody);
@@ -101,19 +103,19 @@ public abstract class SpigotDialog<T extends SpigotDialog<T>> implements Dialog<
     }
 
     @Override
-    public T input(String key, Consumer<SpigotDialogInputBuilder> inputBuilder) {
+    public T input(String key, Consumer<BungeeDialogInputBuilder> inputBuilder) {
         if (inputs == null) {
             inputs = new ArrayList<>();
         }
-        SpigotDialogInputBuilder builder = new SpigotDialogInputBuilder(key);
+        BungeeDialogInputBuilder builder = new BungeeDialogInputBuilder(key);
         inputBuilder.accept(builder);
         DialogInput dialogInput = builder.getDialogInput();
         inputs.add(dialogInput);
         return (T) this;
     }
 
-    protected ActionButton getAction(Consumer<SpigotDialogActionBuilder> action) {
-        SpigotDialogActionBuilder actionBuilder = new SpigotDialogActionBuilder(defaultNamespace);
+    protected ActionButton getAction(Consumer<BungeeDialogActionBuilder> action) {
+        BungeeDialogActionBuilder actionBuilder = new BungeeDialogActionBuilder(defaultNamespace);
         action.accept(actionBuilder);
         return actionBuilder.getAction();
     }
@@ -134,7 +136,7 @@ public abstract class SpigotDialog<T extends SpigotDialog<T>> implements Dialog<
     }
 
     @Override
-    public SpigotDialogOpener opener() {
-        return new SpigotDialogOpener(getDialog());
+    public O opener() {
+        return openerFunction.apply(getDialog());
     }
 }

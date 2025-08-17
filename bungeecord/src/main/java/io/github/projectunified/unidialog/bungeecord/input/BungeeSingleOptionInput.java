@@ -1,4 +1,4 @@
-package io.github.projectunified.unidialog.spigot.input;
+package io.github.projectunified.unidialog.bungeecord.input;
 
 import io.github.projectunified.unidialog.core.input.SingleOptionInput;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -10,17 +10,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class SpigotSingleOptionInput extends SpigotDialogInput implements SingleOptionInput<SpigotSingleOptionInput> {
+public class BungeeSingleOptionInput extends BungeeDialogInput implements SingleOptionInput<BungeeSingleOptionInput> {
     private int width;
     private @Nullable BaseComponent label;
     private List<InputOption> options;
 
-    public SpigotSingleOptionInput(String key) {
+    public BungeeSingleOptionInput(String key) {
         super(key);
     }
 
     @Override
-    public SpigotSingleOptionInput width(int width) {
+    public BungeeSingleOptionInput width(int width) {
         this.width = width;
         return this;
     }
@@ -31,13 +31,13 @@ public class SpigotSingleOptionInput extends SpigotDialogInput implements Single
      * @param label the label text
      * @return the current instance for method chaining
      */
-    public SpigotSingleOptionInput label(@Nullable BaseComponent label) {
+    public BungeeSingleOptionInput label(@Nullable BaseComponent label) {
         this.label = label;
         return this;
     }
 
     @Override
-    public SpigotSingleOptionInput label(@Nullable String label) {
+    public BungeeSingleOptionInput label(@Nullable String label) {
         return label(label == null ? null : TextComponent.fromLegacy(label));
     }
 
@@ -49,7 +49,7 @@ public class SpigotSingleOptionInput extends SpigotDialogInput implements Single
      * @param isDefault whether this option is the default selection
      * @return the current instance for method chaining
      */
-    public SpigotSingleOptionInput option(String id, BaseComponent display, boolean isDefault) {
+    public BungeeSingleOptionInput option(String id, BaseComponent display, boolean isDefault) {
         if (this.options == null) {
             this.options = new java.util.ArrayList<>();
         }
@@ -64,12 +64,12 @@ public class SpigotSingleOptionInput extends SpigotDialogInput implements Single
      * @param display the display text for the option
      * @return the current instance for method chaining
      */
-    public SpigotSingleOptionInput option(String id, BaseComponent display) {
+    public BungeeSingleOptionInput option(String id, BaseComponent display) {
         return option(id, display, false);
     }
 
     @Override
-    public SpigotSingleOptionInput option(String id, String display, boolean isDefault) {
+    public BungeeSingleOptionInput option(String id, String display, boolean isDefault) {
         return option(id, TextComponent.fromLegacy(display), isDefault);
     }
 

@@ -1,37 +1,38 @@
-package io.github.projectunified.unidialog.spigot.dialog;
+package io.github.projectunified.unidialog.bungeecord.dialog;
 
+import io.github.projectunified.unidialog.bungeecord.action.BungeeDialogActionBuilder;
+import io.github.projectunified.unidialog.bungeecord.body.BungeeDialogBodyBuilder;
+import io.github.projectunified.unidialog.bungeecord.input.BungeeDialogInputBuilder;
+import io.github.projectunified.unidialog.bungeecord.opener.BungeeDialogOpener;
 import io.github.projectunified.unidialog.core.dialog.MultiActionDialog;
-import io.github.projectunified.unidialog.spigot.action.SpigotDialogActionBuilder;
-import io.github.projectunified.unidialog.spigot.body.SpigotDialogBodyBuilder;
-import io.github.projectunified.unidialog.spigot.input.SpigotDialogInputBuilder;
 import net.md_5.bungee.api.dialog.Dialog;
 import net.md_5.bungee.api.dialog.DialogBase;
 import net.md_5.bungee.api.dialog.action.ActionButton;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
-public class SpigotMultiActionDialog extends SpigotDialog<SpigotMultiActionDialog> implements MultiActionDialog<ItemStack, SpigotDialogBodyBuilder, SpigotDialogInputBuilder, SpigotDialog<?>, SpigotDialogActionBuilder, SpigotMultiActionDialog> {
+public class BungeeMultiActionDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeMultiActionDialog<O>> implements MultiActionDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeMultiActionDialog<O>> {
     private int columns;
     private List<ActionButton> actions;
     private @Nullable ActionButton exitAction;
 
-    public SpigotMultiActionDialog(String defaultNamespace) {
-        super(defaultNamespace);
+    public BungeeMultiActionDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
+        super(defaultNamespace, openerFunction);
     }
 
     @Override
-    public SpigotMultiActionDialog columns(int columns) {
+    public BungeeMultiActionDialog<O> columns(int columns) {
         this.columns = columns;
         return this;
     }
 
     @Override
-    public SpigotMultiActionDialog action(Consumer<SpigotDialogActionBuilder> action) {
+    public BungeeMultiActionDialog<O> action(Consumer<BungeeDialogActionBuilder> action) {
         if (actions == null) {
             actions = new ArrayList<>();
         }
@@ -41,7 +42,7 @@ public class SpigotMultiActionDialog extends SpigotDialog<SpigotMultiActionDialo
     }
 
     @Override
-    public SpigotMultiActionDialog exitAction(@Nullable Consumer<SpigotDialogActionBuilder> action) {
+    public BungeeMultiActionDialog<O> exitAction(@Nullable Consumer<BungeeDialogActionBuilder> action) {
         this.exitAction = action == null ? null : getAction(action);
         return this;
     }

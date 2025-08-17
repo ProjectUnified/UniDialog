@@ -1,9 +1,9 @@
-package io.github.projectunified.unidialog.spigot.action;
+package io.github.projectunified.unidialog.bungeecord.action;
 
+import io.github.projectunified.unidialog.bungeecord.dialog.BungeeDialog;
+import io.github.projectunified.unidialog.bungeecord.opener.BungeeDialogOpener;
 import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
 import io.github.projectunified.unidialog.core.opener.DialogOpener;
-import io.github.projectunified.unidialog.spigot.dialog.SpigotDialog;
-import io.github.projectunified.unidialog.spigot.opener.SpigotDialogOpener;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -11,14 +11,14 @@ import net.md_5.bungee.api.dialog.action.*;
 import net.md_5.bungee.api.dialog.chat.ShowDialogClickEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class SpigotDialogActionBuilder implements DialogActionBuilder<SpigotDialog<?>, SpigotDialogActionBuilder> {
+public class BungeeDialogActionBuilder implements DialogActionBuilder<BungeeDialog<?, ?>, BungeeDialogActionBuilder> {
     private final String defaultNamespace;
     private BaseComponent label;
     private @Nullable BaseComponent tooltip;
     private int width;
     private Action action;
 
-    public SpigotDialogActionBuilder(String defaultNamespace) {
+    public BungeeDialogActionBuilder(String defaultNamespace) {
         this.defaultNamespace = defaultNamespace;
     }
 
@@ -28,13 +28,13 @@ public class SpigotDialogActionBuilder implements DialogActionBuilder<SpigotDial
      * @param label the label to set
      * @return the current instance of the builder for method chaining
      */
-    public SpigotDialogActionBuilder label(BaseComponent label) {
+    public BungeeDialogActionBuilder label(BaseComponent label) {
         this.label = label;
         return this;
     }
 
     @Override
-    public SpigotDialogActionBuilder label(String label) {
+    public BungeeDialogActionBuilder label(String label) {
         return label(TextComponent.fromLegacy(label));
     }
 
@@ -44,78 +44,78 @@ public class SpigotDialogActionBuilder implements DialogActionBuilder<SpigotDial
      * @param tooltip the tooltip to set, can be null
      * @return the current instance of the builder for method chaining
      */
-    public SpigotDialogActionBuilder tooltip(@Nullable BaseComponent tooltip) {
+    public BungeeDialogActionBuilder tooltip(@Nullable BaseComponent tooltip) {
         this.tooltip = tooltip;
         return this;
     }
 
     @Override
-    public SpigotDialogActionBuilder tooltip(@Nullable String tooltip) {
+    public BungeeDialogActionBuilder tooltip(@Nullable String tooltip) {
         return tooltip(tooltip == null ? null : TextComponent.fromLegacy(tooltip));
     }
 
     @Override
-    public SpigotDialogActionBuilder width(int width) {
+    public BungeeDialogActionBuilder width(int width) {
         this.width = width;
         return this;
     }
 
-    private SpigotDialogActionBuilder action(Action action) {
+    private BungeeDialogActionBuilder action(Action action) {
         this.action = action;
         return this;
     }
 
     @Override
-    public SpigotDialogActionBuilder copyToClipboard(String value) {
+    public BungeeDialogActionBuilder copyToClipboard(String value) {
         return action(new StaticAction(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, value)));
     }
 
     @Override
-    public SpigotDialogActionBuilder dynamicCustom(String id) {
+    public BungeeDialogActionBuilder dynamicCustom(String id) {
         return dynamicCustom(defaultNamespace, id);
     }
 
     @Override
-    public SpigotDialogActionBuilder dynamicCustom(String namespace, String id) {
+    public BungeeDialogActionBuilder dynamicCustom(String namespace, String id) {
         return action(new CustomClickAction(namespace + ":" + id));
     }
 
     @Override
-    public SpigotDialogActionBuilder dynamicRunCommand(String template) {
+    public BungeeDialogActionBuilder dynamicRunCommand(String template) {
         return action(new RunCommandAction(template));
     }
 
     @Override
-    public SpigotDialogActionBuilder openUrl(String url) {
+    public BungeeDialogActionBuilder openUrl(String url) {
         return action(new StaticAction(new ClickEvent(ClickEvent.Action.OPEN_URL, url)));
     }
 
     @Override
-    public SpigotDialogActionBuilder runCommand(String command) {
+    public BungeeDialogActionBuilder runCommand(String command) {
         return action(new StaticAction(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command)));
     }
 
     @Override
-    public SpigotDialogActionBuilder suggestCommand(String command) {
+    public BungeeDialogActionBuilder suggestCommand(String command) {
         return action(new StaticAction(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
     }
 
     @Override
-    public SpigotDialogActionBuilder showDialog(SpigotDialog<?> dialog) {
+    public BungeeDialogActionBuilder showDialog(BungeeDialog<?, ?> dialog) {
         return action(new StaticAction(new ShowDialogClickEvent(dialog.getDialog())));
     }
 
     @Override
-    public SpigotDialogActionBuilder showDialog(String namespace, String dialogId) {
+    public BungeeDialogActionBuilder showDialog(String namespace, String dialogId) {
         return action(new StaticAction(new ShowDialogClickEvent(namespace + ":" + dialogId)));
     }
 
     @Override
-    public SpigotDialogActionBuilder showDialog(DialogOpener dialogOpener) {
-        if (!(dialogOpener instanceof SpigotDialogOpener(net.md_5.bungee.api.dialog.Dialog dialog))) {
+    public BungeeDialogActionBuilder showDialog(DialogOpener dialogOpener) {
+        if (!(dialogOpener instanceof BungeeDialogOpener bungeeDialogOpener)) {
             throw new IllegalArgumentException("Dialog opener must be an instance of SpigotDialogOpener");
         }
-        return action(new StaticAction(new ShowDialogClickEvent(dialog)));
+        return action(new StaticAction(new ShowDialogClickEvent(bungeeDialogOpener.getDialog())));
     }
 
     public ActionButton getAction() {

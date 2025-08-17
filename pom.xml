@@ -12,6 +12,7 @@
         <module>core</module>
         <module>adventure</module>
         <module>packetevents</module>
+        <module>bungeecord</module>
         <module>spigot</module>
         <module>paper</module>
     </modules>

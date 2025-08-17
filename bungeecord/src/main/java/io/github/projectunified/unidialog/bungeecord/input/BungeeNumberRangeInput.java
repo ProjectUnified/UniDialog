@@ -1,4 +1,4 @@
-package io.github.projectunified.unidialog.spigot.input;
+package io.github.projectunified.unidialog.bungeecord.input;
 
 import io.github.projectunified.unidialog.core.input.NumberRangeInput;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -6,7 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.dialog.input.DialogInput;
 import org.jetbrains.annotations.Nullable;
 
-public class SpigotNumberRangeInput extends SpigotDialogInput implements NumberRangeInput<SpigotNumberRangeInput> {
+public class BungeeNumberRangeInput extends BungeeDialogInput implements NumberRangeInput<BungeeNumberRangeInput> {
     private int width;
     private BaseComponent label;
     private String labelFormat;
@@ -15,12 +15,12 @@ public class SpigotNumberRangeInput extends SpigotDialogInput implements NumberR
     private @Nullable Float initial;
     private @Nullable Float step;
 
-    public SpigotNumberRangeInput(String key) {
+    public BungeeNumberRangeInput(String key) {
         super(key);
     }
 
     @Override
-    public SpigotNumberRangeInput width(int width) {
+    public BungeeNumberRangeInput width(int width) {
         this.width = width;
         return this;
     }
@@ -31,42 +31,42 @@ public class SpigotNumberRangeInput extends SpigotDialogInput implements NumberR
      * @param label the label text
      * @return the current instance for method chaining
      */
-    public SpigotNumberRangeInput label(BaseComponent label) {
+    public BungeeNumberRangeInput label(BaseComponent label) {
         this.label = label;
         return this;
     }
 
     @Override
-    public SpigotNumberRangeInput label(String label) {
+    public BungeeNumberRangeInput label(String label) {
         return label(TextComponent.fromLegacy(label));
     }
 
     @Override
-    public SpigotNumberRangeInput labelFormat(String labelFormat) {
+    public BungeeNumberRangeInput labelFormat(String labelFormat) {
         this.labelFormat = labelFormat;
         return this;
     }
 
     @Override
-    public SpigotNumberRangeInput start(float start) {
+    public BungeeNumberRangeInput start(float start) {
         this.start = start;
         return this;
     }
 
     @Override
-    public SpigotNumberRangeInput end(float end) {
+    public BungeeNumberRangeInput end(float end) {
         this.end = end;
         return this;
     }
 
     @Override
-    public SpigotNumberRangeInput initial(@Nullable Float initial) {
+    public BungeeNumberRangeInput initial(@Nullable Float initial) {
         this.initial = initial;
         return this;
     }
 
     @Override
-    public SpigotNumberRangeInput step(@Nullable Float step) {
+    public BungeeNumberRangeInput step(@Nullable Float step) {
         this.step = step;
         return this;
     }

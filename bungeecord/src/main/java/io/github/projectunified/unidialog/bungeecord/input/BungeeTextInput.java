@@ -1,4 +1,4 @@
-package io.github.projectunified.unidialog.spigot.input;
+package io.github.projectunified.unidialog.bungeecord.input;
 
 import io.github.projectunified.unidialog.core.input.TextInput;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -6,7 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.dialog.input.DialogInput;
 import org.jetbrains.annotations.Nullable;
 
-public class SpigotTextInput extends SpigotDialogInput implements TextInput<SpigotTextInput> {
+public class BungeeTextInput extends BungeeDialogInput implements TextInput<BungeeTextInput> {
     private int width;
     private @Nullable BaseComponent label;
     private String initial;
@@ -14,12 +14,12 @@ public class SpigotTextInput extends SpigotDialogInput implements TextInput<Spig
     private @Nullable Integer maxLines;
     private @Nullable Integer height;
 
-    public SpigotTextInput(String key) {
+    public BungeeTextInput(String key) {
         super(key);
     }
 
     @Override
-    public SpigotTextInput width(int width) {
+    public BungeeTextInput width(int width) {
         this.width = width;
         return this;
     }
@@ -30,36 +30,36 @@ public class SpigotTextInput extends SpigotDialogInput implements TextInput<Spig
      * @param label the label text
      * @return the current instance for method chaining
      */
-    public SpigotTextInput label(@Nullable BaseComponent label) {
+    public BungeeTextInput label(@Nullable BaseComponent label) {
         this.label = label;
         return this;
     }
 
     @Override
-    public SpigotTextInput label(@Nullable String label) {
+    public BungeeTextInput label(@Nullable String label) {
         return label(label == null ? null : TextComponent.fromLegacy(label));
     }
 
     @Override
-    public SpigotTextInput initial(String initial) {
+    public BungeeTextInput initial(String initial) {
         this.initial = initial;
         return this;
     }
 
     @Override
-    public SpigotTextInput maxLength(int maxLength) {
+    public BungeeTextInput maxLength(int maxLength) {
         this.maxLength = maxLength;
         return this;
     }
 
     @Override
-    public SpigotTextInput maxLines(@Nullable Integer maxLines) {
+    public BungeeTextInput maxLines(@Nullable Integer maxLines) {
         this.maxLines = maxLines;
         return this;
     }
 
     @Override
-    public SpigotTextInput height(@Nullable Integer height) {
+    public BungeeTextInput height(@Nullable Integer height) {
         this.height = height;
         return this;
     }

@@ -2,18 +2,15 @@ package io.github.projectunified.unidialog.spigot;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.github.projectunified.unidialog.core.DialogManager;
-import io.github.projectunified.unidialog.spigot.action.SpigotDialogActionBuilder;
-import io.github.projectunified.unidialog.spigot.body.SpigotDialogBodyBuilder;
-import io.github.projectunified.unidialog.spigot.dialog.*;
-import io.github.projectunified.unidialog.spigot.input.SpigotDialogInputBuilder;
+import io.github.projectunified.unidialog.bungeecord.BungeeDialogManager;
+import io.github.projectunified.unidialog.spigot.opener.SpigotDialogOpener;
+import net.md_5.bungee.api.dialog.Dialog;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCustomClickEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
@@ -22,8 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-@SuppressWarnings("unchecked")
-public class SpigotDialogManager implements DialogManager<ItemStack, SpigotDialogBodyBuilder, SpigotDialogInputBuilder, SpigotDialog<?>, SpigotDialogActionBuilder>, Listener {
+public class SpigotDialogManager implements BungeeDialogManager<SpigotDialogOpener>, Listener {
     private final Plugin plugin;
     private final String defaultNamespace;
     private final Map<NamespacedKey, BiConsumer<UUID, Map<String, String>>> customActions = new HashMap<>();
@@ -38,28 +34,13 @@ public class SpigotDialogManager implements DialogManager<ItemStack, SpigotDialo
     }
 
     @Override
-    public SpigotConfirmationDialog createConfirmationDialog() {
-        return new SpigotConfirmationDialog(defaultNamespace);
+    public String getDefaultNamespace() {
+        return defaultNamespace;
     }
 
     @Override
-    public SpigotMultiActionDialog createMultiActionDialog() {
-        return new SpigotMultiActionDialog(defaultNamespace);
-    }
-
-    @Override
-    public SpigotServerLinksDialog createServerLinksDialog() {
-        return new SpigotServerLinksDialog(defaultNamespace);
-    }
-
-    @Override
-    public SpigotNoticeDialog createNoticeDialog() {
-        return new SpigotNoticeDialog(defaultNamespace);
-    }
-
-    @Override
-    public SpigotDialogListDialog createDialogListDialog() {
-        return new SpigotDialogListDialog(defaultNamespace);
+    public SpigotDialogOpener getDialogOpener(Dialog dialog) {
+        return new SpigotDialogOpener(dialog);
     }
 
     @Override

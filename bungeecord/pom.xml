@@ -9,27 +9,27 @@
         <version>1.4.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>uni-dialog-spigot</artifactId>
-    <name>UniDialog Spigot</name>
+    <artifactId>uni-dialog-bungeecord</artifactId>
+    <name>UniDialog BungeeCord</name>
 
     <repositories>
         <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>io.github.projectunified</groupId>
-            <artifactId>uni-dialog-bungeecord</artifactId>
+            <artifactId>uni-dialog-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.21.6-R0.1-SNAPSHOT</version>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-dialog</artifactId>
+            <version>1.21-R0.4-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
