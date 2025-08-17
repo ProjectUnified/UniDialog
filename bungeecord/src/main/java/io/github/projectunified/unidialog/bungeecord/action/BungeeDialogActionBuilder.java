@@ -11,7 +11,7 @@ import net.md_5.bungee.api.dialog.action.*;
 import net.md_5.bungee.api.dialog.chat.ShowDialogClickEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class BungeeDialogActionBuilder implements DialogActionBuilder<BungeeDialog<?, ?>, BungeeDialogActionBuilder> {
+public class BungeeDialogActionBuilder implements DialogActionBuilder<BungeeDialog<?>, BungeeDialogActionBuilder> {
     private final String defaultNamespace;
     private BaseComponent label;
     private @Nullable BaseComponent tooltip;
@@ -101,7 +101,7 @@ public class BungeeDialogActionBuilder implements DialogActionBuilder<BungeeDial
     }
 
     @Override
-    public BungeeDialogActionBuilder showDialog(BungeeDialog<?, ?> dialog) {
+    public BungeeDialogActionBuilder showDialog(BungeeDialog<?> dialog) {
         return action(new StaticAction(new ShowDialogClickEvent(dialog.getDialog())));
     }
 

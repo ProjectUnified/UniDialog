@@ -12,22 +12,22 @@ import net.md_5.bungee.api.dialog.action.ActionButton;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class BungeeConfirmationDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeConfirmationDialog<O>> implements ConfirmationDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeConfirmationDialog<O>> {
+public class BungeeConfirmationDialog extends BungeeDialog<BungeeConfirmationDialog> implements ConfirmationDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?>, BungeeDialogActionBuilder, BungeeConfirmationDialog> {
     private ActionButton yesAction;
     private ActionButton noAction;
 
-    public BungeeConfirmationDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
+    public BungeeConfirmationDialog(String defaultNamespace, Function<Dialog, BungeeDialogOpener> openerFunction) {
         super(defaultNamespace, openerFunction);
     }
 
     @Override
-    public BungeeConfirmationDialog<O> yesAction(Consumer<BungeeDialogActionBuilder> action) {
+    public BungeeConfirmationDialog yesAction(Consumer<BungeeDialogActionBuilder> action) {
         this.yesAction = getAction(action);
         return this;
     }
 
     @Override
-    public BungeeConfirmationDialog<O> noAction(Consumer<BungeeDialogActionBuilder> action) {
+    public BungeeConfirmationDialog noAction(Consumer<BungeeDialogActionBuilder> action) {
         this.noAction = getAction(action);
         return this;
     }

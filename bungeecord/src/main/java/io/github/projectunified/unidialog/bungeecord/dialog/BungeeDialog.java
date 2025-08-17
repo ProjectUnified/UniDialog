@@ -20,9 +20,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
-public abstract class BungeeDialog<O extends BungeeDialogOpener, T extends BungeeDialog<O, T>> implements Dialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, T> {
+public abstract class BungeeDialog<T extends BungeeDialog<T>> implements Dialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, T> {
     private final String defaultNamespace;
-    private final Function<net.md_5.bungee.api.dialog.Dialog, O> openerFunction;
+    private final Function<net.md_5.bungee.api.dialog.Dialog, BungeeDialogOpener> openerFunction;
     private BaseComponent title;
     private @Nullable BaseComponent externalTitle;
     private List<DialogInput> inputs;
@@ -31,7 +31,7 @@ public abstract class BungeeDialog<O extends BungeeDialogOpener, T extends Bunge
     private boolean pause = false;
     private DialogBase.AfterAction afterAction;
 
-    public BungeeDialog(String defaultNamespace, Function<net.md_5.bungee.api.dialog.Dialog, O> openerFunction) {
+    public BungeeDialog(String defaultNamespace, Function<net.md_5.bungee.api.dialog.Dialog, BungeeDialogOpener> openerFunction) {
         this.defaultNamespace = defaultNamespace;
         this.openerFunction = openerFunction;
     }
@@ -136,7 +136,7 @@ public abstract class BungeeDialog<O extends BungeeDialogOpener, T extends Bunge
     }
 
     @Override
-    public O opener() {
+    public BungeeDialogOpener opener() {
         return openerFunction.apply(getDialog());
     }
 }

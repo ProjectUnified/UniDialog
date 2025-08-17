@@ -13,29 +13,29 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class BungeeServerLinksDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeServerLinksDialog<O>> implements ServerLinksDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeServerLinksDialog<O>> {
+public class BungeeServerLinksDialog extends BungeeDialog<BungeeServerLinksDialog> implements ServerLinksDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?>, BungeeDialogActionBuilder, BungeeServerLinksDialog> {
     private @Nullable ActionButton exitAction;
     private int columns;
     private int buttonWidth;
 
-    public BungeeServerLinksDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
+    public BungeeServerLinksDialog(String defaultNamespace, Function<Dialog, BungeeDialogOpener> openerFunction) {
         super(defaultNamespace, openerFunction);
     }
 
     @Override
-    public BungeeServerLinksDialog<O> exitAction(@Nullable Consumer<BungeeDialogActionBuilder> action) {
+    public BungeeServerLinksDialog exitAction(@Nullable Consumer<BungeeDialogActionBuilder> action) {
         this.exitAction = action == null ? null : getAction(action);
         return this;
     }
 
     @Override
-    public BungeeServerLinksDialog<O> columns(int columns) {
+    public BungeeServerLinksDialog columns(int columns) {
         this.columns = columns;
         return this;
     }
 
     @Override
-    public BungeeServerLinksDialog<O> buttonWidth(int buttonWidth) {
+    public BungeeServerLinksDialog buttonWidth(int buttonWidth) {
         this.buttonWidth = buttonWidth;
         return this;
     }
