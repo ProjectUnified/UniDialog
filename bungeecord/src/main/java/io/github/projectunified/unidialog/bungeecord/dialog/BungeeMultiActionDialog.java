@@ -16,23 +16,23 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class BungeeMultiActionDialog extends BungeeDialog<BungeeMultiActionDialog> implements MultiActionDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?>, BungeeDialogActionBuilder, BungeeMultiActionDialog> {
+public class BungeeMultiActionDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeMultiActionDialog<O>> implements MultiActionDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeMultiActionDialog<O>> {
     private int columns;
     private List<ActionButton> actions;
     private @Nullable ActionButton exitAction;
 
-    public BungeeMultiActionDialog(String defaultNamespace, Function<Dialog, BungeeDialogOpener> openerFunction) {
+    public BungeeMultiActionDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
         super(defaultNamespace, openerFunction);
     }
 
     @Override
-    public BungeeMultiActionDialog columns(int columns) {
+    public BungeeMultiActionDialog<O> columns(int columns) {
         this.columns = columns;
         return this;
     }
 
     @Override
-    public BungeeMultiActionDialog action(Consumer<BungeeDialogActionBuilder> action) {
+    public BungeeMultiActionDialog<O> action(Consumer<BungeeDialogActionBuilder> action) {
         if (actions == null) {
             actions = new ArrayList<>();
         }
@@ -42,7 +42,7 @@ public class BungeeMultiActionDialog extends BungeeDialog<BungeeMultiActionDialo
     }
 
     @Override
-    public BungeeMultiActionDialog exitAction(@Nullable Consumer<BungeeDialogActionBuilder> action) {
+    public BungeeMultiActionDialog<O> exitAction(@Nullable Consumer<BungeeDialogActionBuilder> action) {
         this.exitAction = action == null ? null : getAction(action);
         return this;
     }

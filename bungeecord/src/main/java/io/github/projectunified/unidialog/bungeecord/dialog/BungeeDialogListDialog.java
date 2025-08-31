@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class BungeeDialogListDialog extends BungeeDialog<BungeeDialogListDialog> implements DialogListDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?>, BungeeDialogActionBuilder, BungeeDialogListDialog> {
+public class BungeeDialogListDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeDialogListDialog<O>> implements DialogListDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeDialogListDialog<O>> {
     private List<Dialog> dialogs;
     private @Nullable ActionButton exitAction;
     private int columns;
     private int buttonWidth;
 
-    public BungeeDialogListDialog(String defaultNamespace, Function<Dialog, BungeeDialogOpener> openerFunction) {
+    public BungeeDialogListDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
         super(defaultNamespace, openerFunction);
     }
 
@@ -35,18 +35,18 @@ public class BungeeDialogListDialog extends BungeeDialog<BungeeDialogListDialog>
     }
 
     @Override
-    public BungeeDialogListDialog dialog(BungeeDialog<?> dialog) {
+    public BungeeDialogListDialog<O> dialog(BungeeDialog<?, ?> dialog) {
         addDialog(dialog.getDialog());
         return this;
     }
 
     @Override
-    public BungeeDialogListDialog dialog(String namespace, String dialogId) {
+    public BungeeDialogListDialog<O> dialog(String namespace, String dialogId) {
         throw new UnsupportedOperationException("DialogListDialog does not support dialog by namespace and ID in Bungee.");
     }
 
     @Override
-    public BungeeDialogListDialog dialog(DialogOpener dialogOpener) {
+    public BungeeDialogListDialog<O> dialog(DialogOpener dialogOpener) {
         if (!(dialogOpener instanceof BungeeDialogOpener bungeeDialogOpener)) {
             throw new IllegalArgumentException("Dialog opener must be an instance of BungeeDialogOpener.");
         }
@@ -55,19 +55,19 @@ public class BungeeDialogListDialog extends BungeeDialog<BungeeDialogListDialog>
     }
 
     @Override
-    public BungeeDialogListDialog exitAction(@Nullable Consumer<BungeeDialogActionBuilder> action) {
+    public BungeeDialogListDialog<O> exitAction(@Nullable Consumer<BungeeDialogActionBuilder> action) {
         this.exitAction = action == null ? null : getAction(action);
         return this;
     }
 
     @Override
-    public BungeeDialogListDialog columns(int columns) {
+    public BungeeDialogListDialog<O> columns(int columns) {
         this.columns = columns;
         return this;
     }
 
     @Override
-    public BungeeDialogListDialog buttonWidth(int buttonWidth) {
+    public BungeeDialogListDialog<O> buttonWidth(int buttonWidth) {
         this.buttonWidth = buttonWidth;
         return this;
     }

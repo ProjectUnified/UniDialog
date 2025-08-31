@@ -9,33 +9,33 @@ import io.github.projectunified.unidialog.core.DialogManager;
 import net.md_5.bungee.api.dialog.Dialog;
 
 @SuppressWarnings("unchecked")
-public interface BungeeDialogManager extends DialogManager<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?>, BungeeDialogActionBuilder> {
+public interface BungeeDialogManager<O extends BungeeDialogOpener> extends DialogManager<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder> {
     String getDefaultNamespace();
 
-    BungeeDialogOpener getDialogOpener(Dialog dialog);
+    O getDialogOpener(Dialog dialog);
 
     @Override
-    default BungeeConfirmationDialog createConfirmationDialog() {
-        return new BungeeConfirmationDialog(getDefaultNamespace(), this::getDialogOpener);
+    default BungeeConfirmationDialog<O> createConfirmationDialog() {
+        return new BungeeConfirmationDialog<>(getDefaultNamespace(), this::getDialogOpener);
     }
 
     @Override
-    default BungeeMultiActionDialog createMultiActionDialog() {
-        return new BungeeMultiActionDialog(getDefaultNamespace(), this::getDialogOpener);
+    default BungeeMultiActionDialog<O> createMultiActionDialog() {
+        return new BungeeMultiActionDialog<>(getDefaultNamespace(), this::getDialogOpener);
     }
 
     @Override
-    default BungeeServerLinksDialog createServerLinksDialog() {
-        return new BungeeServerLinksDialog(getDefaultNamespace(), this::getDialogOpener);
+    default BungeeServerLinksDialog<O> createServerLinksDialog() {
+        return new BungeeServerLinksDialog<>(getDefaultNamespace(), this::getDialogOpener);
     }
 
     @Override
-    default BungeeNoticeDialog createNoticeDialog() {
-        return new BungeeNoticeDialog(getDefaultNamespace(), this::getDialogOpener);
+    default BungeeNoticeDialog<O> createNoticeDialog() {
+        return new BungeeNoticeDialog<>(getDefaultNamespace(), this::getDialogOpener);
     }
 
     @Override
-    default BungeeDialogListDialog createDialogListDialog() {
-        return new BungeeDialogListDialog(getDefaultNamespace(), this::getDialogOpener);
+    default BungeeDialogListDialog<O> createDialogListDialog() {
+        return new BungeeDialogListDialog<>(getDefaultNamespace(), this::getDialogOpener);
     }
 }

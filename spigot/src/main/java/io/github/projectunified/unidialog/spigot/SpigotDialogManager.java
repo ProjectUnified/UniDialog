@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-public class SpigotDialogManager implements BungeeDialogManager, Listener {
+public class SpigotDialogManager implements BungeeDialogManager<SpigotDialogOpener>, Listener {
     private final Plugin plugin;
     private final String defaultNamespace;
     private final Map<NamespacedKey, BiConsumer<UUID, Map<String, String>>> customActions = new HashMap<>();

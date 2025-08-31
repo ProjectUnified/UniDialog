@@ -12,15 +12,15 @@ import net.md_5.bungee.api.dialog.action.ActionButton;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class BungeeNoticeDialog extends BungeeDialog<BungeeNoticeDialog> implements NoticeDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?>, BungeeDialogActionBuilder, BungeeNoticeDialog> {
+public class BungeeNoticeDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeNoticeDialog<O>> implements NoticeDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeNoticeDialog<O>> {
     private ActionButton action;
 
-    public BungeeNoticeDialog(String defaultNamespace, Function<Dialog, BungeeDialogOpener> openerFunction) {
+    public BungeeNoticeDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
         super(defaultNamespace, openerFunction);
     }
 
     @Override
-    public BungeeNoticeDialog action(Consumer<BungeeDialogActionBuilder> action) {
+    public BungeeNoticeDialog<O> action(Consumer<BungeeDialogActionBuilder> action) {
         this.action = getAction(action);
         return this;
     }
