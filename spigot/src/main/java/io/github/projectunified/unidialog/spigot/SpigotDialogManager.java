@@ -2,7 +2,11 @@ package io.github.projectunified.unidialog.spigot;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.github.projectunified.unidialog.bungeecord.BungeeDialogManager;
+import io.github.projectunified.unidialog.bungeecord.action.BungeeDialogActionBuilder;
+import io.github.projectunified.unidialog.bungeecord.body.BungeeDialogBodyBuilder;
+import io.github.projectunified.unidialog.bungeecord.dialog.*;
+import io.github.projectunified.unidialog.bungeecord.input.BungeeDialogInputBuilder;
+import io.github.projectunified.unidialog.core.DialogManager;
 import io.github.projectunified.unidialog.spigot.opener.SpigotDialogOpener;
 import net.md_5.bungee.api.dialog.Dialog;
 import org.bukkit.NamespacedKey;
@@ -19,7 +23,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-public class SpigotDialogManager implements BungeeDialogManager<SpigotDialogOpener>, Listener {
+@SuppressWarnings("unchecked")
+public class SpigotDialogManager implements DialogManager<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder>, Listener {
     private final Plugin plugin;
     private final String defaultNamespace;
     private final Map<NamespacedKey, BiConsumer<UUID, Map<String, String>>> customActions = new HashMap<>();
@@ -33,14 +38,33 @@ public class SpigotDialogManager implements BungeeDialogManager<SpigotDialogOpen
         this(plugin, plugin.getName().replace("[^a-zA-Z0-9]", "_").toLowerCase(Locale.ROOT));
     }
 
-    @Override
-    public String getDefaultNamespace() {
-        return defaultNamespace;
+    private SpigotDialogOpener getDialogOpener(Dialog dialog) {
+        return new SpigotDialogOpener(dialog);
     }
 
     @Override
-    public SpigotDialogOpener getDialogOpener(Dialog dialog) {
-        return new SpigotDialogOpener(dialog);
+    public BungeeConfirmationDialog<SpigotDialogOpener> createConfirmationDialog() {
+        return new BungeeConfirmationDialog<>(defaultNamespace, this::getDialogOpener);
+    }
+
+    @Override
+    public BungeeMultiActionDialog<SpigotDialogOpener> createMultiActionDialog() {
+        return new BungeeMultiActionDialog<>(defaultNamespace, this::getDialogOpener);
+    }
+
+    @Override
+    public BungeeServerLinksDialog<SpigotDialogOpener> createServerLinksDialog() {
+        return new BungeeServerLinksDialog<>(defaultNamespace, this::getDialogOpener);
+    }
+
+    @Override
+    public BungeeNoticeDialog<SpigotDialogOpener> createNoticeDialog() {
+        return new BungeeNoticeDialog<>(defaultNamespace, this::getDialogOpener);
+    }
+
+    @Override
+    public BungeeDialogListDialog<SpigotDialogOpener> createDialogListDialog() {
+        return new BungeeDialogListDialog<>(defaultNamespace, this::getDialogOpener);
     }
 
     @Override
