@@ -29,7 +29,7 @@
         <dependency>
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-dialog</artifactId>
-            <version>1.21-R0.4-SNAPSHOT</version>
+            <version>1.21-R0.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
