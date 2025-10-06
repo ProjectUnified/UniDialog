@@ -4,10 +4,12 @@ import io.github.projectunified.unidialog.core.action.DialogActionBuilder;
 import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
 import io.github.projectunified.unidialog.core.dialog.*;
 import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
+import io.github.projectunified.unidialog.core.payload.DialogPayload;
 
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * The main interface for managing dialogs in the UniDialog framework.
@@ -76,9 +78,27 @@ public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends Di
      * Register a custom action with a unique identifier.
      *
      * @param id     the unique identifier for the custom action
+     * @param action the action to be executed, taking a payload
+     */
+    void registerCustomAction(String id, Consumer<DialogPayload> action);
+
+    /**
+     * Register a custom action with a unique identifier.
+     *
+     * @param id     the unique identifier for the custom action
+     * @param action the action to be executed, taking a payload
+     */
+    void registerCustomAction(String namespace, String id, Consumer<DialogPayload> action);
+
+    /**
+     * Register a custom action with a unique identifier.
+     *
+     * @param id     the unique identifier for the custom action
      * @param action the action to be executed, taking a UUID and a map of parameters
      */
-    void registerCustomAction(String id, BiConsumer<UUID, Map<String, String>> action);
+    default void registerCustomAction(String id, BiConsumer<UUID, Map<String, String>> action) {
+        registerCustomAction(id, payload -> action.accept(payload.owner(), payload.map()));
+    }
 
     /**
      * Register a custom action with a namespace and a unique identifier.
@@ -87,7 +107,9 @@ public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends Di
      * @param id        the unique identifier for the custom action
      * @param action    the action to be executed, taking a UUID and a map of parameters
      */
-    void registerCustomAction(String namespace, String id, BiConsumer<UUID, Map<String, String>> action);
+    default void registerCustomAction(String namespace, String id, BiConsumer<UUID, Map<String, String>> action) {
+        registerCustomAction(namespace, id, payload -> action.accept(payload.owner(), payload.map()));
+    }
 
     /**
      * Unregister a custom action by its unique identifier.

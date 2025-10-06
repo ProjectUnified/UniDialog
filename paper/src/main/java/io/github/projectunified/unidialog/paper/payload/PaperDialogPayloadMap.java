@@ -1,4 +1,4 @@
-package io.github.projectunified.unidialog.paper;
+package io.github.projectunified.unidialog.paper.payload;
 
 import io.papermc.paper.dialog.DialogResponseView;
 
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-final class PaperUtil {
+final class PaperDialogPayloadMap {
     private static final Field compoundField;
     private static final Method keySetMethod;
 

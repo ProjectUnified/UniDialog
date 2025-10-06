@@ -1,13 +1,14 @@
 package io.github.projectunified.unidialog.paper;
 
 import io.github.projectunified.unidialog.core.DialogManager;
+import io.github.projectunified.unidialog.core.payload.DialogPayload;
 import io.github.projectunified.unidialog.paper.action.PaperDialogActionBuilder;
 import io.github.projectunified.unidialog.paper.body.PaperDialogBodyBuilder;
 import io.github.projectunified.unidialog.paper.dialog.*;
 import io.github.projectunified.unidialog.paper.input.PaperDialogInputBuilder;
+import io.github.projectunified.unidialog.paper.payload.PaperDialogPayload;
 import io.papermc.paper.connection.PlayerConfigurationConnection;
 import io.papermc.paper.connection.PlayerGameConnection;
-import io.papermc.paper.dialog.DialogResponseView;
 import io.papermc.paper.event.player.PlayerCustomClickEvent;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
@@ -19,8 +20,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
@@ -28,7 +33,7 @@ public class PaperDialogManager implements DialogManager<ItemStack, PaperDialogB
     private final Plugin plugin;
     private final String defaultNamespace;
     private final Function<String, Component> componentDeserializer;
-    private final Map<Key, BiConsumer<UUID, Map<String, String>>> customActions = new HashMap<>();
+    private final Map<Key, Consumer<DialogPayload>> customActions = new HashMap<>();
 
     /**
      * Constructor for PaperDialogManager
@@ -113,7 +118,7 @@ public class PaperDialogManager implements DialogManager<ItemStack, PaperDialogB
     @EventHandler
     public void onCustomClick(PlayerCustomClickEvent event) {
         Key key = event.getIdentifier();
-        BiConsumer<UUID, Map<String, String>> action = customActions.get(key);
+        Consumer<DialogPayload> action = customActions.get(key);
         if (action == null) return;
 
         UUID uuid = switch (event.getCommonConnection()) {
@@ -123,15 +128,7 @@ public class PaperDialogManager implements DialogManager<ItemStack, PaperDialogB
         };
         if (uuid == null) return;
 
-        Map<String, String> data;
-        DialogResponseView responseView = event.getDialogResponseView();
-        if (responseView != null) {
-            data = PaperUtil.convertDialogResponseToMap(responseView);
-        } else {
-            data = Collections.emptyMap();
-        }
-
-        action.accept(uuid, data);
+        action.accept(new PaperDialogPayload(uuid, event.getDialogResponseView()));
     }
 
     @Override
@@ -150,13 +147,13 @@ public class PaperDialogManager implements DialogManager<ItemStack, PaperDialogB
     }
 
     @Override
-    public void registerCustomAction(String namespace, String id, BiConsumer<UUID, Map<String, String>> action) {
-        customActions.put(Key.key(namespace, id), action);
+    public void registerCustomAction(String id, Consumer<DialogPayload> action) {
+        registerCustomAction(defaultNamespace, id, action);
     }
 
     @Override
-    public void registerCustomAction(String id, BiConsumer<UUID, Map<String, String>> action) {
-        registerCustomAction(defaultNamespace, id, action);
+    public void registerCustomAction(String namespace, String id, Consumer<DialogPayload> action) {
+        customActions.put(Key.key(namespace, id), action);
     }
 
     @Override

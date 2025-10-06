@@ -1,13 +1,13 @@
 package io.github.projectunified.unidialog.spigot;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.github.projectunified.unidialog.bungeecord.action.BungeeDialogActionBuilder;
 import io.github.projectunified.unidialog.bungeecord.body.BungeeDialogBodyBuilder;
 import io.github.projectunified.unidialog.bungeecord.dialog.*;
 import io.github.projectunified.unidialog.bungeecord.input.BungeeDialogInputBuilder;
 import io.github.projectunified.unidialog.core.DialogManager;
+import io.github.projectunified.unidialog.core.payload.DialogPayload;
 import io.github.projectunified.unidialog.spigot.opener.SpigotDialogOpener;
+import io.github.projectunified.unidialog.spigot.payload.SpigotDialogPayload;
 import net.md_5.bungee.api.dialog.Dialog;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -21,13 +21,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 @SuppressWarnings("unchecked")
 public class SpigotDialogManager implements DialogManager<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder>, Listener {
     private final Plugin plugin;
     private final String defaultNamespace;
-    private final Map<NamespacedKey, BiConsumer<UUID, Map<String, String>>> customActions = new HashMap<>();
+    private final Map<NamespacedKey, Consumer<DialogPayload>> customActions = new HashMap<>();
 
     public SpigotDialogManager(Plugin plugin, String defaultNamespace) {
         this.plugin = plugin;
@@ -81,34 +81,23 @@ public class SpigotDialogManager implements DialogManager<Object, BungeeDialogBo
     @EventHandler
     public void onCustomClick(PlayerCustomClickEvent event) {
         NamespacedKey key = event.getId();
-        BiConsumer<UUID, Map<String, String>> action = customActions.get(key);
+        Consumer<DialogPayload> action = customActions.get(key);
         if (action == null) return;
 
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        Map<String, String> data = new HashMap<>();
-        JsonElement jsonData = event.getData();
-        if (jsonData != null && jsonData.isJsonObject()) {
-            JsonObject jsonObject = jsonData.getAsJsonObject();
-            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
-                data.put(entry.getKey(), entry.getValue().getAsString());
-            }
-        }
-
-        action.accept(uuid, data);
+        action.accept(new SpigotDialogPayload(uuid, event.getData()));
     }
 
     @Override
-    public void registerCustomAction(String id, BiConsumer<UUID, Map<String, String>> action) {
+    public void registerCustomAction(String id, Consumer<DialogPayload> action) {
         registerCustomAction(defaultNamespace, id, action);
     }
 
     @Override
-    public void registerCustomAction(String namespace, String id, BiConsumer<UUID, Map<String, String>> action) {
-        NamespacedKey key = new NamespacedKey(namespace, id);
-        customActions.put(key, action);
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public void registerCustomAction(String namespace, String id, Consumer<DialogPayload> action) {
+        customActions.put(new NamespacedKey(namespace, id), action);
     }
 
     @Override
@@ -118,8 +107,7 @@ public class SpigotDialogManager implements DialogManager<Object, BungeeDialogBo
 
     @Override
     public void unregisterCustomAction(String namespace, String id) {
-        NamespacedKey key = new NamespacedKey(namespace, id);
-        customActions.remove(key);
+        customActions.remove(new NamespacedKey(namespace, id));
     }
 
     @Override

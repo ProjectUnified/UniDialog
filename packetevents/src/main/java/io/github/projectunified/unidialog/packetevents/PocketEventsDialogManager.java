@@ -6,7 +6,8 @@ import com.github.retrooper.packetevents.event.PacketListenerCommon;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.ConnectionState;
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
-import com.github.retrooper.packetevents.protocol.nbt.*;
+import com.github.retrooper.packetevents.protocol.nbt.NBT;
+import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.resources.ResourceLocation;
@@ -17,10 +18,12 @@ import com.github.retrooper.packetevents.wrapper.configuration.server.WrapperCon
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCustomClickAction;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerClearDialog;
 import io.github.projectunified.unidialog.core.DialogManager;
+import io.github.projectunified.unidialog.core.payload.DialogPayload;
 import io.github.projectunified.unidialog.packetevents.action.PEDialogActionBuilder;
 import io.github.projectunified.unidialog.packetevents.body.PEDialogBodyBuilder;
 import io.github.projectunified.unidialog.packetevents.dialog.*;
 import io.github.projectunified.unidialog.packetevents.input.PEDialogInputBuilder;
+import io.github.projectunified.unidialog.packetevents.payload.PEDialogPayload;
 import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -30,13 +33,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
 public abstract class PocketEventsDialogManager implements DialogManager<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder> {
     private final String defaultNamespace;
     private final Function<String, Component> componentDeserializer;
-    private final Map<ResourceLocation, BiConsumer<UUID, Map<String, String>>> actions = new HashMap<>();
+    private final Map<ResourceLocation, Consumer<DialogPayload>> actions = new HashMap<>();
     private PacketListenerCommon packetListener;
 
     /**
@@ -122,28 +126,12 @@ public abstract class PocketEventsDialogManager implements DialogManager<ItemSta
                 ResourceLocation namespacedId = packet.getId();
                 NBT data = packet.getPayload();
 
-                BiConsumer<UUID, Map<String, String>> action = actions.get(namespacedId);
+                Consumer<DialogPayload> action = actions.get(namespacedId);
                 if (action == null) return;
 
                 UUID uuid = getPlayerId(event.getPlayer());
-                Map<String, String> payload = new HashMap<>();
-                if (data instanceof NBTCompound nbtCompound) {
-                    for (Map.Entry<String, NBT> entry : nbtCompound.getTags().entrySet()) {
-                        String key = entry.getKey();
-                        String value = switch (entry.getValue()) {
-                            case NBTInt nbtInt -> Integer.toString(nbtInt.getAsInt());
-                            case NBTLong nbtLong -> Long.toString(nbtLong.getAsLong());
-                            case NBTFloat nbtFloat -> Float.toString(nbtFloat.getAsFloat());
-                            case NBTDouble nbtDouble -> Double.toString(nbtDouble.getAsDouble());
-                            case NBTString nbtString -> nbtString.getValue();
-                            case NBTByte nbtByte -> Boolean.toString(nbtByte.getAsBool());
-                            case NBT nbt -> nbt.toString(); // Fallback to string representation
-                        };
-                        payload.put(key, value);
-                    }
-                }
-
-                action.accept(uuid, payload);
+                NBTCompound compound = data instanceof NBTCompound nbtCompound ? nbtCompound : new NBTCompound();
+                action.accept(new PEDialogPayload(uuid, compound));
             }
         };
         PacketEvents.getAPI().getEventManager().registerListener(packetListener);
@@ -159,12 +147,12 @@ public abstract class PocketEventsDialogManager implements DialogManager<ItemSta
     }
 
     @Override
-    public void registerCustomAction(String id, BiConsumer<UUID, Map<String, String>> action) {
+    public void registerCustomAction(String id, Consumer<DialogPayload> action) {
         registerCustomAction(defaultNamespace, id, action);
     }
 
     @Override
-    public void registerCustomAction(String namespace, String id, BiConsumer<UUID, Map<String, String>> action) {
+    public void registerCustomAction(String namespace, String id, Consumer<DialogPayload> action) {
         actions.put(new ResourceLocation(namespace, id), action);
     }
 
