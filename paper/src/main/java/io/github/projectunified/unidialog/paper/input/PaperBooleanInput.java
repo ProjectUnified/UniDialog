@@ -6,12 +6,21 @@ import net.kyori.adventure.text.Component;
 
 import java.util.function.Function;
 
+/**
+ * A boolean input for the Paper platform
+ */
 public class PaperBooleanInput extends PaperDialogInput implements AdventureBooleanInput<PaperBooleanInput> {
     private Component label;
     private boolean initial;
     private String onTrue;
     private String onFalse;
 
+    /**
+     * Constructor for PaperBooleanInput
+     *
+     * @param key                   the input key
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperBooleanInput(String key, Function<String, Component> componentDeserializer) {
         super(key, componentDeserializer);
     }

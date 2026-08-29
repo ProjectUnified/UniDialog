@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Base class for dialogs on the Paper platform
+ *
+ * @param <T> the type of the dialog itself, for method chaining
+ */
 @SuppressWarnings("unchecked")
 public abstract class PaperDialog<T extends PaperDialog<T>> implements AdventureDialog<ItemStack, PaperDialogBodyBuilder, PaperDialogInputBuilder, T> {
     private final String defaultNamespace;
@@ -40,6 +45,12 @@ public abstract class PaperDialog<T extends PaperDialog<T>> implements Adventure
     private List<DialogBody> body;
     private List<DialogInput> input;
 
+    /**
+     * Constructor for PaperDialog
+     *
+     * @param defaultNamespace      the default namespace for custom actions
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     protected PaperDialog(String defaultNamespace, Function<String, Component> componentDeserializer) {
         this.defaultNamespace = defaultNamespace;
         this.componentDeserializer = componentDeserializer;
@@ -106,12 +117,23 @@ public abstract class PaperDialog<T extends PaperDialog<T>> implements Adventure
         return (T) this;
     }
 
+    /**
+     * Build an action button using the given action builder
+     *
+     * @param actionBuilder the action builder consumer
+     * @return the built action button
+     */
     protected ActionButton getAction(Consumer<PaperDialogActionBuilder> actionBuilder) {
         PaperDialogActionBuilder builder = new PaperDialogActionBuilder(defaultNamespace, componentDeserializer);
         actionBuilder.accept(builder);
         return builder.getAction();
     }
 
+    /**
+     * Get the dialog type for this dialog
+     *
+     * @return the dialog type
+     */
     protected abstract DialogType getDialogType();
 
     private DialogBase getDialogBase() {

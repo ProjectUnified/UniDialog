@@ -10,7 +10,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
+/**
+ * An item body for the Bungee dialog.
+ */
 public class BungeeItemBody implements ItemBody<Object, BungeeTextBody, BungeeItemBody>, BungeeDialogBody {
+    /**
+     * Create a new item body
+     */
+    public BungeeItemBody() {
+    }
+
     private static final BaseComponent UNSUPPORTED_COMPONENT = TextComponent.fromLegacy(ChatColor.translateAlternateColorCodes('&', "&cThis item body is not supported in Spigot!"));
 
     @Override

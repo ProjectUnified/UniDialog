@@ -7,11 +7,19 @@ import net.kyori.adventure.text.Component;
 
 import java.util.function.Function;
 
+/**
+ * Represents a text dialog body for the Paper platform
+ */
 public class PaperTextBody implements AdventureTextBody<PaperTextBody>, PaperDialogBody {
     private final Function<String, Component> componentDeserializer;
     private Component text;
     private int width;
 
+    /**
+     * Constructor for PaperTextBody
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperTextBody(Function<String, Component> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
     }

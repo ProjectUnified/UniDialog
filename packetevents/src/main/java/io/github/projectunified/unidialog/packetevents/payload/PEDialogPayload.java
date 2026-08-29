@@ -8,6 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * A PacketEvents-based implementation of {@link DialogPayload}.
+ *
+ * @param owner    the UUID of the player who owns the payload
+ * @param compound the NBT compound containing the payload values
+ */
 public record PEDialogPayload(UUID owner, NBTCompound compound) implements DialogPayload {
     @Override
     public @Nullable String textValue(String key) {

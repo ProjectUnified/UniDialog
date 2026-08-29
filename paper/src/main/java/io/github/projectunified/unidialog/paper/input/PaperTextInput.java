@@ -8,6 +8,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * A text input for the Paper platform
+ */
 public class PaperTextInput extends PaperDialogInput implements AdventureTextInput<PaperTextInput> {
     private @Nullable Component label;
     private int width;
@@ -16,6 +19,12 @@ public class PaperTextInput extends PaperDialogInput implements AdventureTextInp
     private @Nullable Integer maxLines;
     private @Nullable Integer height;
 
+    /**
+     * Constructor for PaperTextInput
+     *
+     * @param key                   the input key
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperTextInput(String key, Function<String, Component> componentDeserializer) {
         super(key, componentDeserializer);
     }

@@ -13,10 +13,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link DialogOpener} for opening dialogs.
+ */
 public class PEDialogOpener implements DialogOpener {
     private final Dialog dialog;
     private final Function<UUID, @Nullable Object> playerFunction;
 
+    /**
+     * Constructor for PEDialogOpener
+     *
+     * @param dialog         the dialog to open
+     * @param playerFunction a function to get the player object for a player UUID
+     */
     public PEDialogOpener(Dialog dialog, Function<UUID, @Nullable Object> playerFunction) {
         this.dialog = dialog;
         this.playerFunction = playerFunction;

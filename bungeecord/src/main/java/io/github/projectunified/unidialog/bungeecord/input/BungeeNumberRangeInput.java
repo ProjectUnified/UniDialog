@@ -6,6 +6,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.dialog.input.DialogInput;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The Bungee implementation of the number range input
+ */
 public class BungeeNumberRangeInput extends BungeeDialogInput implements NumberRangeInput<BungeeNumberRangeInput> {
     private int width;
     private BaseComponent label;
@@ -15,6 +18,11 @@ public class BungeeNumberRangeInput extends BungeeDialogInput implements NumberR
     private @Nullable Float initial;
     private @Nullable Float step;
 
+    /**
+     * Create a new number range input
+     *
+     * @param key the key of the input
+     */
     public BungeeNumberRangeInput(String key) {
         super(key);
     }

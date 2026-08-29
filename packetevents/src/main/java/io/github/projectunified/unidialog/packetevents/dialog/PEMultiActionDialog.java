@@ -18,11 +18,21 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link MultiActionDialog} for building multi-action dialogs.
+ */
 public class PEMultiActionDialog extends PEDialog<PEMultiActionDialog> implements MultiActionDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder, PEMultiActionDialog> {
     private int columns;
     private List<ActionButton> actions;
     private @Nullable ActionButton exitAction;
 
+    /**
+     * Constructor for PEMultiActionDialog
+     *
+     * @param defaultNamespace      the default namespace, used by {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param componentDeserializer a function to deserialize components from strings
+     * @param playerFunction        a function to get the player object for a player UUID
+     */
     public PEMultiActionDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
         super(defaultNamespace, componentDeserializer, playerFunction);
     }

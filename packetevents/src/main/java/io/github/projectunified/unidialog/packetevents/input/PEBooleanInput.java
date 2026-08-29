@@ -7,12 +7,20 @@ import net.kyori.adventure.text.Component;
 
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link AdventureBooleanInput} for boolean inputs.
+ */
 public class PEBooleanInput extends PEDialogInput implements AdventureBooleanInput<PEBooleanInput> {
     private Component label;
     private boolean initial;
     private String onTrue;
     private String onFalse;
 
+    /**
+     * Constructor for PEBooleanInput
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PEBooleanInput(Function<String, Component> componentDeserializer) {
         super(componentDeserializer);
     }

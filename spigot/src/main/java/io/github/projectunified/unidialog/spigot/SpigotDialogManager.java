@@ -23,17 +23,32 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+/**
+ * The Spigot implementation of {@link DialogManager}.
+ * It manages dialogs for Bukkit players and handles custom click events as a Bukkit listener.
+ */
 @SuppressWarnings("unchecked")
 public class SpigotDialogManager implements DialogManager<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder>, Listener {
     private final Plugin plugin;
     private final String defaultNamespace;
     private final Map<NamespacedKey, Consumer<DialogPayload>> customActions = new HashMap<>();
 
+    /**
+     * Create a new Spigot dialog manager.
+     *
+     * @param plugin           the plugin to use
+     * @param defaultNamespace the default namespace for custom actions
+     */
     public SpigotDialogManager(Plugin plugin, String defaultNamespace) {
         this.plugin = plugin;
         this.defaultNamespace = defaultNamespace;
     }
 
+    /**
+     * Create a new Spigot dialog manager with a default namespace derived from the plugin name.
+     *
+     * @param plugin the plugin to use
+     */
     public SpigotDialogManager(Plugin plugin) {
         this(plugin, plugin.getName().replace("[^a-zA-Z0-9]", "_").toLowerCase(Locale.ROOT));
     }
@@ -78,6 +93,11 @@ public class SpigotDialogManager implements DialogManager<Object, BungeeDialogBo
         unregisterAllCustomActions();
     }
 
+    /**
+     * Handle a custom click event.
+     *
+     * @param event the event to handle
+     */
     @EventHandler
     public void onCustomClick(PlayerCustomClickEvent event) {
         NamespacedKey key = event.getId();

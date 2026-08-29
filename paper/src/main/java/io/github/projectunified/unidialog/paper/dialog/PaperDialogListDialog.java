@@ -23,12 +23,21 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A dialog list dialog for the Paper platform
+ */
 public class PaperDialogListDialog extends PaperDialog<PaperDialogListDialog> implements DialogListDialog<ItemStack, PaperDialogBodyBuilder, PaperDialogInputBuilder, PaperDialog<?>, PaperDialogActionBuilder, PaperDialogListDialog> {
     private List<Dialog> dialogs;
     private @Nullable ActionButton exitAction;
     private int columns;
     private int buttonWidth;
 
+    /**
+     * Constructor for PaperDialogListDialog
+     *
+     * @param defaultNamespace      the default namespace for custom actions
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperDialogListDialog(String defaultNamespace, Function<String, Component> componentDeserializer) {
         super(defaultNamespace, componentDeserializer);
     }

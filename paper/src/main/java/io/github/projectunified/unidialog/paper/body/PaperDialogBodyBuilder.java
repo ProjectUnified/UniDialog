@@ -7,11 +7,19 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Function;
 
+/**
+ * Builder for dialog bodies on the Paper platform
+ */
 @SuppressWarnings("unchecked")
 public class PaperDialogBodyBuilder implements DialogBodyBuilder<ItemStack>, PaperDialogBody {
     private final Function<String, Component> componentDeserializer;
     private PaperDialogBody current;
 
+    /**
+     * Constructor for PaperDialogBodyBuilder
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperDialogBodyBuilder(Function<String, Component> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
     }

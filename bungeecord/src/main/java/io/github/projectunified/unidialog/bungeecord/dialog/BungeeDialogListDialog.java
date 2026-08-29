@@ -17,12 +17,23 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * The Bungee implementation of the dialog list dialog
+ *
+ * @param <O> the type of the dialog opener
+ */
 public class BungeeDialogListDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeDialogListDialog<O>> implements DialogListDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeDialogListDialog<O>> {
     private List<Dialog> dialogs;
     private @Nullable ActionButton exitAction;
     private int columns;
     private int buttonWidth;
 
+    /**
+     * Create a new dialog list dialog
+     *
+     * @param defaultNamespace the default namespace for the dialog actions
+     * @param openerFunction   the function to create the dialog opener from the Bungee dialog
+     */
     public BungeeDialogListDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
         super(defaultNamespace, openerFunction);
     }

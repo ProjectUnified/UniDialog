@@ -28,6 +28,9 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Manages dialogs on the Paper platform
+ */
 @SuppressWarnings("unchecked")
 public class PaperDialogManager implements DialogManager<ItemStack, PaperDialogBodyBuilder, PaperDialogInputBuilder, PaperDialog<?>, PaperDialogActionBuilder>, Listener {
     private final Plugin plugin;
@@ -115,6 +118,11 @@ public class PaperDialogManager implements DialogManager<ItemStack, PaperDialogB
         unregisterAllCustomActions();
     }
 
+    /**
+     * Handles custom click events for registered custom actions
+     *
+     * @param event the custom click event
+     */
     @EventHandler
     public void onCustomClick(PlayerCustomClickEvent event) {
         Key key = event.getIdentifier();

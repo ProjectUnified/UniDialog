@@ -10,6 +10,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link ItemBody} for building item bodies.
+ */
 public class PEItemBody implements ItemBody<ItemStack, PETextBody, PEItemBody>, PEDialogBody {
     private final Function<String, Component> componentDeserializer;
     private ItemStack itemStack;
@@ -19,6 +22,11 @@ public class PEItemBody implements ItemBody<ItemStack, PETextBody, PEItemBody>, 
     private int width;
     private int height;
 
+    /**
+     * Constructor for PEItemBody
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PEItemBody(Function<String, Component> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
     }

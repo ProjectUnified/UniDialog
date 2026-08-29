@@ -15,9 +15,19 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link NoticeDialog} for building notice dialogs.
+ */
 public class PENoticeDialog extends PEDialog<PENoticeDialog> implements NoticeDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder, PENoticeDialog> {
     private ActionButton action;
 
+    /**
+     * Constructor for PENoticeDialog
+     *
+     * @param defaultNamespace      the default namespace, used by {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param componentDeserializer a function to deserialize components from strings
+     * @param playerFunction        a function to get the player object for a player UUID
+     */
     public PENoticeDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
         super(defaultNamespace, componentDeserializer, playerFunction);
     }

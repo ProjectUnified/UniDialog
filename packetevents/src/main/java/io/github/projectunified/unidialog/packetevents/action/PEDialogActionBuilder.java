@@ -16,6 +16,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link AdventureDialogActionBuilder} for building dialog actions.
+ */
 public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDialog<?>, PEDialogActionBuilder> {
     private final String defaultNamespace;
     private final Function<String, Component> componentDeserializer;
@@ -24,6 +27,12 @@ public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDia
     private int width;
     private @Nullable Action action;
 
+    /**
+     * Constructor for PEDialogActionBuilder
+     *
+     * @param defaultNamespace      the default namespace, used by {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PEDialogActionBuilder(String defaultNamespace, Function<String, Component> componentDeserializer) {
         this.defaultNamespace = defaultNamespace;
         this.componentDeserializer = componentDeserializer;
@@ -114,6 +123,11 @@ public class PEDialogActionBuilder implements AdventureDialogActionBuilder<PEDia
         return action(new StaticAction(new ShowDialogClickEvent(peDialogOpener.dialog())));
     }
 
+    /**
+     * Get the built action button
+     *
+     * @return the built action button
+     */
     public ActionButton getAction() {
         return new ActionButton(
                 new CommonButtonData(

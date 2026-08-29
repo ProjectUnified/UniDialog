@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * A number range input for the Paper platform
+ */
 public class PaperNumberRangeInput extends PaperDialogInput implements AdventureNumberRangeInput<PaperNumberRangeInput> {
     private Component label;
     private int width;
@@ -16,6 +19,12 @@ public class PaperNumberRangeInput extends PaperDialogInput implements Adventure
     private @Nullable Float initial;
     private @Nullable Float step;
 
+    /**
+     * Constructor for PaperNumberRangeInput
+     *
+     * @param key                   the input key
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperNumberRangeInput(String key, Function<String, Component> componentDeserializer) {
         super(key, componentDeserializer);
     }

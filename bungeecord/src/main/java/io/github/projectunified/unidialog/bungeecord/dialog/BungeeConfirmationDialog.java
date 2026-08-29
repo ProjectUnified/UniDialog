@@ -12,10 +12,21 @@ import net.md_5.bungee.api.dialog.action.ActionButton;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * The Bungee implementation of the confirmation dialog
+ *
+ * @param <O> the type of the dialog opener
+ */
 public class BungeeConfirmationDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeConfirmationDialog<O>> implements ConfirmationDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeConfirmationDialog<O>> {
     private ActionButton yesAction;
     private ActionButton noAction;
 
+    /**
+     * Create a new confirmation dialog
+     *
+     * @param defaultNamespace the default namespace for the dialog actions
+     * @param openerFunction   the function to create the dialog opener from the Bungee dialog
+     */
     public BungeeConfirmationDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
         super(defaultNamespace, openerFunction);
     }

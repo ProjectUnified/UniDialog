@@ -10,11 +10,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The Bungee implementation of the single option input
+ */
 public class BungeeSingleOptionInput extends BungeeDialogInput implements SingleOptionInput<BungeeSingleOptionInput> {
     private int width;
     private @Nullable BaseComponent label;
     private List<InputOption> options;
 
+    /**
+     * Create a new single option input
+     *
+     * @param key the key of the input
+     */
     public BungeeSingleOptionInput(String key) {
         super(key);
     }

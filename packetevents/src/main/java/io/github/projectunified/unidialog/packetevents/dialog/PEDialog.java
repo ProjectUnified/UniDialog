@@ -22,6 +22,11 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link AdventureDialog} for building dialogs.
+ *
+ * @param <T> the type of the dialog implementation, for method chaining
+ */
 @SuppressWarnings("unchecked")
 public abstract class PEDialog<T extends PEDialog<T>> implements AdventureDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, T> {
     private final String defaultNamespace;
@@ -36,6 +41,13 @@ public abstract class PEDialog<T extends PEDialog<T>> implements AdventureDialog
     private List<DialogBody> bodies;
     private List<Input> inputs;
 
+    /**
+     * Constructor for PEDialog
+     *
+     * @param defaultNamespace      the default namespace, used by {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param componentDeserializer a function to deserialize components from strings
+     * @param playerFunction        a function to get the player object for a player UUID
+     */
     protected PEDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
         this.defaultNamespace = defaultNamespace;
         this.componentDeserializer = componentDeserializer;
@@ -109,14 +121,31 @@ public abstract class PEDialog<T extends PEDialog<T>> implements AdventureDialog
         return (T) this;
     }
 
+    /**
+     * Build an action button from an action consumer
+     *
+     * @param action the action consumer used to build the action
+     * @return the built action button
+     */
     protected ActionButton getAction(Consumer<PEDialogActionBuilder> action) {
         PEDialogActionBuilder actionBuilder = new PEDialogActionBuilder(defaultNamespace, componentDeserializer);
         action.accept(actionBuilder);
         return actionBuilder.getAction();
     }
 
+    /**
+     * Construct the PacketEvents dialog with the given common dialog data
+     *
+     * @param commonDialogData the common dialog data
+     * @return the constructed dialog
+     */
     protected abstract com.github.retrooper.packetevents.protocol.dialog.Dialog constructDialog(CommonDialogData commonDialogData);
 
+    /**
+     * Get the PacketEvents dialog
+     *
+     * @return the dialog
+     */
     public final com.github.retrooper.packetevents.protocol.dialog.Dialog getDialog() {
         CommonDialogData commonDialogData = new CommonDialogData(
                 title != null ? title : Component.text("Dialog"),

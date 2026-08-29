@@ -16,6 +16,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * Builder for dialog actions on the Paper platform
+ */
 public class PaperDialogActionBuilder implements AdventureDialogActionBuilder<PaperDialog<?>, PaperDialogActionBuilder> {
     private final String defaultNamespace;
     private final Function<String, Component> componentDeserializer;
@@ -25,6 +28,12 @@ public class PaperDialogActionBuilder implements AdventureDialogActionBuilder<Pa
     private int width;
     private @Nullable DialogAction action;
 
+    /**
+     * Constructor for PaperDialogActionBuilder
+     *
+     * @param defaultNamespace      the default namespace for custom actions
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperDialogActionBuilder(String defaultNamespace, Function<String, Component> componentDeserializer) {
         this.defaultNamespace = defaultNamespace;
         this.componentDeserializer = componentDeserializer;
@@ -116,6 +125,11 @@ public class PaperDialogActionBuilder implements AdventureDialogActionBuilder<Pa
         return action(ClickEvent.showDialog(dialog));
     }
 
+    /**
+     * Get the built action button
+     *
+     * @return the action button
+     */
     public ActionButton getAction() {
         return ActionButton.create(
                 label != null ? label : Component.text("Action"),

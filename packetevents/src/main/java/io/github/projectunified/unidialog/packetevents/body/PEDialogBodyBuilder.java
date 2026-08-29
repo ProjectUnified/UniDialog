@@ -7,11 +7,19 @@ import net.kyori.adventure.text.Component;
 
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link DialogBodyBuilder} for building dialog bodies.
+ */
 @SuppressWarnings("unchecked")
 public class PEDialogBodyBuilder implements DialogBodyBuilder<ItemStack>, PEDialogBody {
     private final Function<String, Component> componentDeserializer;
     private PEDialogBody current;
 
+    /**
+     * Constructor for PEDialogBodyBuilder
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PEDialogBodyBuilder(Function<String, Component> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
     }

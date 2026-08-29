@@ -16,11 +16,22 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * The Bungee implementation of the multi action dialog
+ *
+ * @param <O> the type of the dialog opener
+ */
 public class BungeeMultiActionDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeMultiActionDialog<O>> implements MultiActionDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeMultiActionDialog<O>> {
     private int columns;
     private List<ActionButton> actions;
     private @Nullable ActionButton exitAction;
 
+    /**
+     * Create a new multi action dialog
+     *
+     * @param defaultNamespace the default namespace for the dialog actions
+     * @param openerFunction   the function to create the dialog opener from the Bungee dialog
+     */
     public BungeeMultiActionDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
         super(defaultNamespace, openerFunction);
     }

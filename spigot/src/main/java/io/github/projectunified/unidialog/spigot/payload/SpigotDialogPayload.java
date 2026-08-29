@@ -10,6 +10,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * A dialog payload backed by a JSON element.
+ *
+ * @param owner    the UUID of the player the payload belongs to
+ * @param jsonData the JSON data of the payload, may be null
+ */
 public record SpigotDialogPayload(UUID owner, @Nullable JsonElement jsonData) implements DialogPayload {
     private @Nullable JsonObject getAsJsonObject() {
         if (jsonData == null || !jsonData.isJsonObject()) return null;

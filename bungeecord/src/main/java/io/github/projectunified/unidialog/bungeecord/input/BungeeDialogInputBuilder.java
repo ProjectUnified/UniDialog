@@ -3,10 +3,18 @@ package io.github.projectunified.unidialog.bungeecord.input;
 import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
 import net.md_5.bungee.api.dialog.input.DialogInput;
 
+/**
+ * The Bungee implementation of the dialog input builder
+ */
 @SuppressWarnings("unchecked")
 public class BungeeDialogInputBuilder extends BungeeDialogInput implements DialogInputBuilder {
     private BungeeDialogInput current;
 
+    /**
+     * Create a new dialog input builder
+     *
+     * @param key the key of the input
+     */
     public BungeeDialogInputBuilder(String key) {
         super(key);
     }

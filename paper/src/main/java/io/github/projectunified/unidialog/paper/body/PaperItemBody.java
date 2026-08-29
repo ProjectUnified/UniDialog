@@ -10,6 +10,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Represents an item dialog body for the Paper platform
+ */
 public class PaperItemBody implements ItemBody<ItemStack, PaperTextBody, PaperItemBody>, PaperDialogBody {
     private final Function<String, Component> componentDeserializer;
     private ItemStack item;
@@ -19,6 +22,11 @@ public class PaperItemBody implements ItemBody<ItemStack, PaperTextBody, PaperIt
     private int width;
     private int height;
 
+    /**
+     * Constructor for PaperItemBody
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperItemBody(Function<String, Component> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
     }

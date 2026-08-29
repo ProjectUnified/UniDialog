@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * @param <T> the type of the implementing class, allowing for method chaining
  */
 public interface DialogActionBuilder<D extends Dialog<?, ?, ?, ?>, T extends DialogActionBuilder<D, T>> {
+    /** Default width. */
     int DEFAULT_WIDTH = 150;
 
     /**

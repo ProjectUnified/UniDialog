@@ -6,7 +6,16 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.dialog.body.DialogBody;
 import net.md_5.bungee.api.dialog.body.PlainMessageBody;
 
+/**
+ * A text body for the Bungee dialog.
+ */
 public class BungeeTextBody implements TextBody<BungeeTextBody>, BungeeDialogBody {
+    /**
+     * Create a new text body
+     */
+    public BungeeTextBody() {
+    }
+
     private BaseComponent text;
     private int width;
 

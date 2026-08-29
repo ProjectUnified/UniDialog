@@ -6,6 +6,7 @@ package io.github.projectunified.unidialog.core.body;
  * @param <T> the type of text body for method chaining
  */
 public interface TextBody<T extends TextBody<T>> {
+    /** Default width. */
     int DEFAULT_WIDTH = 200;
 
     /**

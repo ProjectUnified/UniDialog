@@ -13,11 +13,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A server links dialog for the Paper platform
+ */
 public class PaperServerLinksDialog extends PaperDialog<PaperServerLinksDialog> implements ServerLinksDialog<ItemStack, PaperDialogBodyBuilder, PaperDialogInputBuilder, PaperDialog<?>, PaperDialogActionBuilder, PaperServerLinksDialog> {
     private @Nullable ActionButton exitAction;
     private int columns;
     private int buttonWidth;
 
+    /**
+     * Constructor for PaperServerLinksDialog
+     *
+     * @param defaultNamespace      the default namespace for custom actions
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperServerLinksDialog(String defaultNamespace, Function<String, Component> componentDeserializer) {
         super(defaultNamespace, componentDeserializer);
     }

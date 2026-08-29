@@ -8,6 +8,11 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+/**
+ * Opens a Paper dialog for players
+ *
+ * @param dialog the dialog to open
+ */
 public record PaperDialogOpener(Dialog dialog) implements DialogOpener {
     /**
      * Open a dialog for a specific audience

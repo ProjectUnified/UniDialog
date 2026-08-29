@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
  * @param <T> the type of the implementing class, for method chaining
  */
 public interface SingleOptionInput<T extends SingleOptionInput<T>> {
+    /** Default width. */
     int DEFAULT_WIDTH = 200;
 
     /**

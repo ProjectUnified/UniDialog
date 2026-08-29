@@ -16,6 +16,9 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link ConfirmationDialog}.
+ */
 public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> implements ConfirmationDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder, PEConfirmationDialog> {
     private static final ActionButton DEFAULT_YES_ACTION = new ActionButton(
             new CommonButtonData(
@@ -37,6 +40,13 @@ public class PEConfirmationDialog extends PEDialog<PEConfirmationDialog> impleme
     private ActionButton yesAction;
     private ActionButton noAction;
 
+    /**
+     * Constructor for PEConfirmationDialog
+     *
+     * @param defaultNamespace      the default namespace, used by {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param componentDeserializer a function to deserialize components from strings
+     * @param playerFunction        a function to get the player object for a player UUID
+     */
     public PEConfirmationDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
         super(defaultNamespace, componentDeserializer, playerFunction);
     }

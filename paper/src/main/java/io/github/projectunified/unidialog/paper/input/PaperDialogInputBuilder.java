@@ -6,10 +6,19 @@ import net.kyori.adventure.text.Component;
 
 import java.util.function.Function;
 
+/**
+ * Builder for dialog inputs on the Paper platform
+ */
 @SuppressWarnings("unchecked")
 public class PaperDialogInputBuilder extends PaperDialogInput implements DialogInputBuilder {
     private PaperDialogInput current;
 
+    /**
+     * Constructor for PaperDialogInputBuilder
+     *
+     * @param key                   the input key
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperDialogInputBuilder(String key, Function<String, Component> componentDeserializer) {
         super(key, componentDeserializer);
     }

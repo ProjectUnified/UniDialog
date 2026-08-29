@@ -6,10 +6,18 @@ import net.kyori.adventure.text.Component;
 
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link DialogInputBuilder} for building dialog inputs.
+ */
 @SuppressWarnings("unchecked")
 public class PEDialogInputBuilder extends PEDialogInput implements DialogInputBuilder {
     private PEDialogInput current;
 
+    /**
+     * Constructor for PEDialogInputBuilder
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PEDialogInputBuilder(Function<String, Component> componentDeserializer) {
         super(componentDeserializer);
     }

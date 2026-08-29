@@ -7,11 +7,24 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+/**
+ * Spigot implementation of {@link BungeeDialogOpener} that opens dialogs for Bukkit players.
+ */
 public class SpigotDialogOpener extends BungeeDialogOpener {
+    /**
+     * Create a new Spigot dialog opener.
+     *
+     * @param dialog the dialog to open
+     */
     public SpigotDialogOpener(Dialog dialog) {
         super(dialog);
     }
 
+    /**
+     * Open the dialog for a player.
+     *
+     * @param player the player to open the dialog for
+     */
     public void open(Player player) {
         player.showDialog(getDialog());
     }

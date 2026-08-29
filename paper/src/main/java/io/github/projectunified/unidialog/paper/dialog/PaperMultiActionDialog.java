@@ -16,11 +16,20 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A multi-action dialog for the Paper platform
+ */
 public class PaperMultiActionDialog extends PaperDialog<PaperMultiActionDialog> implements MultiActionDialog<ItemStack, PaperDialogBodyBuilder, PaperDialogInputBuilder, PaperDialog<?>, PaperDialogActionBuilder, PaperMultiActionDialog> {
     private List<ActionButton> actions;
     private @Nullable ActionButton exitAction;
     private int columns;
 
+    /**
+     * Constructor for PaperMultiActionDialog
+     *
+     * @param defaultNamespace      the default namespace for custom actions
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperMultiActionDialog(String defaultNamespace, Function<String, Component> componentDeserializer) {
         super(defaultNamespace, componentDeserializer);
     }

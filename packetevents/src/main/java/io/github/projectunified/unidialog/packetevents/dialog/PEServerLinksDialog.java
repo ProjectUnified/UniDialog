@@ -15,11 +15,21 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link ServerLinksDialog} for building server links dialogs.
+ */
 public class PEServerLinksDialog extends PEDialog<PEServerLinksDialog> implements ServerLinksDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder, PEServerLinksDialog> {
     private ActionButton exitAction;
     private int columns;
     private int buttonWidth;
 
+    /**
+     * Constructor for PEServerLinksDialog
+     *
+     * @param defaultNamespace      the default namespace, used by {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param componentDeserializer a function to deserialize components from strings
+     * @param playerFunction        a function to get the player object for a player UUID
+     */
     public PEServerLinksDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
         super(defaultNamespace, componentDeserializer, playerFunction);
     }

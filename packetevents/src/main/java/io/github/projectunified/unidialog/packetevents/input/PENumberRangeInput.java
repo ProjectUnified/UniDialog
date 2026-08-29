@@ -8,6 +8,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link AdventureNumberRangeInput} for number range inputs.
+ */
 public class PENumberRangeInput extends PEDialogInput implements AdventureNumberRangeInput<PENumberRangeInput> {
     private int width;
     private Component label;
@@ -17,6 +20,11 @@ public class PENumberRangeInput extends PEDialogInput implements AdventureNumber
     private @Nullable Float initial;
     private @Nullable Float step;
 
+    /**
+     * Constructor for PENumberRangeInput
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PENumberRangeInput(Function<String, Component> componentDeserializer) {
         super(componentDeserializer);
     }

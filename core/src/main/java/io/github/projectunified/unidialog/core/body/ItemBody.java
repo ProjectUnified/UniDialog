@@ -12,7 +12,9 @@ import java.util.function.Consumer;
  * @param <T> the type of item body for method chaining
  */
 public interface ItemBody<I, B extends TextBody<B>, T extends ItemBody<I, B, T>> {
+    /** Default width. */
     int DEFAULT_WIDTH = 16;
+    /** Default height. */
     int DEFAULT_HEIGHT = 16;
 
     /**

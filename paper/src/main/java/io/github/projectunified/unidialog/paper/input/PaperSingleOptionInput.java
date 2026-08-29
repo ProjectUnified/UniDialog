@@ -11,11 +11,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * A single option input for the Paper platform
+ */
 public class PaperSingleOptionInput extends PaperDialogInput implements AdventureSingleOptionInput<PaperSingleOptionInput> {
     private @Nullable Component label;
     private int width;
     private List<SingleOptionDialogInput.OptionEntry> options;
 
+    /**
+     * Constructor for PaperSingleOptionInput
+     *
+     * @param key                   the input key
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperSingleOptionInput(String key, Function<String, Component> componentDeserializer) {
         super(key, componentDeserializer);
     }

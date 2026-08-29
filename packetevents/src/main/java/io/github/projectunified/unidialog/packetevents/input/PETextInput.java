@@ -8,6 +8,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link AdventureTextInput} for text inputs.
+ */
 public class PETextInput extends PEDialogInput implements AdventureTextInput<PETextInput> {
     private int width;
     private @Nullable Component label;
@@ -16,6 +19,11 @@ public class PETextInput extends PEDialogInput implements AdventureTextInput<PET
     private @Nullable Integer maxLines;
     private @Nullable Integer height;
 
+    /**
+     * Constructor for PETextInput
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PETextInput(Function<String, Component> componentDeserializer) {
         super(componentDeserializer);
     }

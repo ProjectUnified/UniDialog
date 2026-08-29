@@ -36,6 +36,10 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link DialogManager} that manages dialogs for players.
+ * It provides dialog creation, custom action registration, and dialog clearing.
+ */
 @SuppressWarnings("unchecked")
 public abstract class PocketEventsDialogManager implements DialogManager<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder> {
     private final String defaultNamespace;

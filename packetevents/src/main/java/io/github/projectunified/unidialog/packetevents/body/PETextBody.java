@@ -8,11 +8,19 @@ import net.kyori.adventure.text.Component;
 
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link AdventureTextBody} for building text bodies.
+ */
 public class PETextBody implements AdventureTextBody<PETextBody>, PEDialogBody {
     private final Function<String, Component> componentDeserializer;
     private Component text = Component.empty();
     private int width = 0;
 
+    /**
+     * Constructor for PETextBody
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PETextBody(Function<String, Component> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
     }
@@ -34,6 +42,11 @@ public class PETextBody implements AdventureTextBody<PETextBody>, PEDialogBody {
         return this;
     }
 
+    /**
+     * Get the plain message for this text body
+     *
+     * @return the plain message
+     */
     public PlainMessage getPlainMessage() {
         return new PlainMessage(text, width > 0 ? width : DEFAULT_WIDTH);
     }

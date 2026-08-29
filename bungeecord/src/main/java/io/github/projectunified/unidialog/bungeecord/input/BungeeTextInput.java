@@ -6,6 +6,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.dialog.input.DialogInput;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The Bungee implementation of the text input
+ */
 public class BungeeTextInput extends BungeeDialogInput implements TextInput<BungeeTextInput> {
     private int width;
     private @Nullable BaseComponent label;
@@ -14,6 +17,11 @@ public class BungeeTextInput extends BungeeDialogInput implements TextInput<Bung
     private @Nullable Integer maxLines;
     private @Nullable Integer height;
 
+    /**
+     * Create a new text input
+     *
+     * @param key the key of the input
+     */
     public BungeeTextInput(String key) {
         super(key);
     }

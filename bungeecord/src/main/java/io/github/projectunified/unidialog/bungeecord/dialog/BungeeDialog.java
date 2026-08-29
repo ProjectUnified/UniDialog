@@ -19,6 +19,12 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * The Bungee implementation of the dialog
+ *
+ * @param <O> the type of the dialog opener
+ * @param <T> the type of the dialog itself, for method chaining
+ */
 @SuppressWarnings("unchecked")
 public abstract class BungeeDialog<O extends BungeeDialogOpener, T extends BungeeDialog<O, T>> implements Dialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, T> {
     private final String defaultNamespace;
@@ -31,6 +37,12 @@ public abstract class BungeeDialog<O extends BungeeDialogOpener, T extends Bunge
     private boolean pause = false;
     private DialogBase.AfterAction afterAction;
 
+    /**
+     * Create a new dialog
+     *
+     * @param defaultNamespace the default namespace for the dialog actions
+     * @param openerFunction   the function to create the dialog opener from the Bungee dialog
+     */
     public BungeeDialog(String defaultNamespace, Function<net.md_5.bungee.api.dialog.Dialog, O> openerFunction) {
         this.defaultNamespace = defaultNamespace;
         this.openerFunction = openerFunction;
@@ -114,14 +126,31 @@ public abstract class BungeeDialog<O extends BungeeDialogOpener, T extends Bunge
         return (T) this;
     }
 
+    /**
+     * Build an action button from the given action builder consumer
+     *
+     * @param action the consumer to configure the action builder
+     * @return the built action button
+     */
     protected ActionButton getAction(Consumer<BungeeDialogActionBuilder> action) {
         BungeeDialogActionBuilder actionBuilder = new BungeeDialogActionBuilder(defaultNamespace);
         action.accept(actionBuilder);
         return actionBuilder.getAction();
     }
 
+    /**
+     * Construct the Bungee dialog from the given dialog base
+     *
+     * @param dialogBase the dialog base containing the shared dialog data
+     * @return the constructed Bungee dialog
+     */
     protected abstract net.md_5.bungee.api.dialog.Dialog constructDialog(DialogBase dialogBase);
 
+    /**
+     * Get the built Bungee dialog
+     *
+     * @return the built Bungee dialog
+     */
     public final net.md_5.bungee.api.dialog.Dialog getDialog() {
         DialogBase dialogBase = new DialogBase(
                 title != null ? title : TextComponent.fromLegacy("Dialog"),

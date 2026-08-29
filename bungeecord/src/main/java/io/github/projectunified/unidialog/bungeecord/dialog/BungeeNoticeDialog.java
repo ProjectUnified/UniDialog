@@ -12,9 +12,20 @@ import net.md_5.bungee.api.dialog.action.ActionButton;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * The Bungee implementation of the notice dialog
+ *
+ * @param <O> the type of the dialog opener
+ */
 public class BungeeNoticeDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeNoticeDialog<O>> implements NoticeDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeNoticeDialog<O>> {
     private ActionButton action;
 
+    /**
+     * Create a new notice dialog
+     *
+     * @param defaultNamespace the default namespace for the dialog actions
+     * @param openerFunction   the function to create the dialog opener from the Bungee dialog
+     */
     public BungeeNoticeDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
         super(defaultNamespace, openerFunction);
     }

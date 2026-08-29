@@ -20,7 +20,9 @@ import java.util.function.Consumer;
  * @param <T>  the type of the dialog itself, for method chaining
  */
 public interface DialogListDialog<I, BB extends DialogBodyBuilder<I>, IB extends DialogInputBuilder, D extends Dialog<I, BB, IB, ?>, AB extends DialogActionBuilder<D, AB>, T extends DialogListDialog<I, BB, IB, D, AB, T>> extends Dialog<I, BB, IB, T> {
+    /** Default number of columns. */
     int DEFAULT_COLUMNS = 2;
+    /** Default width of the buttons. */
     int DEFAULT_BUTTON_WIDTH = 150;
 
     /**
@@ -75,6 +77,7 @@ public interface DialogListDialog<I, BB extends DialogBodyBuilder<I>, IB extends
     /**
      * Add multiple dialogs to the list of dialogs in this dialog
      *
+     * @param <B>     the type of the dialogs in the collection
      * @param dialogs the collection of dialogs to add
      * @return the dialog itself for method chaining
      */

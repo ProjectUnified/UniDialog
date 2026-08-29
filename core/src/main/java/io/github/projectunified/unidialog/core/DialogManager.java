@@ -85,8 +85,9 @@ public interface DialogManager<I, BB extends DialogBodyBuilder<I>, IB extends Di
     /**
      * Register a custom action with a unique identifier.
      *
-     * @param id     the unique identifier for the custom action
-     * @param action the action to be executed, taking a payload
+     * @param namespace the namespace for the custom action
+     * @param id        the unique identifier for the custom action
+     * @param action    the action to be executed, taking a payload
      */
     void registerCustomAction(String namespace, String id, Consumer<DialogPayload> action);
 

@@ -22,12 +22,22 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link DialogListDialog} for building dialog list dialogs.
+ */
 public class PEDialogListDialog extends PEDialog<PEDialogListDialog> implements DialogListDialog<ItemStack, PEDialogBodyBuilder, PEDialogInputBuilder, PEDialog<?>, PEDialogActionBuilder, PEDialogListDialog> {
     private List<Dialog> dialogs;
     private @Nullable ActionButton exitAction;
     private int columns;
     private int buttonWidth;
 
+    /**
+     * Constructor for PEDialogListDialog
+     *
+     * @param defaultNamespace      the default namespace, used by {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param componentDeserializer a function to deserialize components from strings
+     * @param playerFunction        a function to get the player object for a player UUID
+     */
     public PEDialogListDialog(String defaultNamespace, Function<String, Component> componentDeserializer, Function<UUID, @Nullable Object> playerFunction) {
         super(defaultNamespace, componentDeserializer, playerFunction);
     }

@@ -3,8 +3,17 @@ package io.github.projectunified.unidialog.bungeecord.body;
 import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
 import net.md_5.bungee.api.dialog.body.DialogBody;
 
+/**
+ * The Bungee implementation of the dialog body builder
+ */
 @SuppressWarnings("unchecked")
 public class BungeeDialogBodyBuilder implements DialogBodyBuilder<Object>, BungeeDialogBody {
+    /**
+     * Create a new dialog body builder
+     */
+    public BungeeDialogBodyBuilder() {
+    }
+
     private BungeeDialogBody current;
 
     @Override

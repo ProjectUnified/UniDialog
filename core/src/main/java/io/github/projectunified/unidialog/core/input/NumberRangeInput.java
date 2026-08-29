@@ -8,7 +8,9 @@ import org.jetbrains.annotations.Nullable;
  * @param <T> the type of the implementing class, for method chaining.
  */
 public interface NumberRangeInput<T extends NumberRangeInput<T>> {
+    /** Default width. */
     int DEFAULT_WIDTH = 200;
+    /** Default label format. */
     String DEFAULT_LABEL_FORMAT = "options.generic_value";
 
     /**

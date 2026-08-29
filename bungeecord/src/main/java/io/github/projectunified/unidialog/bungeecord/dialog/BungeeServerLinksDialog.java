@@ -13,11 +13,22 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * The Bungee implementation of the server links dialog
+ *
+ * @param <O> the type of the dialog opener
+ */
 public class BungeeServerLinksDialog<O extends BungeeDialogOpener> extends BungeeDialog<O, BungeeServerLinksDialog<O>> implements ServerLinksDialog<Object, BungeeDialogBodyBuilder, BungeeDialogInputBuilder, BungeeDialog<?, ?>, BungeeDialogActionBuilder, BungeeServerLinksDialog<O>> {
     private @Nullable ActionButton exitAction;
     private int columns;
     private int buttonWidth;
 
+    /**
+     * Create a new server links dialog
+     *
+     * @param defaultNamespace the default namespace for the dialog actions
+     * @param openerFunction   the function to create the dialog opener from the Bungee dialog
+     */
     public BungeeServerLinksDialog(String defaultNamespace, Function<Dialog, O> openerFunction) {
         super(defaultNamespace, openerFunction);
     }

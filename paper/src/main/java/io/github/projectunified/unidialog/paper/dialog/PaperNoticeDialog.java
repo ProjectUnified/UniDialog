@@ -12,9 +12,18 @@ import org.bukkit.inventory.ItemStack;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A notice dialog for the Paper platform
+ */
 public class PaperNoticeDialog extends PaperDialog<PaperNoticeDialog> implements NoticeDialog<ItemStack, PaperDialogBodyBuilder, PaperDialogInputBuilder, PaperDialog<?>, PaperDialogActionBuilder, PaperNoticeDialog> {
     private ActionButton action;
 
+    /**
+     * Constructor for PaperNoticeDialog
+     *
+     * @param defaultNamespace      the default namespace for custom actions
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperNoticeDialog(String defaultNamespace, Function<String, Component> componentDeserializer) {
         super(defaultNamespace, componentDeserializer);
     }

@@ -5,12 +5,20 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.dialog.input.DialogInput;
 
+/**
+ * The Bungee implementation of the boolean input
+ */
 public class BungeeBooleanInput extends BungeeDialogInput implements BooleanInput<BungeeBooleanInput> {
     private BaseComponent label;
     private Boolean initial;
     private String onTrue;
     private String onFalse;
 
+    /**
+     * Create a new boolean input
+     *
+     * @param key the key of the input
+     */
     public BungeeBooleanInput(String key) {
         super(key);
     }

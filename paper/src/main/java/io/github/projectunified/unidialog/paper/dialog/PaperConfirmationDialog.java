@@ -12,6 +12,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A confirmation dialog for the Paper platform
+ */
 public class PaperConfirmationDialog extends PaperDialog<PaperConfirmationDialog> implements ConfirmationDialog<ItemStack, PaperDialogBodyBuilder, PaperDialogInputBuilder, PaperDialog<?>, PaperDialogActionBuilder, PaperConfirmationDialog> {
     private static final ActionButton DEFAULT_YES_ACTION = ActionButton.create(Component.text("Yes"), null, 150, null);
     private static final ActionButton DEFAULT_NO_ACTION = ActionButton.create(Component.text("No"), null, 150, null);
@@ -19,6 +22,12 @@ public class PaperConfirmationDialog extends PaperDialog<PaperConfirmationDialog
     private ActionButton yesAction;
     private ActionButton noAction;
 
+    /**
+     * Constructor for PaperConfirmationDialog
+     *
+     * @param defaultNamespace      the default namespace for custom actions
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PaperConfirmationDialog(String defaultNamespace, Function<String, Component> componentDeserializer) {
         super(defaultNamespace, componentDeserializer);
     }

@@ -11,11 +11,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * A PacketEvents-based implementation of {@link AdventureSingleOptionInput} for single option inputs.
+ */
 public class PESingleOptionInput extends PEDialogInput implements AdventureSingleOptionInput<PESingleOptionInput> {
     private int width;
     private @Nullable Component label;
     private List<SingleOptionInputControl.Entry> entries;
 
+    /**
+     * Constructor for PESingleOptionInput
+     *
+     * @param componentDeserializer a function to deserialize components from strings
+     */
     public PESingleOptionInput(Function<String, Component> componentDeserializer) {
         super(componentDeserializer);
     }

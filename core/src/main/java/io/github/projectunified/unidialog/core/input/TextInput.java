@@ -8,7 +8,9 @@ import org.jetbrains.annotations.Nullable;
  * @param <T> the type of the implementing class, for method chaining
  */
 public interface TextInput<T extends TextInput<T>> {
+    /** Default width. */
     int DEFAULT_WIDTH = 200;
+    /** Default maximum length. */
     int DEFAULT_MAX_LENGTH = 32;
 
     /**

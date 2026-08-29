@@ -11,6 +11,9 @@ import net.md_5.bungee.api.dialog.action.*;
 import net.md_5.bungee.api.dialog.chat.ShowDialogClickEvent;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The Bungee implementation of the dialog action builder
+ */
 public class BungeeDialogActionBuilder implements DialogActionBuilder<BungeeDialog<?, ?>, BungeeDialogActionBuilder> {
     private final String defaultNamespace;
     private BaseComponent label;
@@ -18,6 +21,11 @@ public class BungeeDialogActionBuilder implements DialogActionBuilder<BungeeDial
     private int width;
     private Action action;
 
+    /**
+     * Create a new dialog action builder
+     *
+     * @param defaultNamespace the default namespace for custom actions
+     */
     public BungeeDialogActionBuilder(String defaultNamespace) {
         this.defaultNamespace = defaultNamespace;
     }
@@ -118,6 +126,11 @@ public class BungeeDialogActionBuilder implements DialogActionBuilder<BungeeDial
         return action(new StaticAction(new ShowDialogClickEvent(bungeeDialogOpener.getDialog())));
     }
 
+    /**
+     * Get the built action button
+     *
+     * @return the built action button
+     */
     public ActionButton getAction() {
         return new ActionButton(
                 label != null ? label : new TextComponent(""),
