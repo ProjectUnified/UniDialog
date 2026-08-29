@@ -37,13 +37,13 @@ public class ViaVersionDialogManager implements DialogManager<Item, ViaDialogBod
     private ViaDialogProtocol protocol;
 
     /**
-     * Constructor for ViaVersionDialogManager, using the lowest supported protocol version of the server as base version
-     * and {@link ViaDialogTagBuilder#deserializeLegacy} as the component deserializer
+     * Constructor for ViaVersionDialogManager, using 1.21.6 as the base version and
+     * {@link ViaDialogTagBuilder#deserializeLegacy} as the component deserializer
      *
      * @param defaultNamespace the default namespace
      */
     public ViaVersionDialogManager(String defaultNamespace) {
-        this(defaultNamespace, Via.getAPI().getServerVersion().lowestSupportedProtocolVersion());
+        this(defaultNamespace, ProtocolVersion.v1_21_6);
     }
 
     /**
