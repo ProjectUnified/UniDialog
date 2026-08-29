@@ -28,7 +28,7 @@ import java.util.logging.Level;
  * It provides dialog creation, custom action registration, and dialog clearing.
  */
 @SuppressWarnings("unchecked")
-public abstract class ViaVersionDialogManager implements DialogManager<Item, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder> {
+public class ViaVersionDialogManager implements DialogManager<Item, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder> {
     private final String defaultNamespace;
     private final ProtocolVersion serverVersion;
     private final Function<String, TextComponent> componentDeserializer;
@@ -37,20 +37,20 @@ public abstract class ViaVersionDialogManager implements DialogManager<Item, Via
     private ViaDialogProtocol protocol;
 
     /**
-     * Constructor for ViaVersionDialogManager, using 1.21.6 as the base version and
-     * {@link ViaDialogTagBuilder#deserializeLegacy} as the component deserializer
+     * Constructor for ViaVersionDialogManager, using the lowest supported protocol version of the server as base version
+     * and {@link ViaDialogTagBuilder#deserializeLegacy} as the component deserializer
      *
-     * @param defaultNamespace the default namespace, used by {@link #registerCustomAction(String, BiConsumer)} and {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param defaultNamespace the default namespace
      */
     public ViaVersionDialogManager(String defaultNamespace) {
-        this(defaultNamespace, ProtocolVersion.v1_21_6);
+        this(defaultNamespace, Via.getAPI().getServerVersion().lowestSupportedProtocolVersion());
     }
 
     /**
      * Constructor for ViaVersionDialogManager, using {@link ViaDialogTagBuilder#deserializeLegacy}
      * as the component deserializer
      *
-     * @param defaultNamespace the default namespace, used by {@link #registerCustomAction(String, BiConsumer)} and {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param defaultNamespace the default namespace
      * @param serverVersion    the server protocol version, used as the base version the dialog components are created for
      */
     public ViaVersionDialogManager(String defaultNamespace, ProtocolVersion serverVersion) {
@@ -60,7 +60,7 @@ public abstract class ViaVersionDialogManager implements DialogManager<Item, Via
     /**
      * Constructor for ViaVersionDialogManager
      *
-     * @param defaultNamespace      the default namespace, used by {@link #registerCustomAction(String, BiConsumer)} and {@link io.github.projectunified.unidialog.core.action.DialogActionBuilder#dynamicCustom(String)}
+     * @param defaultNamespace      the default namespace
      * @param serverVersion         the server protocol version, used as the base version the dialog components are created for
      * @param componentDeserializer a function to deserialize components from strings
      */
