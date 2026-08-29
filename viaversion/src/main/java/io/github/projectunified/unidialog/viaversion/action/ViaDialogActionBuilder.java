@@ -134,6 +134,7 @@ public class ViaDialogActionBuilder implements DialogActionBuilder<ViaDialog<?>,
 
     @Override
     public ViaDialogActionBuilder showDialog(ViaDialog<?> dialog) {
+        this.action = null;
         this.showDialog = dialog;
         return this;
     }
@@ -166,8 +167,10 @@ public class ViaDialogActionBuilder implements DialogActionBuilder<ViaDialog<?>,
         tag.put("label", ViaDialogTagBuilder.component(label != null ? label : new com.viaversion.viaversion.libs.mcstructs.text.components.StringComponent("Action"), base, target));
         ViaDialogTagBuilder.putComponent(tag, "tooltip", tooltip, base, target);
         tag.putInt("width", width > 0 ? width : DEFAULT_WIDTH);
-        CompoundTag actionTag = action;
-        if (showDialog != null) {
+        CompoundTag actionTag = null;
+        if (action != null) {
+            actionTag = action;
+        } else if (showDialog != null) {
             actionTag = new CompoundTag();
             actionTag.putString("type", "minecraft:show_dialog");
             actionTag.put("dialog", showDialog.getDialogTag(target));

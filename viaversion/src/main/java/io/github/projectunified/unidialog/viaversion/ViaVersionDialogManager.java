@@ -15,6 +15,7 @@ import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.dialog.*;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
 import io.github.projectunified.unidialog.viaversion.opener.ViaDialogOpener;
+
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;

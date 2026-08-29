@@ -7,7 +7,6 @@ import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
 import com.viaversion.viaversion.libs.mcstructs.text.components.StringComponent;
 import com.viaversion.viaversion.util.SerializerVersion;
-import org.jetbrains.annotations.Nullable;
 import io.github.projectunified.unidialog.core.dialog.Dialog;
 import io.github.projectunified.unidialog.viaversion.ViaDialogTagBuilder;
 import io.github.projectunified.unidialog.viaversion.action.ViaDialogActionBuilder;
@@ -16,6 +15,8 @@ import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInput;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
 import io.github.projectunified.unidialog.viaversion.opener.ViaDialogOpener;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;

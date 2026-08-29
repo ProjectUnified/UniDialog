@@ -8,6 +8,7 @@ import io.github.projectunified.unidialog.core.dialog.NoticeDialog;
 import io.github.projectunified.unidialog.viaversion.action.ViaDialogActionBuilder;
 import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
+
 import java.util.function.Consumer;
 import java.util.function.Function;
 

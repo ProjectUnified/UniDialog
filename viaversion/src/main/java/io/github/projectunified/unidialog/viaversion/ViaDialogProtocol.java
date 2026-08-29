@@ -44,6 +44,25 @@ public class ViaDialogProtocol extends AbstractProtocol<BaseClientboundPacket, B
         this.actions = actions;
     }
 
+    private static boolean isCustomClickAction(UserConnection connection, ProtocolVersion clientVersion, State state, int id) {
+        List<ProtocolPathEntry> path = Via.getManager().getProtocolManager().getProtocolPath(clientVersion, ProtocolVersion.v1_21_6);
+        if (path != null && !path.isEmpty()) {
+            return isCustomClickAction(path.get(0).protocol(), state, id);
+        }
+        // The client version equals the dialog base version
+        Protocol<?, ?, ?, ?> base = Via.getManager().getProtocolManager().getProtocol(Protocol1_21_5To1_21_6.class);
+        return base != null && isCustomClickAction(base, state, id);
+    }
+
+    private static boolean isCustomClickAction(Protocol<?, ?, ?, ?> protocol, State state, int id) {
+        PacketTypeMap<? extends ServerboundPacketType> types = protocol.getPacketTypesProvider().unmappedServerboundPacketTypes().get(state);
+        if (types == null) {
+            return false;
+        }
+        ServerboundPacketType type = types.typeById(id);
+        return type != null && type.getName().equals("CUSTOM_CLICK_ACTION");
+    }
+
     @Override
     protected void registerPackets() {
         // Register CUSTOM_CLICK_ACTION for every client version's own packet id, so packet id
@@ -95,24 +114,5 @@ public class ViaDialogProtocol extends AbstractProtocol<BaseClientboundPacket, B
         UserConnection connection = wrapper.user();
         UUID uuid = connection.getProtocolInfo().getUuid();
         action.accept(new ViaDialogPayload(uuid, compound));
-    }
-
-    private static boolean isCustomClickAction(UserConnection connection, ProtocolVersion clientVersion, State state, int id) {
-        List<ProtocolPathEntry> path = Via.getManager().getProtocolManager().getProtocolPath(clientVersion, ProtocolVersion.v1_21_6);
-        if (path != null && !path.isEmpty()) {
-            return isCustomClickAction(path.get(0).protocol(), state, id);
-        }
-        // The client version equals the dialog base version
-        Protocol<?, ?, ?, ?> base = Via.getManager().getProtocolManager().getProtocol(Protocol1_21_5To1_21_6.class);
-        return base != null && isCustomClickAction(base, state, id);
-    }
-
-    private static boolean isCustomClickAction(Protocol<?, ?, ?, ?> protocol, State state, int id) {
-        PacketTypeMap<? extends ServerboundPacketType> types = protocol.getPacketTypesProvider().unmappedServerboundPacketTypes().get(state);
-        if (types == null) {
-            return false;
-        }
-        ServerboundPacketType type = types.typeById(id);
-        return type != null && type.getName().equals("CUSTOM_CLICK_ACTION");
     }
 }

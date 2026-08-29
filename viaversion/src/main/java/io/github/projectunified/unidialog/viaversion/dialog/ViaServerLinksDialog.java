@@ -4,11 +4,12 @@ import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
 import com.viaversion.viaversion.util.SerializerVersion;
-import org.jetbrains.annotations.Nullable;
 import io.github.projectunified.unidialog.core.dialog.ServerLinksDialog;
 import io.github.projectunified.unidialog.viaversion.action.ViaDialogActionBuilder;
 import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Consumer;
 import java.util.function.Function;
 
