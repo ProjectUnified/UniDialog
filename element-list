@@ -32,3 +32,11 @@ io.github.projectunified.unidialog.paper.payload
 io.github.projectunified.unidialog.spigot
 io.github.projectunified.unidialog.spigot.opener
 io.github.projectunified.unidialog.spigot.payload
+io.github.projectunified.unidialog.viaversion
+io.github.projectunified.unidialog.viaversion.action
+io.github.projectunified.unidialog.viaversion.body
+io.github.projectunified.unidialog.viaversion.dialog
+io.github.projectunified.unidialog.viaversion.input
+io.github.projectunified.unidialog.viaversion.opener
+io.github.projectunified.unidialog.viaversion.payload
+io.github.projectunified.unidialog.viaversion.spigot
