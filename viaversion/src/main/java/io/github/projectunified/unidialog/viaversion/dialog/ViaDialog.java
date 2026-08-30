@@ -2,7 +2,6 @@ package io.github.projectunified.unidialog.viaversion.dialog;
 
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.nbt.tag.ListTag;
-import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
 import com.viaversion.viaversion.libs.mcstructs.text.components.StringComponent;
@@ -15,6 +14,7 @@ import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInput;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
 import io.github.projectunified.unidialog.viaversion.opener.ViaDialogOpener;
+import io.github.projectunified.unidialog.viaversion.payload.ViaItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.function.Function;
  * @param <T> the type of the dialog itself, for method chaining
  */
 @SuppressWarnings("unchecked")
-public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<Item, ViaDialogBodyBuilder, ViaDialogInputBuilder, T> {
+public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<ViaItem, ViaDialogBodyBuilder, ViaDialogInputBuilder, T> {
     private final String defaultNamespace;
     private final Function<String, TextComponent> componentDeserializer;
     private final SerializerVersion baseSerializer;
@@ -60,15 +60,6 @@ public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<Item, 
             case WAIT_FOR_RESPONSE -> "wait_for_response";
             case NONE -> "none";
         };
-    }
-
-    /**
-     * Get the component deserializer
-     *
-     * @return the component deserializer
-     */
-    public Function<String, TextComponent> getComponentDeserializer() {
-        return componentDeserializer;
     }
 
     /**

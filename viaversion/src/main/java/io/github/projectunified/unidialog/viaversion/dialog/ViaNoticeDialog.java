@@ -1,13 +1,13 @@
 package io.github.projectunified.unidialog.viaversion.dialog;
 
 import com.viaversion.nbt.tag.CompoundTag;
-import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
 import com.viaversion.viaversion.util.SerializerVersion;
 import io.github.projectunified.unidialog.core.dialog.NoticeDialog;
 import io.github.projectunified.unidialog.viaversion.action.ViaDialogActionBuilder;
 import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
+import io.github.projectunified.unidialog.viaversion.payload.ViaItem;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -15,7 +15,7 @@ import java.util.function.Function;
 /**
  * A ViaVersion-based implementation of {@link NoticeDialog} for building notice dialogs.
  */
-public class ViaNoticeDialog extends ViaDialog<ViaNoticeDialog> implements NoticeDialog<Item, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder, ViaNoticeDialog> {
+public class ViaNoticeDialog extends ViaDialog<ViaNoticeDialog> implements NoticeDialog<ViaItem, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder, ViaNoticeDialog> {
     private ViaDialogActionBuilder action;
 
     /**

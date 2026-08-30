@@ -1,13 +1,13 @@
 package io.github.projectunified.unidialog.viaversion.dialog;
 
 import com.viaversion.nbt.tag.CompoundTag;
-import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
 import com.viaversion.viaversion.util.SerializerVersion;
 import io.github.projectunified.unidialog.core.dialog.ConfirmationDialog;
 import io.github.projectunified.unidialog.viaversion.action.ViaDialogActionBuilder;
 import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
+import io.github.projectunified.unidialog.viaversion.payload.ViaItem;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -15,7 +15,7 @@ import java.util.function.Function;
 /**
  * A ViaVersion-based implementation of {@link ConfirmationDialog} for building confirmation dialogs.
  */
-public class ViaConfirmationDialog extends ViaDialog<ViaConfirmationDialog> implements ConfirmationDialog<Item, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder, ViaConfirmationDialog> {
+public class ViaConfirmationDialog extends ViaDialog<ViaConfirmationDialog> implements ConfirmationDialog<ViaItem, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder, ViaConfirmationDialog> {
     private ViaDialogActionBuilder yesAction;
     private ViaDialogActionBuilder noAction;
 

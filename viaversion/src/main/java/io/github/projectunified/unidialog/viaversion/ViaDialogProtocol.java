@@ -44,7 +44,7 @@ public class ViaDialogProtocol extends AbstractProtocol<BaseClientboundPacket, B
         this.actions = actions;
     }
 
-    private static boolean isCustomClickAction(UserConnection connection, ProtocolVersion clientVersion, State state, int id) {
+    private static boolean isCustomClickAction(ProtocolVersion clientVersion, State state, int id) {
         List<ProtocolPathEntry> path = Via.getManager().getProtocolManager().getProtocolPath(clientVersion, ProtocolVersion.v1_21_6);
         if (path != null && !path.isEmpty()) {
             return isCustomClickAction(path.get(0).protocol(), state, id);
@@ -95,7 +95,7 @@ public class ViaDialogProtocol extends AbstractProtocol<BaseClientboundPacket, B
         // for others; verify the received id against the client version's own packet types
         ProtocolVersion clientVersion = wrapper.user().getProtocolInfo().protocolVersion();
         State state = wrapper.user().getProtocolInfo().getClientState();
-        if (clientVersion == null || !isCustomClickAction(wrapper.user(), clientVersion, state, wrapper.getId())) {
+        if (clientVersion == null || !isCustomClickAction(clientVersion, state, wrapper.getId())) {
             return;
         }
 

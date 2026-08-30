@@ -149,10 +149,10 @@ public class ViaDialogActionBuilder implements DialogActionBuilder<ViaDialog<?>,
 
     @Override
     public ViaDialogActionBuilder showDialog(DialogOpener dialogOpener) {
-        if (!(dialogOpener instanceof ViaDialogOpener viaDialogOpener)) {
+        if (!(dialogOpener instanceof ViaDialogOpener(ViaDialog<?> dialog))) {
             throw new IllegalArgumentException("DialogOpener must be an instance of ViaDialogOpener.");
         }
-        return showDialog(viaDialogOpener.dialog());
+        return showDialog(dialog);
     }
 
     /**

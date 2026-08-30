@@ -1,13 +1,13 @@
 package io.github.projectunified.unidialog.viaversion.dialog;
 
 import com.viaversion.nbt.tag.CompoundTag;
-import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
 import com.viaversion.viaversion.util.SerializerVersion;
 import io.github.projectunified.unidialog.core.dialog.ServerLinksDialog;
 import io.github.projectunified.unidialog.viaversion.action.ViaDialogActionBuilder;
 import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
+import io.github.projectunified.unidialog.viaversion.payload.ViaItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -16,7 +16,7 @@ import java.util.function.Function;
 /**
  * A ViaVersion-based implementation of {@link ServerLinksDialog} for building server links dialogs.
  */
-public class ViaServerLinksDialog extends ViaDialog<ViaServerLinksDialog> implements ServerLinksDialog<Item, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder, ViaServerLinksDialog> {
+public class ViaServerLinksDialog extends ViaDialog<ViaServerLinksDialog> implements ServerLinksDialog<ViaItem, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder, ViaServerLinksDialog> {
     private ViaDialogActionBuilder exitAction;
     private int columns;
     private int buttonWidth;

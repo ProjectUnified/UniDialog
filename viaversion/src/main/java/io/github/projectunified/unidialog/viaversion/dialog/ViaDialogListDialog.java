@@ -3,7 +3,6 @@ package io.github.projectunified.unidialog.viaversion.dialog;
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.nbt.tag.ListTag;
 import com.viaversion.nbt.tag.StringTag;
-import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
 import com.viaversion.viaversion.util.SerializerVersion;
 import io.github.projectunified.unidialog.core.dialog.DialogListDialog;
@@ -12,6 +11,7 @@ import io.github.projectunified.unidialog.viaversion.action.ViaDialogActionBuild
 import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
 import io.github.projectunified.unidialog.viaversion.opener.ViaDialogOpener;
+import io.github.projectunified.unidialog.viaversion.payload.ViaItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.function.Function;
 /**
  * A ViaVersion-based implementation of {@link DialogListDialog} for building dialog list dialogs.
  */
-public class ViaDialogListDialog extends ViaDialog<ViaDialogListDialog> implements DialogListDialog<Item, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder, ViaDialogListDialog> {
+public class ViaDialogListDialog extends ViaDialog<ViaDialogListDialog> implements DialogListDialog<ViaItem, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder, ViaDialogListDialog> {
     private List<ViaDialog<?>> inlinedDialogs;
     private List<StringTag> registryDialogs;
     private @Nullable ViaDialogActionBuilder exitAction;
@@ -68,10 +68,10 @@ public class ViaDialogListDialog extends ViaDialog<ViaDialogListDialog> implemen
 
     @Override
     public ViaDialogListDialog dialog(DialogOpener dialogOpener) {
-        if (!(dialogOpener instanceof ViaDialogOpener viaDialogOpener)) {
+        if (!(dialogOpener instanceof ViaDialogOpener(ViaDialog<?> dialog))) {
             throw new IllegalArgumentException("Dialog opener must be an instance of ViaDialogOpener.");
         }
-        addInlined(viaDialogOpener.dialog());
+        addInlined(dialog);
         return this;
     }
 

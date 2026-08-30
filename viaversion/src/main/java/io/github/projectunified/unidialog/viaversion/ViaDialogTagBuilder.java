@@ -2,7 +2,6 @@ package io.github.projectunified.unidialog.viaversion;
 
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.nbt.tag.ListTag;
-import com.viaversion.nbt.tag.StringTag;
 import com.viaversion.nbt.tag.Tag;
 import com.viaversion.viaversion.api.data.FullMappings;
 import com.viaversion.viaversion.api.data.MappingData;
@@ -18,6 +17,7 @@ import com.viaversion.viaversion.protocols.v1_21_5to1_21_6.Protocol1_21_5To1_21_
 import com.viaversion.viaversion.util.SerializerVersion;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -115,15 +115,15 @@ public final class ViaDialogTagBuilder {
     /**
      * Serialize a {@link Item} to the item tag used by the dialog item body
      *
-     * @param item the item to serialize
-     * @param base the serializer of the version the item's components are created for
+     * @param item       the item to serialize
+     * @param serializer the serializer to serialize the item's components with
      * @return the item tag
      */
-    public static CompoundTag item(Item item, SerializerVersion base) {
+    public static CompoundTag item(Item item, SerializerVersion serializer) {
         CompoundTag tag = new CompoundTag();
         tag.putString("id", itemIdentifier(item.identifier()));
         tag.putInt("count", item.amount() > 0 ? item.amount() : 1);
-        CompoundTag components = components(item, base);
+        CompoundTag components = components(item, serializer);
         if (!components.isEmpty()) {
             tag.put("components", components);
         }
@@ -149,14 +149,27 @@ public final class ViaDialogTagBuilder {
         }
         Tag[] lore = data.get(StructuredDataKey.LORE);
         if (lore != null && lore.length > 0) {
-            // Mirror ViaVersion's componentsToTag: lore lines are serialized string tags
-            ListTag<StringTag> loreTag = new ListTag<>(StringTag.class);
+            ListTag<CompoundTag> loreTag = new ListTag<>(CompoundTag.class);
             for (Tag line : lore) {
-                loreTag.add(new StringTag(base.toString(base.toComponent(line))));
+                loreTag.add(loreEntry(base.toComponent(line), base));
             }
             components.put("minecraft:lore", loreTag);
         }
         return components;
+    }
+
+    /**
+     * Wrap a text component as a lore line, mirroring ViaVersion's updateComponentList
+     *
+     * @param component  the component to wrap
+     * @param serializer the serializer to serialize the component with
+     * @return the lore entry
+     */
+    public static CompoundTag loreEntry(TextComponent component, SerializerVersion serializer) {
+        CompoundTag entry = new CompoundTag();
+        entry.putString("text", "");
+        entry.put("extra", new ListTag<>(List.of(serializer.toTag(component))));
+        return entry;
     }
 
     private static String itemIdentifier(int id) {

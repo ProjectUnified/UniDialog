@@ -3,6 +3,7 @@ package io.github.projectunified.unidialog.viaversion.body;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
 import com.viaversion.viaversion.util.SerializerVersion;
 import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
+import io.github.projectunified.unidialog.viaversion.payload.ViaItem;
 
 import java.util.function.Function;
 
@@ -10,7 +11,7 @@ import java.util.function.Function;
  * A ViaVersion-based implementation of {@link DialogBodyBuilder} for building dialog bodies.
  */
 @SuppressWarnings("unchecked")
-public class ViaDialogBodyBuilder implements DialogBodyBuilder<com.viaversion.viaversion.api.minecraft.item.Item> {
+public class ViaDialogBodyBuilder implements DialogBodyBuilder<ViaItem> {
     private final Function<String, TextComponent> componentDeserializer;
     private final SerializerVersion baseSerializer;
     private ViaDialogBody current;

@@ -378,9 +378,9 @@ class ViaDialogTagTest {
         CompoundTag components = itemTag.getCompoundTag("components");
         assertNotNull(components);
         assertEquals("{\"text\":\"Named\"}", components.getString("minecraft:custom_name"));
-        ListTag<StringTag> lore = components.getListTag("minecraft:lore", StringTag.class);
+        ListTag<CompoundTag> lore = components.getListTag("minecraft:lore", CompoundTag.class);
         assertNotNull(lore);
         assertEquals(2, lore.size());
-        assertEquals("\"Line 1\"", lore.get(0).getValue());
+        assertEquals("Line 1", textOf(lore.get(0).getListTag("extra", StringTag.class).get(0)));
     }
 }

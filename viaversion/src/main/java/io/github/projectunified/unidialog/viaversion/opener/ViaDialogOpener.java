@@ -12,7 +12,6 @@ import com.viaversion.viaversion.api.protocol.packet.State;
 import com.viaversion.viaversion.api.protocol.packet.provider.PacketTypeMap;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.api.type.Types;
-import com.viaversion.viaversion.exception.InformativeException;
 import com.viaversion.viaversion.protocols.v1_21_5to1_21_6.Protocol1_21_5To1_21_6;
 import io.github.projectunified.unidialog.core.opener.DialogOpener;
 import io.github.projectunified.unidialog.viaversion.dialog.ViaDialog;
@@ -49,7 +48,7 @@ public record ViaDialogOpener(ViaDialog<?> dialog) implements DialogOpener {
             return false;
         }
         State state = configuration ? State.CONFIGURATION : State.PLAY;
-        ClientboundPacketType packetType = clientboundType(connection, clientVersion, state, "CLEAR_DIALOG");
+        ClientboundPacketType packetType = clientboundType(clientVersion, state, "CLEAR_DIALOG");
         if (packetType == null) {
             return false;
         }
@@ -57,7 +56,8 @@ public record ViaDialogOpener(ViaDialog<?> dialog) implements DialogOpener {
             PacketWrapper wrapper = PacketWrapper.create(packetType, connection);
             wrapper.scheduleSendRaw();
             return true;
-        } catch (InformativeException e) {
+        } catch (Exception e) {
+            Via.getPlatform().getLogger().log(Level.FINE, "Failed to clear dialog for " + connection.getProtocolInfo().getUsername(), e);
             return false;
         }
     }
@@ -72,7 +72,7 @@ public record ViaDialogOpener(ViaDialog<?> dialog) implements DialogOpener {
         return clearDialog(connection, connection != null && connection.getProtocolInfo().getClientState() == State.CONFIGURATION);
     }
 
-    private static ClientboundPacketType clientboundType(UserConnection connection, ProtocolVersion clientVersion, State state, String name) {
+    private static ClientboundPacketType clientboundType(ProtocolVersion clientVersion, State state, String name) {
         List<ProtocolPathEntry> path = Via.getManager().getProtocolManager().getProtocolPath(clientVersion, ProtocolVersion.v1_21_6);
         if (path != null && !path.isEmpty()) {
             ClientboundPacketType type = clientboundType(path.getFirst().protocol(), state, name);
@@ -118,7 +118,7 @@ public record ViaDialogOpener(ViaDialog<?> dialog) implements DialogOpener {
             return false;
         }
         State state = configuration ? State.CONFIGURATION : State.PLAY;
-        ClientboundPacketType packetType = clientboundType(connection, clientVersion, state, "SHOW_DIALOG");
+        ClientboundPacketType packetType = clientboundType(clientVersion, state, "SHOW_DIALOG");
         if (packetType == null) {
             return false;
         }
@@ -133,7 +133,8 @@ public record ViaDialogOpener(ViaDialog<?> dialog) implements DialogOpener {
             }
             wrapper.scheduleSendRaw();
             return true;
-        } catch (InformativeException e) {
+        } catch (Exception e) {
+            Via.getPlatform().getLogger().log(Level.FINE, "Failed to open dialog for " + connection.getProtocolInfo().getUsername(), e);
             return false;
         }
     }

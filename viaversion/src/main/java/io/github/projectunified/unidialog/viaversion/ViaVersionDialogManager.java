@@ -2,8 +2,8 @@ package io.github.projectunified.unidialog.viaversion;
 
 import com.google.common.collect.Range;
 import com.viaversion.viaversion.api.Via;
+import com.viaversion.viaversion.api.connection.ProtocolInfo;
 import com.viaversion.viaversion.api.connection.UserConnection;
-import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.api.protocol.packet.Direction;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
@@ -15,6 +15,8 @@ import io.github.projectunified.unidialog.viaversion.body.ViaDialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.dialog.*;
 import io.github.projectunified.unidialog.viaversion.input.ViaDialogInputBuilder;
 import io.github.projectunified.unidialog.viaversion.opener.ViaDialogOpener;
+import io.github.projectunified.unidialog.viaversion.payload.ViaItem;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.UUID;
@@ -28,7 +30,7 @@ import java.util.logging.Level;
  * It provides dialog creation, custom action registration, and dialog clearing.
  */
 @SuppressWarnings("unchecked")
-public class ViaVersionDialogManager implements DialogManager<Item, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder> {
+public class ViaVersionDialogManager implements DialogManager<ViaItem, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder> {
     private final String defaultNamespace;
     private final ProtocolVersion serverVersion;
     private final Function<String, TextComponent> componentDeserializer;
@@ -37,13 +39,13 @@ public class ViaVersionDialogManager implements DialogManager<Item, ViaDialogBod
     private ViaDialogProtocol protocol;
 
     /**
-     * Constructor for ViaVersionDialogManager, using 1.21.6 as the base version and
+     * Constructor for ViaVersionDialogManager, using the server version as the base version and
      * {@link ViaDialogTagBuilder#deserializeLegacy} as the component deserializer
      *
      * @param defaultNamespace the default namespace
      */
     public ViaVersionDialogManager(String defaultNamespace) {
-        this(defaultNamespace, ProtocolVersion.v1_21_6);
+        this(defaultNamespace, Via.isLoaded() ? Via.getAPI().getServerVersion().lowestSupportedProtocolVersion() : ProtocolVersion.v1_21_6);
     }
 
     /**
@@ -69,6 +71,34 @@ public class ViaVersionDialogManager implements DialogManager<Item, ViaDialogBod
         this.serverVersion = serverVersion;
         this.componentDeserializer = componentDeserializer;
         this.baseSerializer = ViaDialogTagBuilder.serializerFor(serverVersion);
+    }
+
+    /**
+     * Check if a user connection supports dialogs
+     *
+     * @param connection the user connection, may be null
+     * @return true if the connection supports dialogs
+     */
+    public static boolean supportsDialog(@Nullable UserConnection connection) {
+        if (!Via.isLoaded() || connection == null) {
+            return false;
+        }
+        ProtocolInfo protocolInfo = connection.getProtocolInfo();
+        ProtocolVersion clientVersion = protocolInfo != null ? protocolInfo.protocolVersion() : null;
+        return clientVersion != null && !clientVersion.olderThan(ProtocolVersion.v1_21_6);
+    }
+
+    /**
+     * Check if a player supports dialogs
+     *
+     * @param uuid the player's UUID, may be null
+     * @return true if the player supports dialogs
+     */
+    public static boolean supportsDialog(@Nullable UUID uuid) {
+        if (!Via.isLoaded() || uuid == null) {
+            return false;
+        }
+        return supportsDialog(Via.getManager().getConnectionManager().getServerConnection(uuid));
     }
 
     /**

@@ -6,6 +6,7 @@ import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
 import com.viaversion.viaversion.util.SerializerVersion;
 import io.github.projectunified.unidialog.core.body.ItemBody;
 import io.github.projectunified.unidialog.viaversion.ViaDialogTagBuilder;
+import io.github.projectunified.unidialog.viaversion.payload.ViaItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -14,10 +15,10 @@ import java.util.function.Function;
 /**
  * A ViaVersion-based implementation of {@link ItemBody} for building item bodies.
  */
-public class ViaItemBody implements ItemBody<Item, ViaTextBody, ViaItemBody>, ViaDialogBody {
+public class ViaItemBody implements ItemBody<ViaItem, ViaTextBody, ViaItemBody>, ViaDialogBody {
     private final Function<String, TextComponent> componentDeserializer;
     private final SerializerVersion baseSerializer;
-    private Item item;
+    private ViaItem item;
     private @Nullable ViaTextBody description;
     private boolean showDecorations = true;
     private boolean showTooltip = true;
@@ -36,9 +37,19 @@ public class ViaItemBody implements ItemBody<Item, ViaTextBody, ViaItemBody>, Vi
     }
 
     @Override
-    public ViaItemBody item(Item item) {
+    public ViaItemBody item(ViaItem item) {
         this.item = item;
         return this;
+    }
+
+    /**
+     * Set the item of the body, wrapping a ViaVersion {@link Item}
+     *
+     * @param item the item to set
+     * @return the item body itself for method chaining
+     */
+    public ViaItemBody item(Item item) {
+        return item(ViaItem.fromItem(item));
     }
 
     @Override
@@ -84,7 +95,7 @@ public class ViaItemBody implements ItemBody<Item, ViaTextBody, ViaItemBody>, Vi
         }
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "minecraft:item");
-        tag.put("item", ViaDialogTagBuilder.item(item, baseSerializer));
+        tag.put("item", item.toTag(target));
         if (description != null) {
             CompoundTag descriptionTag = new CompoundTag();
             descriptionTag.put("contents", ViaDialogTagBuilder.component(description.text(), baseSerializer, target));
