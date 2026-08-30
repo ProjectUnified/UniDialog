@@ -34,10 +34,9 @@ public class ViaDialogListDialog extends ViaDialog<ViaDialogListDialog> implemen
      *
      * @param defaultNamespace      the default namespace for custom actions
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaDialogListDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
-        super(defaultNamespace, componentDeserializer, baseSerializer);
+    public ViaDialogListDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer) {
+        super(defaultNamespace, componentDeserializer);
     }
 
     private void addInlined(ViaDialog<?> dialog) {
@@ -94,7 +93,7 @@ public class ViaDialogListDialog extends ViaDialog<ViaDialogListDialog> implemen
     }
 
     @Override
-    protected void writeDialogType(CompoundTag tag, SerializerVersion target) {
+    protected void writeDialogType(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion) {
         tag.putString("type", "minecraft:dialog_list");
         if (inlinedDialogs != null && !inlinedDialogs.isEmpty() && registryDialogs != null && !registryDialogs.isEmpty()) {
             throw new IllegalArgumentException("Inlined and registry-referenced dialogs cannot be mixed in a dialog list");
@@ -102,7 +101,7 @@ public class ViaDialogListDialog extends ViaDialog<ViaDialogListDialog> implemen
         if (inlinedDialogs != null && !inlinedDialogs.isEmpty()) {
             ListTag<CompoundTag> dialogsTag = new ListTag<>(CompoundTag.class);
             for (ViaDialog<?> dialog : inlinedDialogs) {
-                dialogsTag.add(dialog.getDialogTag(target));
+                dialogsTag.add(dialog.getDialogTag(baseVersion, targetVersion));
             }
             tag.put("dialogs", dialogsTag);
         } else if (registryDialogs != null && !registryDialogs.isEmpty()) {
@@ -113,7 +112,7 @@ public class ViaDialogListDialog extends ViaDialog<ViaDialogListDialog> implemen
             tag.put("dialogs", dialogsTag);
         }
         if (exitAction != null) {
-            tag.put("exit_action", exitAction.getAction(getBaseSerializer(), target));
+            tag.put("exit_action", exitAction.getAction(baseVersion, targetVersion));
         }
         tag.putInt("columns", columns > 0 ? columns : DEFAULT_COLUMNS);
         tag.putInt("button_width", buttonWidth > 0 ? buttonWidth : DEFAULT_BUTTON_WIDTH);

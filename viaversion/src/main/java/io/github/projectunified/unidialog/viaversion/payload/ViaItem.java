@@ -16,14 +16,15 @@ public interface ViaItem {
      * @return the dialog item
      */
     static ViaItem fromItem(Item item) {
-        return target -> ViaDialogTagBuilder.item(item, target);
+        return (baseVersion, targetVersion) -> ViaDialogTagBuilder.item(item, targetVersion);
     }
 
     /**
-     * Serialize this item to its item tag for the given target serializer
+     * Serialize this item to its item tag for the given base and target serializers
      *
-     * @param target the serializer of the version the dialog is sent to
+     * @param baseVersion   the serializer of the server version the dialog is created for
+     * @param targetVersion the serializer of the version the dialog is sent to
      * @return the item tag
      */
-    CompoundTag toTag(SerializerVersion target);
+    CompoundTag toTag(SerializerVersion baseVersion, SerializerVersion targetVersion);
 }

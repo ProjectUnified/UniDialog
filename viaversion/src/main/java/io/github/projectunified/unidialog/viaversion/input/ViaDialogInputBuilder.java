@@ -1,7 +1,6 @@
 package io.github.projectunified.unidialog.viaversion.input;
 
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
-import com.viaversion.viaversion.util.SerializerVersion;
 import io.github.projectunified.unidialog.core.input.DialogInputBuilder;
 
 import java.util.function.Function;
@@ -12,44 +11,41 @@ import java.util.function.Function;
 @SuppressWarnings("unchecked")
 public class ViaDialogInputBuilder implements DialogInputBuilder {
     private final Function<String, TextComponent> componentDeserializer;
-    private final SerializerVersion baseSerializer;
     private ViaDialogInput current;
 
     /**
      * Constructor for ViaDialogInputBuilder
      *
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaDialogInputBuilder(Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
+    public ViaDialogInputBuilder(Function<String, TextComponent> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
-        this.baseSerializer = baseSerializer;
     }
 
     @Override
     public ViaBooleanInput booleanInput() {
-        ViaBooleanInput input = new ViaBooleanInput(componentDeserializer, baseSerializer);
+        ViaBooleanInput input = new ViaBooleanInput(componentDeserializer);
         current = input;
         return input;
     }
 
     @Override
     public ViaTextInput textInput() {
-        ViaTextInput input = new ViaTextInput(componentDeserializer, baseSerializer);
+        ViaTextInput input = new ViaTextInput(componentDeserializer);
         current = input;
         return input;
     }
 
     @Override
     public ViaSingleOptionInput singleOptionInput() {
-        ViaSingleOptionInput input = new ViaSingleOptionInput(componentDeserializer, baseSerializer);
+        ViaSingleOptionInput input = new ViaSingleOptionInput(componentDeserializer);
         current = input;
         return input;
     }
 
     @Override
     public ViaNumberRangeInput numberRangeInput() {
-        ViaNumberRangeInput input = new ViaNumberRangeInput(componentDeserializer, baseSerializer);
+        ViaNumberRangeInput input = new ViaNumberRangeInput(componentDeserializer);
         current = input;
         return input;
     }

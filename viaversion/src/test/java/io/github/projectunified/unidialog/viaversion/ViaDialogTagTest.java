@@ -52,7 +52,7 @@ class ViaDialogTagTest {
     void confirmationDialog() {
         ViaConfirmationDialog dialog = new TestManager().createConfirmationDialog();
         dialog.title("Hello").pause(true).canCloseWithEscape(false);
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         assertEquals("minecraft:confirmation", tag.getString("type"));
         assertEquals("Hello", textOf(tag.get("title")));
@@ -72,7 +72,7 @@ class ViaDialogTagTest {
         ViaConfirmationDialog dialog = new TestManager().createConfirmationDialog();
         dialog.yesAction(action -> action.label("Accept").runCommand("accept"));
         dialog.noAction(action -> action.label("Deny").copyToClipboard("denied"));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         CompoundTag yes = tag.getCompoundTag("yes");
         assertEquals("Accept", textOf(yes.get("label")));
@@ -91,7 +91,7 @@ class ViaDialogTagTest {
             .action(action -> action.label("One").dynamicCustom("custom_action"))
             .action(action -> action.label("Two").openUrl("https://example.com"))
             .exitAction(action -> action.label("Exit").suggestCommand("exit"));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         assertEquals("minecraft:multi_action", tag.getString("type"));
         assertEquals(3, tag.getInt("columns"));
@@ -114,7 +114,7 @@ class ViaDialogTagTest {
     void noticeDialog() {
         ViaNoticeDialog dialog = new TestManager().createNoticeDialog();
         dialog.action(action -> action.label("OK").runCommand("ok"));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         assertEquals("minecraft:notice", tag.getString("type"));
         CompoundTag action = tag.getCompoundTag("action");
@@ -127,7 +127,7 @@ class ViaDialogTagTest {
     void serverLinksDialog() {
         ViaServerLinksDialog dialog = new TestManager().createServerLinksDialog();
         dialog.columns(4).buttonWidth(120);
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         assertEquals("minecraft:server_links", tag.getString("type"));
         assertEquals(4, tag.getInt("columns"));
@@ -141,7 +141,7 @@ class ViaDialogTagTest {
         ViaConfirmationDialog child = new TestManager().createConfirmationDialog();
         child.title("Child");
         dialog.dialog(child).exitAction(action -> action.label("Back"));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         assertEquals("minecraft:dialog_list", tag.getString("type"));
         ListTag<CompoundTag> dialogs = tag.getListTag("dialogs", CompoundTag.class);
@@ -155,7 +155,7 @@ class ViaDialogTagTest {
     void dialogListDialogRegistryReferences() {
         ViaDialogListDialog dialog = new TestManager().createDialogListDialog();
         dialog.dialog("minecraft", "some_dialog").dialog("myplugin", "other_dialog");
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         ListTag<StringTag> dialogs = tag.getListTag("dialogs", StringTag.class);
         assertNotNull(dialogs);
@@ -168,7 +168,7 @@ class ViaDialogTagTest {
     void dialogListDialogCannotMix() {
         ViaDialogListDialog dialog = new TestManager().createDialogListDialog();
         dialog.dialog(new TestManager().createNoticeDialog()).dialog("minecraft", "some_dialog");
-        assertThrows(IllegalArgumentException.class, () -> dialog.getDialogTag(ProtocolVersion.v1_21_6));
+        assertThrows(IllegalArgumentException.class, () -> dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6));
     }
 
     @Test
@@ -180,7 +180,7 @@ class ViaDialogTagTest {
             .showTooltip(false)
             .width(32)
             .height(32));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         ListTag<CompoundTag> bodies = tag.getListTag("body", CompoundTag.class);
         assertNotNull(bodies);
@@ -211,7 +211,7 @@ class ViaDialogTagTest {
         dialog.input("name", builder -> builder.textInput().label("Name").initial("Steve").maxLength(16));
         dialog.input("choice", builder -> builder.singleOptionInput().label("Pick").option("a", "A", true).option("b", "B"));
         dialog.input("amount", builder -> builder.numberRangeInput().label("Amount").start(0).end(10).initial(5f).step(1f));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         ListTag<CompoundTag> inputs = tag.getListTag("inputs", CompoundTag.class);
         assertNotNull(inputs);
@@ -256,7 +256,7 @@ class ViaDialogTagTest {
     void textInputMultiline() {
         ViaMultiActionDialog dialog = new TestManager().createMultiActionDialog();
         dialog.input("notes", builder -> builder.textInput().label("Notes").maxLines(3).height(4));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
         CompoundTag multiline = tag.getListTag("inputs", CompoundTag.class).get(0).getCompoundTag("multiline");
         assertNotNull(multiline);
         assertEquals(3, multiline.getInt("max_lines"));
@@ -269,7 +269,7 @@ class ViaDialogTagTest {
         ViaNoticeDialog child = new TestManager().createNoticeDialog();
         child.title("Target");
         dialog.action(action -> action.label("Open").showDialog(child));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         CompoundTag action = tag.getListTag("actions", CompoundTag.class).get(0).getCompoundTag("action");
         assertEquals("minecraft:show_dialog", action.getString("type"));
@@ -280,7 +280,7 @@ class ViaDialogTagTest {
     void showDialogRegistryReference() {
         ViaMultiActionDialog dialog = new TestManager().createMultiActionDialog();
         dialog.action(action -> action.label("Open").showDialog("minecraft", "dialog_id"));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
 
         CompoundTag action = tag.getListTag("actions", CompoundTag.class).get(0).getCompoundTag("action");
         assertEquals("minecraft:show_dialog", action.getString("type"));
@@ -291,7 +291,7 @@ class ViaDialogTagTest {
     void dynamicRunCommandTemplate() {
         ViaMultiActionDialog dialog = new TestManager().createMultiActionDialog();
         dialog.action(action -> action.label("Run").dynamicRunCommand("tp @p {x}"));
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
         CompoundTag action = tag.getListTag("actions", CompoundTag.class).get(0).getCompoundTag("action");
         assertEquals("minecraft:dynamic/run_command", action.getString("type"));
         assertEquals("tp @p {x}", action.getString("template"));
@@ -300,7 +300,7 @@ class ViaDialogTagTest {
     @Test
     void noBodiesAndNoInputsAreOmitted() {
         ViaNoticeDialog dialog = new TestManager().createNoticeDialog();
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
         assertFalse(tag.contains("body"));
         assertFalse(tag.contains("inputs"));
     }
@@ -308,22 +308,22 @@ class ViaDialogTagTest {
     @Test
     void afterActionValues() {
         ViaNoticeDialog close = new TestManager().createNoticeDialog();
-        assertEquals("close", close.getDialogTag(ProtocolVersion.v1_21_6).getString("after_action"));
+        assertEquals("close", close.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6).getString("after_action"));
 
         ViaNoticeDialog waitForResponse = new TestManager().createNoticeDialog();
         waitForResponse.afterAction(ViaDialog.AfterAction.WAIT_FOR_RESPONSE);
-        assertEquals("wait_for_response", waitForResponse.getDialogTag(ProtocolVersion.v1_21_6).getString("after_action"));
+        assertEquals("wait_for_response", waitForResponse.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6).getString("after_action"));
 
         ViaNoticeDialog none = new TestManager().createNoticeDialog();
         none.afterAction(ViaDialog.AfterAction.NONE);
-        assertEquals("none", none.getDialogTag(ProtocolVersion.v1_21_6).getString("after_action"));
+        assertEquals("none", none.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6).getString("after_action"));
     }
 
     @Test
     void externalTitleWrittenWhenSet() {
         ViaNoticeDialog dialog = new TestManager().createNoticeDialog();
         dialog.externalTitle("External");
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6);
         assertEquals("External", textOf(tag.get("external_title")));
     }
     @Test
@@ -354,13 +354,20 @@ class ViaDialogTagTest {
     @Test
     void componentsMappedFromBaseToTarget() {
         // Legacy colored text survives mapping from an older base version to a newer target
-        ViaMultiActionDialog dialog = new ViaMultiActionDialog("test",
-            ViaDialogTagBuilder::deserializeLegacy,
-            SerializerVersion.V1_20_5);
+        ViaMultiActionDialog dialog = new ViaMultiActionDialog("test", ViaDialogTagBuilder::deserializeLegacy);
         dialog.title("\u00a7aHello");
-        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_21_6);
+        CompoundTag tag = dialog.getDialogTag(ProtocolVersion.v1_20_5, ProtocolVersion.v1_21_6);
         assertEquals("Hello", textOf(tag.get("title")));
         assertEquals("green", ((CompoundTag) tag.get("title")).getString("color"));
+    }
+
+    @Test
+    void legacyBaseSerializesWithTarget() {
+        // A legacy base serializer has no NBT codec; the component is serialized with the target serializer
+        Tag tag = ViaDialogTagBuilder.component(ViaDialogTagBuilder.deserializeLegacy("\u00a7aHello"),
+                SerializerVersion.V1_8, SerializerVersion.V1_21_6);
+        assertEquals("Hello", textOf(tag));
+        assertEquals("green", ((CompoundTag) tag).getString("color"));
     }
     @Test
     void itemComponentsSerialized() {
@@ -372,7 +379,7 @@ class ViaDialogTagTest {
 
         ViaMultiActionDialog dialog = new TestManager().createMultiActionDialog();
         dialog.body(builder -> builder.item().item(item));
-        CompoundTag itemTag = dialog.getDialogTag(ProtocolVersion.v1_21_6)
+        CompoundTag itemTag = dialog.getDialogTag(ProtocolVersion.v1_21_6, ProtocolVersion.v1_21_6)
             .getListTag("body", CompoundTag.class).get(0).getCompoundTag("item");
 
         CompoundTag components = itemTag.getCompoundTag("components");

@@ -47,6 +47,16 @@ public final class ViaDialogTagBuilder {
     }
 
     /**
+     * Serialize a text component to a canonical component tag, normalized to the target version on serialization
+     *
+     * @param component the component to serialize
+     * @return the canonical component tag
+     */
+    public static Tag componentTag(TextComponent component) {
+        return SerializerVersion.V1_21_6.toTag(component);
+    }
+
+    /**
      * Map the component from the base serializer to the target serializer and serialize it to a tag
      *
      * @param component the component to serialize
@@ -56,7 +66,12 @@ public final class ViaDialogTagBuilder {
      */
     public static Tag component(TextComponent component, SerializerVersion base, SerializerVersion target) {
         if (base != target) {
-            component = target.toComponent(base.toTag(component));
+            try {
+                component = target.toComponent(base.toTag(component));
+            } catch (IllegalStateException e) {
+                // The base serializer does not support NBT serialization (legacy versions);
+                // serialize the component directly with the target serializer instead
+            }
         }
         return target.toTag(component);
     }
@@ -130,7 +145,7 @@ public final class ViaDialogTagBuilder {
         return tag;
     }
 
-    private static CompoundTag components(Item item, SerializerVersion base) {
+    private static CompoundTag components(Item item, SerializerVersion serializer) {
         CompoundTag components = new CompoundTag();
         final StructuredDataContainer data;
         try {
@@ -141,7 +156,7 @@ public final class ViaDialogTagBuilder {
         }
         Tag customName = data.get(StructuredDataKey.CUSTOM_NAME);
         if (customName != null) {
-            components.put("minecraft:custom_name", customName);
+            components.put("minecraft:custom_name", serializer.toTag(serializer.toComponent(customName)));
         }
         Tag itemName = data.get(StructuredDataKey.ITEM_NAME);
         if (itemName != null) {
@@ -151,7 +166,7 @@ public final class ViaDialogTagBuilder {
         if (lore != null && lore.length > 0) {
             ListTag<CompoundTag> loreTag = new ListTag<>(CompoundTag.class);
             for (Tag line : lore) {
-                loreTag.add(loreEntry(base.toComponent(line), base));
+                loreTag.add(loreEntry(serializer.toComponent(line), serializer));
             }
             components.put("minecraft:lore", loreTag);
         }

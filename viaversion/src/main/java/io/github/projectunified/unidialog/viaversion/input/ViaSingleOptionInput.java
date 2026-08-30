@@ -24,10 +24,9 @@ public class ViaSingleOptionInput extends ViaDialogInput implements SingleOption
      * Constructor for ViaSingleOptionInput
      *
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaSingleOptionInput(Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
-        super(componentDeserializer, baseSerializer);
+    public ViaSingleOptionInput(Function<String, TextComponent> componentDeserializer) {
+        super(componentDeserializer);
     }
 
     @Override
@@ -74,17 +73,17 @@ public class ViaSingleOptionInput extends ViaDialogInput implements SingleOption
     }
 
     @Override
-    public void write(CompoundTag tag, SerializerVersion target) {
+    public void write(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion) {
         tag.putString("type", "minecraft:single_option");
         tag.putInt("width", width > 0 ? width : DEFAULT_WIDTH);
-        ViaDialogTagBuilder.putComponent(tag, "label", label, getBaseSerializer(), target);
+        ViaDialogTagBuilder.putComponent(tag, "label", label, baseVersion, targetVersion);
         tag.putBoolean("label_visible", label != null);
         ListTag<CompoundTag> options = new ListTag<>(CompoundTag.class);
         if (entries != null) {
             for (Entry entry : entries) {
                 CompoundTag optionTag = new CompoundTag();
                 optionTag.putString("id", entry.id);
-                optionTag.put("display", ViaDialogTagBuilder.component(entry.display, getBaseSerializer(), target));
+                optionTag.put("display", ViaDialogTagBuilder.component(entry.display, baseVersion, targetVersion));
                 optionTag.putBoolean("initial", entry.isDefault);
                 options.add(optionTag);
             }

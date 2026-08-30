@@ -1,7 +1,6 @@
 package io.github.projectunified.unidialog.viaversion.body;
 
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
-import com.viaversion.viaversion.util.SerializerVersion;
 import io.github.projectunified.unidialog.core.body.DialogBodyBuilder;
 import io.github.projectunified.unidialog.viaversion.payload.ViaItem;
 
@@ -13,30 +12,27 @@ import java.util.function.Function;
 @SuppressWarnings("unchecked")
 public class ViaDialogBodyBuilder implements DialogBodyBuilder<ViaItem> {
     private final Function<String, TextComponent> componentDeserializer;
-    private final SerializerVersion baseSerializer;
     private ViaDialogBody current;
 
     /**
      * Constructor for ViaDialogBodyBuilder
      *
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaDialogBodyBuilder(Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
+    public ViaDialogBodyBuilder(Function<String, TextComponent> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
-        this.baseSerializer = baseSerializer;
     }
 
     @Override
     public ViaItemBody item() {
-        ViaItemBody item = new ViaItemBody(componentDeserializer, baseSerializer);
+        ViaItemBody item = new ViaItemBody(componentDeserializer);
         current = item;
         return item;
     }
 
     @Override
     public ViaTextBody text() {
-        ViaTextBody text = new ViaTextBody(componentDeserializer, baseSerializer);
+        ViaTextBody text = new ViaTextBody(componentDeserializer);
         current = text;
         return text;
     }

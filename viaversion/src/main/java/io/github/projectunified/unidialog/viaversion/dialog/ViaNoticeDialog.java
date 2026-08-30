@@ -23,10 +23,9 @@ public class ViaNoticeDialog extends ViaDialog<ViaNoticeDialog> implements Notic
      *
      * @param defaultNamespace      the default namespace for custom actions
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaNoticeDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
-        super(defaultNamespace, componentDeserializer, baseSerializer);
+    public ViaNoticeDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer) {
+        super(defaultNamespace, componentDeserializer);
     }
 
     @Override
@@ -36,10 +35,10 @@ public class ViaNoticeDialog extends ViaDialog<ViaNoticeDialog> implements Notic
     }
 
     @Override
-    protected void writeDialogType(CompoundTag tag, SerializerVersion target) {
+    protected void writeDialogType(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion) {
         tag.putString("type", "minecraft:notice");
         if (action != null) {
-            tag.put("action", action.getAction(getBaseSerializer(), target));
+            tag.put("action", action.getAction(baseVersion, targetVersion));
         }
     }
 }

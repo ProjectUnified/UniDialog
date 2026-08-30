@@ -173,7 +173,7 @@ public class ViaDialogActionBuilder implements DialogActionBuilder<ViaDialog<?>,
         } else if (showDialog != null) {
             actionTag = new CompoundTag();
             actionTag.putString("type", "minecraft:show_dialog");
-            actionTag.put("dialog", showDialog.getDialogTag(target));
+            actionTag.put("dialog", showDialog.getDialogTag(base, target));
         }
         if (actionTag != null) {
             tag.put("action", actionTag);

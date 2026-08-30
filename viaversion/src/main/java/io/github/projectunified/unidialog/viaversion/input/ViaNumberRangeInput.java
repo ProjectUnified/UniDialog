@@ -26,10 +26,9 @@ public class ViaNumberRangeInput extends ViaDialogInput implements NumberRangeIn
      * Constructor for ViaNumberRangeInput
      *
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaNumberRangeInput(Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
-        super(componentDeserializer, baseSerializer);
+    public ViaNumberRangeInput(Function<String, TextComponent> componentDeserializer) {
+        super(componentDeserializer);
     }
 
     @Override
@@ -85,10 +84,10 @@ public class ViaNumberRangeInput extends ViaDialogInput implements NumberRangeIn
     }
 
     @Override
-    public void write(CompoundTag tag, SerializerVersion target) {
+    public void write(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion) {
         tag.putString("type", "minecraft:number_range");
         tag.putInt("width", width > 0 ? width : DEFAULT_WIDTH);
-        ViaDialogTagBuilder.putComponent(tag, "label", label, getBaseSerializer(), target);
+        ViaDialogTagBuilder.putComponent(tag, "label", label, baseVersion, targetVersion);
         tag.putString("label_format", labelFormat != null ? labelFormat : DEFAULT_LABEL_FORMAT);
         tag.putFloat("start", start);
         tag.putFloat("end", end);

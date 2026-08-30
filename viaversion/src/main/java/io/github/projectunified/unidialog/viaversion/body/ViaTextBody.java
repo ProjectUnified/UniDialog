@@ -14,7 +14,6 @@ import java.util.function.Function;
  */
 public class ViaTextBody implements TextBody<ViaTextBody>, ViaDialogBody {
     private final Function<String, TextComponent> componentDeserializer;
-    private final SerializerVersion baseSerializer;
     private TextComponent text;
     private int width = 0;
 
@@ -22,11 +21,9 @@ public class ViaTextBody implements TextBody<ViaTextBody>, ViaDialogBody {
      * Constructor for ViaTextBody
      *
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaTextBody(Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
+    public ViaTextBody(Function<String, TextComponent> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
-        this.baseSerializer = baseSerializer;
     }
 
     /**
@@ -52,10 +49,10 @@ public class ViaTextBody implements TextBody<ViaTextBody>, ViaDialogBody {
     }
 
     @Override
-    public CompoundTag toTag(SerializerVersion target) {
+    public CompoundTag toTag(SerializerVersion baseVersion, SerializerVersion targetVersion) {
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "minecraft:plain_message");
-        tag.put("contents", ViaDialogTagBuilder.component(text != null ? text : new StringComponent(""), baseSerializer, target));
+        tag.put("contents", ViaDialogTagBuilder.component(text != null ? text : new StringComponent(""), baseVersion, targetVersion));
         tag.putInt("width", width > 0 ? width : DEFAULT_WIDTH);
         return tag;
     }

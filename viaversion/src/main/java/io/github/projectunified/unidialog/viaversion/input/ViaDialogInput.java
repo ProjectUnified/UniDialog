@@ -11,26 +11,24 @@ import java.util.function.Function;
  */
 public abstract class ViaDialogInput {
     private final Function<String, TextComponent> componentDeserializer;
-    private final SerializerVersion baseSerializer;
 
     /**
      * Constructor for ViaDialogInput
      *
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    protected ViaDialogInput(Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
+    protected ViaDialogInput(Function<String, TextComponent> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
-        this.baseSerializer = baseSerializer;
     }
 
     /**
      * Write the type-specific fields of this input into the given tag
      *
-     * @param tag    the tag to write into
-     * @param target the serializer of the version the dialog is sent to
+     * @param tag           the tag to write into
+     * @param baseVersion   the serializer of the server version the dialog is created for
+     * @param targetVersion the serializer of the version the dialog is sent to
      */
-    public abstract void write(CompoundTag tag, SerializerVersion target);
+    public abstract void write(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion);
 
     /**
      * Get the component deserializer
@@ -39,14 +37,5 @@ public abstract class ViaDialogInput {
      */
     public Function<String, TextComponent> getComponentDeserializer() {
         return componentDeserializer;
-    }
-
-    /**
-     * Get the base serializer
-     *
-     * @return the base serializer
-     */
-    public SerializerVersion getBaseSerializer() {
-        return baseSerializer;
     }
 }

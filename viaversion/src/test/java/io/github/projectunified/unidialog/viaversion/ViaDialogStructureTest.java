@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class ViaDialogStructureTest {
 
+    private static final ProtocolVersion BASE = ProtocolVersion.v1_21_6;
     private static final ProtocolVersion TARGET = ProtocolVersion.v1_21_6;
 
     private static String textOf(Tag tag) {
@@ -38,11 +39,11 @@ class ViaDialogStructureTest {
     }
 
     private static ViaMultiActionDialog dialog() {
-        return new ViaMultiActionDialog("test", ViaDialogTagBuilder::deserializeLegacy, SerializerVersion.V1_21_6);
+        return new ViaMultiActionDialog("test", ViaDialogTagBuilder::deserializeLegacy);
     }
 
     private static CompoundTag buttonTag(ViaMultiActionDialog dialog, int index) {
-        return dialog.getDialogTag(TARGET).getListTag("actions", CompoundTag.class).get(index);
+        return dialog.getDialogTag(BASE, TARGET).getListTag("actions", CompoundTag.class).get(index);
     }
 
     private static CompoundTag actionTag(CompoundTag button) {
@@ -53,7 +54,7 @@ class ViaDialogStructureTest {
     void plainMessageBodyStructure() {
         ViaMultiActionDialog dialog = dialog();
         dialog.body(builder -> builder.text().text("Hello world").width(150));
-        CompoundTag body = dialog.getDialogTag(TARGET).getListTag("body", CompoundTag.class).get(0);
+        CompoundTag body = dialog.getDialogTag(BASE, TARGET).getListTag("body", CompoundTag.class).get(0);
 
         assertEquals(3, body.size(), "plain_message body must only contain type, contents and width");
         assertEquals("minecraft:plain_message", body.getString("type"));
@@ -65,7 +66,7 @@ class ViaDialogStructureTest {
     void plainMessageBodyDefaults() {
         ViaMultiActionDialog dialog = dialog();
         dialog.body(builder -> builder.text().text("Default"));
-        CompoundTag body = dialog.getDialogTag(TARGET).getListTag("body", CompoundTag.class).get(0);
+        CompoundTag body = dialog.getDialogTag(BASE, TARGET).getListTag("body", CompoundTag.class).get(0);
         assertEquals(200, body.getInt("width"), "default plain_message width is 200");
     }
 
@@ -84,7 +85,7 @@ class ViaDialogStructureTest {
             .showTooltip(false)
             .width(32)
             .height(32));
-        CompoundTag body = dialog.getDialogTag(TARGET).getListTag("body", CompoundTag.class).get(0);
+        CompoundTag body = dialog.getDialogTag(BASE, TARGET).getListTag("body", CompoundTag.class).get(0);
 
         assertEquals(7, body.size(), "item body must contain type, item, description, show_decorations, show_tooltip, width and height");
         assertEquals("minecraft:item", body.getString("type"));
@@ -113,13 +114,13 @@ class ViaDialogStructureTest {
     void itemBodyUsesViaItemTarget() {
         // The item body serializes the ViaItem with the dialog's target serializer
         ViaMultiActionDialog dialog = dialog();
-        dialog.body(builder -> builder.item().item(target -> {
+        dialog.body(builder -> builder.item().item((baseVersion, targetVersion) -> {
             CompoundTag itemTag = new CompoundTag();
             itemTag.putString("id", "minecraft:test");
-            itemTag.putString("target", target.name());
+            itemTag.putString("target", targetVersion.name());
             return itemTag;
         }));
-        CompoundTag itemTag = dialog.getDialogTag(TARGET).getListTag("body", CompoundTag.class).get(0).getCompoundTag("item");
+        CompoundTag itemTag = dialog.getDialogTag(BASE, TARGET).getListTag("body", CompoundTag.class).get(0).getCompoundTag("item");
         assertEquals("minecraft:test", itemTag.getString("id"));
         assertEquals(SerializerVersion.V1_21_6.name(), itemTag.getString("target"));
     }
@@ -128,7 +129,7 @@ class ViaDialogStructureTest {
     void itemBodyDefaults() {
         ViaMultiActionDialog dialog = dialog();
         dialog.body(builder -> builder.item().item(new StructuredItem(24, 1)));
-        CompoundTag body = dialog.getDialogTag(TARGET).getListTag("body", CompoundTag.class).get(0);
+        CompoundTag body = dialog.getDialogTag(BASE, TARGET).getListTag("body", CompoundTag.class).get(0);
 
         assertTrue(body.getBoolean("show_decorations"), "show_decorations defaults to true");
         assertTrue(body.getBoolean("show_tooltip"), "show_tooltip defaults to true");
@@ -231,7 +232,7 @@ class ViaDialogStructureTest {
     @Test
     void showDialogInlineActionStructure() {
         ViaMultiActionDialog dialog = dialog();
-        ViaNoticeDialog child = new ViaNoticeDialog("test", ViaDialogTagBuilder::deserializeLegacy, SerializerVersion.V1_21_6);
+        ViaNoticeDialog child = new ViaNoticeDialog("test", ViaDialogTagBuilder::deserializeLegacy);
         child.title("Target");
         dialog.action(action -> action.label("Open").showDialog(child));
         CompoundTag action = actionTag(buttonTag(dialog, 0));
@@ -260,7 +261,7 @@ class ViaDialogStructureTest {
         // failed open instead of throwing
         ViaMultiActionDialog dialog = dialog();
         dialog.body(builder -> builder.item());
-        assertThrows(IllegalStateException.class, () -> dialog.getDialogTag(TARGET));
+        assertThrows(IllegalStateException.class, () -> dialog.getDialogTag(BASE, TARGET));
     }
 
     @Test
@@ -270,7 +271,7 @@ class ViaDialogStructureTest {
             .action(action -> action.label("One").runCommand("one"))
             .action(action -> action.label("Two").runCommand("two"))
             .exitAction(action -> action.label("Exit").runCommand("exit"));
-        CompoundTag tag = dialog.getDialogTag(TARGET);
+        CompoundTag tag = dialog.getDialogTag(BASE, TARGET);
 
         assertEquals(8, tag.size(), "multi_action dialog must contain type, title, can_close_with_escape, pause, after_action, actions, exit_action and columns");
         assertEquals("minecraft:multi_action", tag.getString("type"));

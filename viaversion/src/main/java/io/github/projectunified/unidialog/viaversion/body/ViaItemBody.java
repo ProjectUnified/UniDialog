@@ -17,7 +17,6 @@ import java.util.function.Function;
  */
 public class ViaItemBody implements ItemBody<ViaItem, ViaTextBody, ViaItemBody>, ViaDialogBody {
     private final Function<String, TextComponent> componentDeserializer;
-    private final SerializerVersion baseSerializer;
     private ViaItem item;
     private @Nullable ViaTextBody description;
     private boolean showDecorations = true;
@@ -29,11 +28,9 @@ public class ViaItemBody implements ItemBody<ViaItem, ViaTextBody, ViaItemBody>,
      * Constructor for ViaItemBody
      *
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaItemBody(Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
+    public ViaItemBody(Function<String, TextComponent> componentDeserializer) {
         this.componentDeserializer = componentDeserializer;
-        this.baseSerializer = baseSerializer;
     }
 
     @Override
@@ -57,7 +54,7 @@ public class ViaItemBody implements ItemBody<ViaItem, ViaTextBody, ViaItemBody>,
         if (descriptionBuilder == null) {
             this.description = null;
         } else {
-            ViaTextBody textBody = new ViaTextBody(componentDeserializer, baseSerializer);
+            ViaTextBody textBody = new ViaTextBody(componentDeserializer);
             descriptionBuilder.accept(textBody);
             this.description = textBody;
         }
@@ -89,16 +86,16 @@ public class ViaItemBody implements ItemBody<ViaItem, ViaTextBody, ViaItemBody>,
     }
 
     @Override
-    public CompoundTag toTag(SerializerVersion target) {
+    public CompoundTag toTag(SerializerVersion baseVersion, SerializerVersion targetVersion) {
         if (item == null) {
             throw new IllegalStateException("Item must be set");
         }
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "minecraft:item");
-        tag.put("item", item.toTag(target));
+        tag.put("item", item.toTag(baseVersion, targetVersion));
         if (description != null) {
             CompoundTag descriptionTag = new CompoundTag();
-            descriptionTag.put("contents", ViaDialogTagBuilder.component(description.text(), baseSerializer, target));
+            descriptionTag.put("contents", ViaDialogTagBuilder.component(description.text(), baseVersion, targetVersion));
             descriptionTag.putInt("width", description.width() > 0 ? description.width() : DEFAULT_WIDTH);
             tag.put("description", descriptionTag);
         }

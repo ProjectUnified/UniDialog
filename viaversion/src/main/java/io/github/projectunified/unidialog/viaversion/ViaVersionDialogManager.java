@@ -7,7 +7,6 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.packet.Direction;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.libs.mcstructs.text.TextComponent;
-import com.viaversion.viaversion.util.SerializerVersion;
 import io.github.projectunified.unidialog.core.DialogManager;
 import io.github.projectunified.unidialog.core.payload.DialogPayload;
 import io.github.projectunified.unidialog.viaversion.action.ViaDialogActionBuilder;
@@ -32,45 +31,29 @@ import java.util.logging.Level;
 @SuppressWarnings("unchecked")
 public class ViaVersionDialogManager implements DialogManager<ViaItem, ViaDialogBodyBuilder, ViaDialogInputBuilder, ViaDialog<?>, ViaDialogActionBuilder> {
     private final String defaultNamespace;
-    private final ProtocolVersion serverVersion;
     private final Function<String, TextComponent> componentDeserializer;
-    private final SerializerVersion baseSerializer;
     private final Map<String, Consumer<DialogPayload>> actions = new ConcurrentHashMap<>();
     private ViaDialogProtocol protocol;
-
-    /**
-     * Constructor for ViaVersionDialogManager, using the server version as the base version and
-     * {@link ViaDialogTagBuilder#deserializeLegacy} as the component deserializer
-     *
-     * @param defaultNamespace the default namespace
-     */
-    public ViaVersionDialogManager(String defaultNamespace) {
-        this(defaultNamespace, Via.isLoaded() ? Via.getAPI().getServerVersion().lowestSupportedProtocolVersion() : ProtocolVersion.v1_21_6);
-    }
 
     /**
      * Constructor for ViaVersionDialogManager, using {@link ViaDialogTagBuilder#deserializeLegacy}
      * as the component deserializer
      *
      * @param defaultNamespace the default namespace
-     * @param serverVersion    the server protocol version, used as the base version the dialog components are created for
      */
-    public ViaVersionDialogManager(String defaultNamespace, ProtocolVersion serverVersion) {
-        this(defaultNamespace, serverVersion, ViaDialogTagBuilder::deserializeLegacy);
+    public ViaVersionDialogManager(String defaultNamespace) {
+        this(defaultNamespace, ViaDialogTagBuilder::deserializeLegacy);
     }
 
     /**
      * Constructor for ViaVersionDialogManager
      *
      * @param defaultNamespace      the default namespace
-     * @param serverVersion         the server protocol version, used as the base version the dialog components are created for
      * @param componentDeserializer a function to deserialize components from strings
      */
-    public ViaVersionDialogManager(String defaultNamespace, ProtocolVersion serverVersion, Function<String, TextComponent> componentDeserializer) {
+    public ViaVersionDialogManager(String defaultNamespace, Function<String, TextComponent> componentDeserializer) {
         this.defaultNamespace = defaultNamespace;
-        this.serverVersion = serverVersion;
         this.componentDeserializer = componentDeserializer;
-        this.baseSerializer = ViaDialogTagBuilder.serializerFor(serverVersion);
     }
 
     /**
@@ -101,38 +84,29 @@ public class ViaVersionDialogManager implements DialogManager<ViaItem, ViaDialog
         return supportsDialog(Via.getManager().getConnectionManager().getServerConnection(uuid));
     }
 
-    /**
-     * Get the server protocol version used as the base version
-     *
-     * @return the server protocol version
-     */
-    public ProtocolVersion getServerVersion() {
-        return serverVersion;
-    }
-
     @Override
     public ViaConfirmationDialog createConfirmationDialog() {
-        return new ViaConfirmationDialog(defaultNamespace, componentDeserializer, baseSerializer);
+        return new ViaConfirmationDialog(defaultNamespace, componentDeserializer);
     }
 
     @Override
     public ViaMultiActionDialog createMultiActionDialog() {
-        return new ViaMultiActionDialog(defaultNamespace, componentDeserializer, baseSerializer);
+        return new ViaMultiActionDialog(defaultNamespace, componentDeserializer);
     }
 
     @Override
     public ViaServerLinksDialog createServerLinksDialog() {
-        return new ViaServerLinksDialog(defaultNamespace, componentDeserializer, baseSerializer);
+        return new ViaServerLinksDialog(defaultNamespace, componentDeserializer);
     }
 
     @Override
     public ViaNoticeDialog createNoticeDialog() {
-        return new ViaNoticeDialog(defaultNamespace, componentDeserializer, baseSerializer);
+        return new ViaNoticeDialog(defaultNamespace, componentDeserializer);
     }
 
     @Override
     public ViaDialogListDialog createDialogListDialog() {
-        return new ViaDialogListDialog(defaultNamespace, componentDeserializer, baseSerializer);
+        return new ViaDialogListDialog(defaultNamespace, componentDeserializer);
     }
 
     @Override

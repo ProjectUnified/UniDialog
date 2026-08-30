@@ -31,7 +31,6 @@ import java.util.function.Function;
 public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<ViaItem, ViaDialogBodyBuilder, ViaDialogInputBuilder, T> {
     private final String defaultNamespace;
     private final Function<String, TextComponent> componentDeserializer;
-    private final SerializerVersion baseSerializer;
 
     private TextComponent title;
     private @Nullable TextComponent externalTitle;
@@ -46,12 +45,10 @@ public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<ViaIte
      *
      * @param defaultNamespace      the default namespace for custom actions
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    protected ViaDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
+    protected ViaDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer) {
         this.defaultNamespace = defaultNamespace;
         this.componentDeserializer = componentDeserializer;
-        this.baseSerializer = baseSerializer;
     }
 
     private static String toAfterAction(AfterAction afterAction) {
@@ -60,15 +57,6 @@ public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<ViaIte
             case WAIT_FOR_RESPONSE -> "wait_for_response";
             case NONE -> "none";
         };
-    }
-
-    /**
-     * Get the base serializer
-     *
-     * @return the base serializer
-     */
-    public SerializerVersion getBaseSerializer() {
-        return baseSerializer;
     }
 
     /**
@@ -136,7 +124,7 @@ public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<ViaIte
         if (bodies == null) {
             bodies = new ArrayList<>();
         }
-        ViaDialogBodyBuilder builder = new ViaDialogBodyBuilder(componentDeserializer, baseSerializer);
+        ViaDialogBodyBuilder builder = new ViaDialogBodyBuilder(componentDeserializer);
         bodyBuilder.accept(builder);
         bodies.add(builder.getDialogBody());
         return (T) this;
@@ -147,7 +135,7 @@ public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<ViaIte
         if (inputs == null) {
             inputs = new ArrayList<>();
         }
-        ViaDialogInputBuilder builder = new ViaDialogInputBuilder(componentDeserializer, baseSerializer);
+        ViaDialogInputBuilder builder = new ViaDialogInputBuilder(componentDeserializer);
         inputBuilder.accept(builder);
         inputs.add(new InputEntry(key, builder.getInput()));
         return (T) this;
@@ -168,44 +156,41 @@ public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<ViaIte
     /**
      * Write the type-specific fields of this dialog, including the {@code type} key
      *
-     * @param tag    the tag to write into
-     * @param target the serializer of the version the dialog is sent to
+     * @param tag           the tag to write into
+     * @param baseVersion   the serializer of the server version the dialog is created for
+     * @param targetVersion the serializer of the version the dialog is sent to
      */
-    protected abstract void writeDialogType(CompoundTag tag, SerializerVersion target);
+    protected abstract void writeDialogType(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion);
 
     /**
-     * Build the dialog {@link CompoundTag} for the given target protocol version
+     * Build the dialog {@link CompoundTag} for the given base and target protocol versions
      *
+     * @param baseVersion   the protocol version of the server the dialog is created for
      * @param targetVersion the protocol version of the player the dialog is sent to
      * @return the dialog tag
      */
-    public final CompoundTag getDialogTag(ProtocolVersion targetVersion) {
-        return getDialogTag(ViaDialogTagBuilder.serializerFor(targetVersion));
+    public final CompoundTag getDialogTag(ProtocolVersion baseVersion, ProtocolVersion targetVersion) {
+        return getDialogTag(ViaDialogTagBuilder.serializerFor(baseVersion), ViaDialogTagBuilder.serializerFor(targetVersion));
     }
 
     /**
-     * Build the dialog {@link CompoundTag} for the given target serializer
+     * Build the dialog {@link CompoundTag} for the given base and target serializers
      *
-     * @param targetSerializer the serializer of the version the dialog is sent to
+     * @param baseVersion   the serializer of the server version the dialog is created for
+     * @param targetVersion the serializer of the version the dialog is sent to
      * @return the dialog tag
      */
-    public final CompoundTag getDialogTag(SerializerVersion targetSerializer) {
-        SerializerVersion target = targetSerializer;
-        if (target.ordinal() < baseSerializer.ordinal()) {
-            // Below the base version, the transformer pipeline (e.g. ViaBackwards) performs the downgrade
-            target = baseSerializer;
-        }
-
+    public final CompoundTag getDialogTag(SerializerVersion baseVersion, SerializerVersion targetVersion) {
         CompoundTag tag = new CompoundTag();
-        ViaDialogTagBuilder.putComponent(tag, "title", title != null ? title : new StringComponent("Dialog"), baseSerializer, target);
-        ViaDialogTagBuilder.putComponent(tag, "external_title", externalTitle, baseSerializer, target);
+        ViaDialogTagBuilder.putComponent(tag, "title", title != null ? title : new StringComponent("Dialog"), baseVersion, targetVersion);
+        ViaDialogTagBuilder.putComponent(tag, "external_title", externalTitle, baseVersion, targetVersion);
         tag.putBoolean("can_close_with_escape", canCloseWithEscape);
         tag.putBoolean("pause", pause);
         tag.putString("after_action", toAfterAction(afterAction));
         if (bodies != null && !bodies.isEmpty()) {
             ListTag<CompoundTag> bodyTag = new ListTag<>(CompoundTag.class);
             for (ViaDialogBody body : bodies) {
-                bodyTag.add(body.toTag(target));
+                bodyTag.add(body.toTag(baseVersion, targetVersion));
             }
             tag.put("body", bodyTag);
         }
@@ -214,12 +199,12 @@ public abstract class ViaDialog<T extends ViaDialog<T>> implements Dialog<ViaIte
             for (InputEntry entry : inputs) {
                 CompoundTag inputTag = new CompoundTag();
                 inputTag.putString("key", entry.key);
-                entry.input.write(inputTag, target);
+                entry.input.write(inputTag, baseVersion, targetVersion);
                 inputsTag.add(inputTag);
             }
             tag.put("inputs", inputsTag);
         }
-        writeDialogType(tag, target);
+        writeDialogType(tag, baseVersion, targetVersion);
         return tag;
     }
 

@@ -24,10 +24,9 @@ public class ViaConfirmationDialog extends ViaDialog<ViaConfirmationDialog> impl
      *
      * @param defaultNamespace      the default namespace for custom actions
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaConfirmationDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
-        super(defaultNamespace, componentDeserializer, baseSerializer);
+    public ViaConfirmationDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer) {
+        super(defaultNamespace, componentDeserializer);
     }
 
     private static CompoundTag defaultButton(String translateKey) {
@@ -62,9 +61,9 @@ public class ViaConfirmationDialog extends ViaDialog<ViaConfirmationDialog> impl
     }
 
     @Override
-    protected void writeDialogType(CompoundTag tag, SerializerVersion target) {
+    protected void writeDialogType(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion) {
         tag.putString("type", "minecraft:confirmation");
-        tag.put("yes", yesAction != null ? yesAction.getAction(getBaseSerializer(), target) : defaultButton("gui.yes"));
-        tag.put("no", noAction != null ? noAction.getAction(getBaseSerializer(), target) : defaultButton("gui.no"));
+        tag.put("yes", yesAction != null ? yesAction.getAction(baseVersion, targetVersion) : defaultButton("gui.yes"));
+        tag.put("no", noAction != null ? noAction.getAction(baseVersion, targetVersion) : defaultButton("gui.no"));
     }
 }

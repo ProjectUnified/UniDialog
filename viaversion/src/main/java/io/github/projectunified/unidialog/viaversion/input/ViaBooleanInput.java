@@ -21,10 +21,9 @@ public class ViaBooleanInput extends ViaDialogInput implements BooleanInput<ViaB
      * Constructor for ViaBooleanInput
      *
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaBooleanInput(Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
-        super(componentDeserializer, baseSerializer);
+    public ViaBooleanInput(Function<String, TextComponent> componentDeserializer) {
+        super(componentDeserializer);
     }
 
     /**
@@ -62,9 +61,9 @@ public class ViaBooleanInput extends ViaDialogInput implements BooleanInput<ViaB
     }
 
     @Override
-    public void write(CompoundTag tag, SerializerVersion target) {
+    public void write(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion) {
         tag.putString("type", "minecraft:boolean");
-        ViaDialogTagBuilder.putComponent(tag, "label", label, getBaseSerializer(), target);
+        ViaDialogTagBuilder.putComponent(tag, "label", label, baseVersion, targetVersion);
         tag.putBoolean("initial", initial);
         tag.putString("on_true", onTrue == null ? "true" : onTrue);
         tag.putString("on_false", onFalse == null ? "false" : onFalse);

@@ -29,10 +29,9 @@ public class ViaMultiActionDialog extends ViaDialog<ViaMultiActionDialog> implem
      *
      * @param defaultNamespace      the default namespace for custom actions
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaMultiActionDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
-        super(defaultNamespace, componentDeserializer, baseSerializer);
+    public ViaMultiActionDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer) {
+        super(defaultNamespace, componentDeserializer);
     }
 
     @Override
@@ -57,17 +56,17 @@ public class ViaMultiActionDialog extends ViaDialog<ViaMultiActionDialog> implem
     }
 
     @Override
-    protected void writeDialogType(CompoundTag tag, SerializerVersion target) {
+    protected void writeDialogType(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion) {
         tag.putString("type", "minecraft:multi_action");
         ListTag<CompoundTag> actionsTag = new ListTag<>(CompoundTag.class);
         if (actions != null) {
             for (ViaDialogActionBuilder action : actions) {
-                actionsTag.add(action.getAction(getBaseSerializer(), target));
+                actionsTag.add(action.getAction(baseVersion, targetVersion));
             }
         }
         tag.put("actions", actionsTag);
         if (exitAction != null) {
-            tag.put("exit_action", exitAction.getAction(getBaseSerializer(), target));
+            tag.put("exit_action", exitAction.getAction(baseVersion, targetVersion));
         }
         tag.putInt("columns", columns > 0 ? columns : DEFAULT_COLUMNS);
     }

@@ -24,10 +24,9 @@ public class ViaTextInput extends ViaDialogInput implements TextInput<ViaTextInp
      * Constructor for ViaTextInput
      *
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaTextInput(Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
-        super(componentDeserializer, baseSerializer);
+    public ViaTextInput(Function<String, TextComponent> componentDeserializer) {
+        super(componentDeserializer);
     }
 
     @Override
@@ -77,10 +76,10 @@ public class ViaTextInput extends ViaDialogInput implements TextInput<ViaTextInp
     }
 
     @Override
-    public void write(CompoundTag tag, SerializerVersion target) {
+    public void write(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion) {
         tag.putString("type", "minecraft:text");
         tag.putInt("width", width > 0 ? width : DEFAULT_WIDTH);
-        ViaDialogTagBuilder.putComponent(tag, "label", label, getBaseSerializer(), target);
+        ViaDialogTagBuilder.putComponent(tag, "label", label, baseVersion, targetVersion);
         tag.putBoolean("label_visible", label != null);
         tag.putString("initial", initial != null ? initial : "");
         tag.putInt("max_length", maxLength > 0 ? maxLength : DEFAULT_MAX_LENGTH);

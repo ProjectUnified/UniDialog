@@ -26,10 +26,9 @@ public class ViaServerLinksDialog extends ViaDialog<ViaServerLinksDialog> implem
      *
      * @param defaultNamespace      the default namespace for custom actions
      * @param componentDeserializer the function to deserialize components from strings
-     * @param baseSerializer        the serializer of the server version the components are created for
      */
-    public ViaServerLinksDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer, SerializerVersion baseSerializer) {
-        super(defaultNamespace, componentDeserializer, baseSerializer);
+    public ViaServerLinksDialog(String defaultNamespace, Function<String, TextComponent> componentDeserializer) {
+        super(defaultNamespace, componentDeserializer);
     }
 
     @Override
@@ -51,10 +50,10 @@ public class ViaServerLinksDialog extends ViaDialog<ViaServerLinksDialog> implem
     }
 
     @Override
-    protected void writeDialogType(CompoundTag tag, SerializerVersion target) {
+    protected void writeDialogType(CompoundTag tag, SerializerVersion baseVersion, SerializerVersion targetVersion) {
         tag.putString("type", "minecraft:server_links");
         if (exitAction != null) {
-            tag.put("exit_action", exitAction.getAction(getBaseSerializer(), target));
+            tag.put("exit_action", exitAction.getAction(baseVersion, targetVersion));
         }
         tag.putInt("columns", columns > 0 ? columns : DEFAULT_COLUMNS);
         tag.putInt("button_width", buttonWidth > 0 ? buttonWidth : DEFAULT_BUTTON_WIDTH);
